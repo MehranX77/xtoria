@@ -1,0 +1,56 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+@font-face {
+  font-family: Vazirmatn-regular;
+  src: url("/assets/fonts/Vazirmatn-FD-Regular.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Vazirmatn-bold;
+  src: url("/assets/fonts/Vazirmatn-Bold.woff2") format("woff2");
+  font-weight: bolder;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Vazirmatn-extra-bold;
+  src: url("/assets/fonts/Vazirmatn-ExtraBold.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Vazirmatn-digit;
+  src: url("/assets/fonts/Vazirmatn-FD-Medium.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Billabong;
+  src: url("/assets/fonts/Billabong.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@theme {
+  --container-10xl: 100rem;
+}
+
+:root {
+  --text-regular: "Vazirmatn-regular";
+  --heading-extra-bold: "Vazirmatn-extra-bold";
+  --ui-container: var(--container-10xl);
+}
+
+
+body{
+    direction: rtl;
+    font-family: var(--text-regular) !important;
+}
