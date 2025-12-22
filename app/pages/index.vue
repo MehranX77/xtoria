@@ -1,7 +1,7 @@
 <template>
     <div>
         <UContainer dir="ltr" class="md:mt-44 mt-10">
-            <UCarousel v-slot="{ item }" :items="items" arrows loop autoplay
+            <UCarousel :items="items" arrows loop autoplay
                 :ui="{ controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2' }">
                 <NuxtImg width="1024" src="banner.jpg" class="rounded-lg w-full md:h-[350px] h-40" />
             </UCarousel>
@@ -36,49 +36,11 @@
             <div class="mt-5 bg-slate-50 dark:bg-slate-800 p-5 rounded-lg">
                 <h3 class="text-xl text-end">محصولات پر فروش</h3>
                 <div class="grid xl:grid-cols-12 lg:grid-cols-8 md:grid-cols-6 grid-cols-2 gap-x-4 xl:gap-y-0 gap-y-5 mt-4">
-                    <div class="md:col-span-2 col-span-1 flex flex-col gap-y-1">
-                        <NuxtImg class="md:max-w-46 max-w-30 mx-auto rounded-lg" src="mouse.png" />
-                        <span class="text-sm font-bold text-center">stressless mouse</span>
-                        <span class="text-sm text-muted text-center">موس گیمینگ- بیسیم</span>
-                        <UButton size="lg" class="rounded-full place-content-center w-[86%] mx-auto mb-1">95000تومن
-                        </UButton>
-                    </div>
-                    <div class="md:col-span-2 col-span-1 flex flex-col gap-y-1">
-                        <NuxtImg class="md:max-w-46 max-w-30 mx-auto rounded-lg" src="mouse.png" />
-                        <span class="text-sm font-bold text-center">stressless mouse</span>
-                        <span class="text-sm text-muted text-center">موس گیمینگ- بیسیم</span>
-                        <UButton size="lg" class="rounded-full place-content-center w-[86%] mx-auto mb-1">95000تومن
-                        </UButton>
-                    </div>
-                    <div class="md:col-span-2 col-span-1 flex flex-col gap-y-1">
-                        <NuxtImg class="md:max-w-46 max-w-30 mx-auto rounded-lg" src="mouse.png" />
-                        <span class="text-sm font-bold text-center">stressless mouse</span>
-                        <span class="text-sm text-muted text-center">موس گیمینگ- بیسیم</span>
-                        <UButton size="lg" class="rounded-full place-content-center w-[86%] mx-auto mb-1">95000تومن
-                        </UButton>
-                    </div>
-                    <div class="md:col-span-2 col-span-1 flex flex-col gap-y-1">
-                        <NuxtImg class="md:max-w-46 max-w-30 mx-auto rounded-lg" src="mouse.png" />
-                        <span class="text-sm font-bold text-center">stressless mouse</span>
-                        <span class="text-sm text-muted text-center">موس گیمینگ- بیسیم</span>
-                        <UButton color="warning" size="lg"
-                            class="rounded-full place-content-center w-[86%] mx-auto mb-1">95000تومن
-                        </UButton>
-                    </div>
-                    <div class="md:col-span-2 col-span-1 flex flex-col gap-y-1">
-                        <NuxtImg class="md:max-w-46 max-w-30 mx-auto rounded-lg" src="mouse.png" />
-                        <span class="text-sm font-bold text-center">stressless mouse</span>
-                        <span class="text-sm text-muted text-center">موس گیمینگ- بیسیم</span>
-                        <UButton size="lg" class="rounded-full place-content-center w-[86%] mx-auto mb-1">95000تومن
-                        </UButton>
-                    </div>
-                    <div class="md:col-span-2 col-span-1 flex flex-col gap-y-1">
-                        <NuxtImg class="md:max-w-46 max-w-30 mx-auto rounded-lg" src="mouse.png" />
-                        <span class="text-sm font-bold text-center">stressless mouse</span>
-                        <span class="text-sm text-muted text-center">موس گیمینگ- بیسیم</span>
-                        <UButton size="lg" color="warning"
-                            class="rounded-full place-content-center w-[86%] mx-auto mb-1">95000تومن
-                        </UButton>
+                    <div v-for="(item, index) in product?.data.results" :key="index" class="md:col-span-2 col-span-1 flex flex-col gap-y-1">
+                        <NuxtImg class="md:max-w-46 max-w-30 mx-auto rounded-lg" :src="item?.picture" />
+                        <span class="text-sm font-bold text-center">{{ item.product?.name }}</span>
+                        <span class="text-sm text-muted text-center">{{ item.product?.description }}</span>
+                        <UButton dir="rtl" size="lg" class="rounded-full place-content-center w-[86%] mx-auto mb-1">{{ item?.price }} تومن</UButton>
                     </div>
                 </div>
             </div>
@@ -104,11 +66,11 @@
             <div class="my-8">
                 <h1 class="text-center  text-2xl">خرید بر اساس دسته بندی</h1>
                 <div class="grid xl:grid-cols-9 lg:grid-cols-6 md:grid-cols-4 grid-cols-2  gap-y-10 mt-10">
-                <div v-for="(category, index) in data?.data.results" :key="index" class="col-span-1 ">
+                <div v-for="(item, index) in category?.data.results" :key="index" class="col-span-1 ">
                   <div class="rounded-full w-32 h-32 mx-auto">
                    <ULink to="/ablout" class="flex flex-col items-center">
-                     <NuxtImg class="w-30 h-30 rounded-full" :src="category.picture"/>
-                     <span class="text-sm text-slate-800 dark:text-slate-50 text-center mt-8">{{ category?.name }}</span>
+                     <NuxtImg class="w-30 h-30 rounded-full" :src="item.picture"/>
+                     <span class="text-sm text-slate-800 dark:text-slate-50 text-center mt-8">{{ item?.name }}</span>
                    </ULink>
                   </div>
                 </div>
@@ -184,6 +146,7 @@ const posts = ref([
   },
 ])
 
+// category types
 interface Category {
     name:string,
     picture: string
@@ -195,6 +158,33 @@ interface CategoryResponse {
     }
 }
 
-const {data, error} = await useFetch<CategoryResponse>('https://xtoria.liara.run/api/v1/product/categories/')
+// product types
+interface productDetails {
+ id: number,
+ name: string,
+ description: string,
+ is_active: boolean,
+ picture: string | null,
+ score: number,
+ brand: number,
+ category: number
+}
+
+interface productItem {
+ id: number,
+ product: productDetails,
+ price: number,
+ stock: number,
+ discount: number,
+ slug: string
+}
+interface ProductResponse {
+ data: {
+    results: productItem[]
+ }
+}
+
+const {data: category} = await useFetch<CategoryResponse>('https://xtoria.liara.run/api/v1/product/categories/')
+const {data: product} = await useFetch<ProductResponse>('https://xtoria.liara.run/api/v1/product/products/')
 
 </script>
