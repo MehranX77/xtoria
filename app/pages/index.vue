@@ -68,8 +68,8 @@
                 <div class="grid xl:grid-cols-9 lg:grid-cols-6 md:grid-cols-4 grid-cols-2  gap-y-10 mt-10">
                 <div v-for="(item, index) in category?.data.results" :key="index" class="col-span-1 ">
                   <div class="rounded-full w-32 h-32 mx-auto">
-                   <ULink to="/ablout" class="flex flex-col items-center">
-                     <NuxtImg class="w-30 h-30 rounded-full" :src="item.picture"/>
+                   <ULink :to="{name:'category-slug', params:{slug: item?.slug}}" class="flex flex-col items-center">
+                     <NuxtImg class="w-30 h-30 rounded-full" :src="item.picture" />
                      <span class="text-sm text-slate-800 dark:text-slate-50 text-center mt-8">{{ item?.name }}</span>
                    </ULink>
                   </div>
@@ -83,9 +83,7 @@
                 
                   <div class="bg-slate-100 dark:bg-slate-800 rounded-lg shadow p-4 h-fit md:mt-8 mt-14">
                     <h3 class="text-xl text-rose-500 text-end">پیشنهاد ویژه</h3>
-                    <UCarousel v-slot="{ item }" dir="ltr" class="mt-4" :items="items" arrows loop autoplay
-                        :ui="{ item: 'xl:basis-1/7 lg:basis-1/4 md:basis-1/3', controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2' }" :prev-icon="prevIcon"
-                        :next-icon="nextIcon">
+                    <UCarousel v-slot="{ item }" dir="ltr" class="mt-4" :items="items" arrows loop autoplay :ui="{ item: 'xl:basis-1/7 lg:basis-1/4 md:basis-1/3', controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2' }" :prev-icon="prevIcon" :next-icon="nextIcon">
                         <div class="flex flex-col items-center gap-y-2 bg-slate-50 dark:bg-slate-700 relative">
                             <NuxtImg :src="item" width="340" height="340" class="rounded-lg md:max-w-46 md:mx-0 max-w-44 mx-auto" />
                             <UBadge size="lg" color="warning" label="OFF 30%" class="self-start top-3 left-3 absolute" />
@@ -149,7 +147,9 @@ const posts = ref([
 // category types
 interface Category {
     name:string,
-    picture: string
+    picture: string,
+    id:number,
+    slug: string
 }
 
 interface CategoryResponse {
@@ -184,7 +184,13 @@ interface ProductResponse {
  }
 }
 
-const {data: category} = await useFetch<CategoryResponse>('https://xtoria.liara.run/api/v1/product/categories/')
+const {data: category} = await useFetch<CategoryResponse>('https://xtoria.liara.run/api/v1/product/categories/',{
+    pick:['data']
+})
+ 
+    
 const {data: product} = await useFetch<ProductResponse>('https://xtoria.liara.run/api/v1/product/products/')
+
+
 
 </script>
