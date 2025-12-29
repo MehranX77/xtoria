@@ -33,8 +33,25 @@
                     </UCarousel>
                 </div>
             </div>
+             <div class="mt-5 bg-slate-50 dark:bg-slate-800 p-5 rounded-lg">
+                <div class="flex justify-between">
+                    <UButton to="/products" color="neutral" variant="ghost" size="xl" icon="solar:arrow-left-bold-duotone" class="self-center text-md hover:cursor-pointer">مشاهده همه</UButton>
+                    <h3 class="text-xl text-end">لیست محصولات</h3>
+                </div>
+                <div class="grid xl:grid-cols-12 lg:grid-cols-8 md:grid-cols-6 grid-cols-2 gap-x-4 xl:gap-y-0 gap-y-5 mt-4">
+                    <div v-for="(item, index) in product?.data.results" :key="index" class="md:col-span-2 col-span-1 flex flex-col gap-y-1">
+                        <NuxtImg class="md:max-w-46 max-w-30 mx-auto rounded-lg" :src="item?.picture" />
+                        <span class="text-sm font-bold text-center">{{ item.product?.name }}</span>
+                        <span class="text-sm text-muted text-center">{{ item.product?.description }}</span>
+                        <UButton :to="{name:'products-slug', params:{slug: item?.slug}}" dir="rtl" size="lg" class="rounded-full place-content-center w-[86%] mx-auto mb-1">{{ item?.price }} تومن</UButton>
+                    </div>
+                </div>
+            </div>
             <div class="mt-5 bg-slate-50 dark:bg-slate-800 p-5 rounded-lg">
-                <h3 class="text-xl text-end">محصولات پر فروش</h3>
+                <div class="flex justify-between">
+                    <UButton to="/" color="neutral" variant="ghost" size="xl" icon="solar:arrow-left-bold-duotone" class="self-center text-md hover:cursor-pointer">مشاهده همه</UButton>
+                    <h3 class="text-xl text-end">محصولات پرفروش</h3>
+                </div>
                 <div class="grid xl:grid-cols-12 lg:grid-cols-8 md:grid-cols-6 grid-cols-2 gap-x-4 xl:gap-y-0 gap-y-5 mt-4">
                     <div v-for="(item, index) in product?.data.results" :key="index" class="md:col-span-2 col-span-1 flex flex-col gap-y-1">
                         <NuxtImg class="md:max-w-46 max-w-30 mx-auto rounded-lg" :src="item?.picture" />
@@ -76,9 +93,9 @@
                 </div>
             </div>
             </div>
-                <div class="md:grid md:grid-cols-2 hidden gap-x-4 mt-30">
-                    <NuxtImg src="case.jpg" class="rounded-lg lg:w-full lg:h-[350px] w-[260px] h-[260px] mx-auto"/>
-                    <NuxtImg src="case.jpg" class="rounded-lg lg:w-full lg:h-[350px] w-[260px] h-[260px] mx-auto"/>
+                <div class="md:grid md:grid-cols-2 hidden gap-x-4 mt-30 border dark:border-slate-700/70 border-slate-200 lg:p-5 p-3">
+                    <NuxtImg src="case.png" class="lg:w-full border-r dark:border-slate-700/70 border-slate-200 lg:h-[350px] w-[260px] h-[260px] mx-auto"/>
+                    <NuxtImg src="case.png" class="lg:w-full lg:h-[350px] w-[260px] h-[260px] mx-auto"/>
                 </div> 
                 
                   <div class="bg-slate-100 dark:bg-slate-800 rounded-lg shadow p-4 h-fit md:mt-8 mt-14">
@@ -176,7 +193,8 @@ interface productItem {
  price: number,
  stock: number,
  discount: number,
- slug: string
+ slug: string,
+  picture: string,
 }
 interface ProductResponse {
  data: {
@@ -191,6 +209,10 @@ const {data: category} = await useFetch<CategoryResponse>('https://xtoria.liara.
     
 const {data: product} = await useFetch<ProductResponse>('https://xtoria.liara.run/api/v1/product/products/')
 
+console.log(product.value);
 
+// const {data:homeData} = await useFetch('https://xtoria.liara.run/api/v1/home-data')
+
+// console.log(homeData.value);
 
 </script>
