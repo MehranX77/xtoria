@@ -57,7 +57,7 @@
                             <span class="text-base"> ترتیب: </span>
                         </div>
                     </div>
-                    <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-3 w-full mt-5">
+                    <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-2 gap-3 w-full mt-5">
                         <UCard v-for="(val, index) in filteredList" :key="index" variant="soft">
                             <div class="flex flex-col gap-y-3">
                                 <ULink to="/products/سونی">
@@ -68,7 +68,7 @@
                                     <UBadge v-if="val?.hasDiscount" variant="solid" color="primary"
                                         class="rounded-full self-center">45%</UBadge>
                                     <div class="flex flex-col w-full text-end gap-y-2">
-                                        <span class="text-slate-700 dark:text-slate-200 font-bold text-sm">1,000,000
+                                        <span class="text-slate-700 dark:text-slate-200 font-bold sm:text-sm text-xs">1,000,000
                                             تومان</span>
                                         <span v-if="val?.hasDiscount"
                                             class="text-slate-600 dark:text-slate-200 text-xs text-end line-through">2,000,000</span>
@@ -173,11 +173,11 @@ const productList = ref([
     },
 ])
 
+// نمایش لیست محصولات دارای تخفیف
 const isDescount = ref<boolean>()
 const filteredList = ref([...productList.value])
 
-
-    const discountList = () => {
+const discountList = () => {
     if(isDescount.value) {
       filteredList.value =  productList.value.filter((item)=>{
              return item?.hasDiscount
