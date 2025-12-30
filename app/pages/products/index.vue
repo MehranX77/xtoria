@@ -1,7 +1,7 @@
 <template>
     <div class="md:mt-44 mt-10">
         <UContainer>
-         <UBreadcrumb :items="productBreadcrumb">
+            <UBreadcrumb :items="productBreadcrumb">
                 <template #separator>
                     <span class="mx-2 text-muted">
                         <UIcon class="align-middle" name="solar:alt-arrow-left-linear" />
@@ -12,68 +12,75 @@
                 <div class="filtering md:col-span-3">
                     <UCard>
                         <template #header>
-                                <div class="flex gap-x-1">
-                                    <UIcon name="solar:filter-linear" class="self-center text-slate-600 dark:text-slate-100"/>
-                                    <span class="text-base self-center text-slate-600 dark:text-slate-100">فیلترها</span>
-                                </div>
+                            <div class="flex gap-x-1">
+                                <UIcon name="solar:filter-linear"
+                                    class="self-center text-slate-600 dark:text-slate-100" />
+                                <span class="text-base self-center text-slate-600 dark:text-slate-100">فیلترها</span>
+                            </div>
                         </template>
                         <div class="flex justify-between mb-5">
                             <span class="text-sm text-slate-700 dark:text-slate-100">فقط کالاهای موجود</span>
-                            <USwitch value="kala" dir="ltr" size="sm" color="success" class="self-center"/>
+                            <USwitch value="kala" dir="ltr" size="sm" color="success" class="self-center" />
                         </div>
                         <div class="flex justify-between mb-5">
                             <span class="text-sm text-slate-700 dark:text-slate-100">تخفیف ها</span>
-                            <USwitch dir="ltr" size="sm" color="success" class="self-center"/>
+                            <USwitch v-model="isDescount" dir="ltr" size="sm" color="success" class="self-center" @update:model-value="discountList" />
                         </div>
                         <div class="flex justify-between">
                             <span class="text-sm text-slate-700 dark:text-slate-100">محبوب ترین ها</span>
-                            <USwitch dir="ltr" size="sm" color="success" class="self-center"/>
+                            <USwitch dir="ltr" size="sm" color="success" class="self-center" />
                         </div>
-                        <USeparator class="my-5"/>
-                        <UAccordion class="" :items="items" :ui="{root:'divide-none'}">
+                        <USeparator class="my-5" />
+                        <UAccordion class="" :items="items" :ui="{ root: 'divide-none' }">
                             <template #price>
                                 <div class="py-3 px-1">
                                     <USlider v-model="priceArray" dir="ltr" :min="1000" :max="5000000" tooltip />
                                 </div>
-                                <span class="text-muted text-xs"> محدوده قیمت از : {{ priceArray[0] }}تومان تا  {{ priceArray[1] }} تومان </span>
+                                <span class="text-muted text-xs"> محدوده قیمت از : {{ priceArray[0] }}تومان تا {{
+                                    priceArray[1] }} تومان </span>
                             </template>
-                             <template #category>
+                            <template #category>
                                 <div class="py-3 px-1">
-                                    <UInput variant="soft" size="xl" placeholder="جستجو دسته‌بندی" icon="tabler:search" class="w-full"/>
-                                    <UCheckboxGroup v-model="checkboxValue" color="neutral" :items="categoryCheckbox" dir="rtl" class="mt-3" :ui="{item:'mb-3'}"/>
+                                    <UInput variant="soft" size="xl" placeholder="جستجو دسته‌بندی" icon="tabler:search"
+                                        class="w-full" />
+                                    <UCheckboxGroup v-model="checkboxValue" color="neutral" :items="categoryCheckbox"
+                                        dir="rtl" class="mt-3" :ui="{ item: 'mb-3' }" />
                                 </div>
                             </template>
                         </UAccordion>
                     </UCard>
                 </div>
                 <div class="content md:col-span-9">
-                     <div class="bg-slate-100 dark:bg-slate-800 p-5 w-full rounded-lg flex gap-x-3">
-                          <div class="flex gap-x-2">
-                            <UIcon name="streamline-ultimate:filter-sort-lines-descending" class="self-center"/>
+                    <div class="bg-slate-100 dark:bg-slate-800 p-5 w-full rounded-lg flex gap-x-3">
+                        <div class="flex gap-x-2">
+                            <UIcon name="streamline-ultimate:filter-sort-lines-descending" class="self-center" />
                             <span class="text-base"> ترتیب: </span>
-                          </div>
-                     </div>
-                     <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-3 w-full mt-5">
-                       <UCard variant="soft" v-for="(val, index) in 10" :key="index">
-                        <div class="flex flex-col gap-y-3">
-                           <ULink to="/products/سونی">
-                            <NuxtImg src="dualshock.png" width="170" height="170" class="mx-auto"/>
-                           </ULink>
-                           <span class="text-muted text-sm line-clamp-2">ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN</span>
-                           <div class="flex justify-between mt-5">
-                            <UBadge variant="solid" color="primary" class="rounded-full self-center">45%</UBadge>
-                            <div class="flex flex-col gap-y-2">
-                                <span class="text-slate-700 dark:text-slate-200 font-bold text-sm">1,000,000 تومان</span>
-                                <span class="text-slate-400 dark:text-slate-200 text-xs text-end line-through">2,000,000</span>
-                            </div>
-                           </div>
                         </div>
-                       </UCard>
-                     </div>
+                    </div>
+                    <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-3 w-full mt-5">
+                        <UCard v-for="(val, index) in filteredList" :key="index" variant="soft">
+                            <div class="flex flex-col gap-y-3">
+                                <ULink to="/products/سونی">
+                                    <NuxtImg :src="val?.img" width="170" height="170" class="mx-auto" />
+                                </ULink>
+                                <span class="text-muted text-sm line-clamp-2">{{ val?.description }}</span>
+                                <div class="flex justify-between mt-5">
+                                    <UBadge v-if="val?.hasDiscount" variant="solid" color="primary"
+                                        class="rounded-full self-center">45%</UBadge>
+                                    <div class="flex flex-col w-full text-end gap-y-2">
+                                        <span class="text-slate-700 dark:text-slate-200 font-bold text-sm">1,000,000
+                                            تومان</span>
+                                        <span v-if="val?.hasDiscount"
+                                            class="text-slate-600 dark:text-slate-200 text-xs text-end line-through">2,000,000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </UCard>
+                    </div>
 
-                     <!-- pagination -->
+                    <!-- pagination -->
 
-                     <UPagination v-model:page="page" :total="100" class="mt-5 flex justify-center" dir="ltr"/>
+                    <UPagination v-model:page="page" :total="100" class="mt-5 flex justify-center" dir="ltr" />
                 </div>
             </div>
         </UContainer>
@@ -83,8 +90,8 @@
 <script setup lang="ts">
 import type { AccordionItem, BreadcrumbItem } from '@nuxt/ui';
 
-const productBreadcrumb :BreadcrumbItem[]= [
-     {
+const productBreadcrumb: BreadcrumbItem[] = [
+    {
         label: `صفحه اصلی`,
         to: '/'
     },
@@ -96,11 +103,11 @@ const productBreadcrumb :BreadcrumbItem[]= [
 
 const items = [
     {
-        label:'فیلتر بر اساس قیمت',
+        label: 'فیلتر بر اساس قیمت',
         slot: 'price' as const
     },
     {
-        label:'دسته بندی ها',
+        label: 'دسته بندی ها',
         slot: 'category' as const
     },
 ] satisfies AccordionItem[]
@@ -112,10 +119,77 @@ const checkboxValue = ref<string[]>([])
 const categoryCheckbox = ref<string[]>(['هدفون', 'هدست', 'میکروفن'])
 
 const page = ref<number>(5)
+
+const productList = ref([
+    {
+        img: 'monitor.png',
+        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+        hasDiscount: true
+    },
+    {
+        img: 'monitor.png',
+        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+        hasDiscount: true
+    },
+    {
+        img: 'monitor.png',
+        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+        hasDiscount: true
+    },
+    {
+        img: 'dualshock.png',
+        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+        hasDiscount: false
+    },
+    {
+        img: 'dualshock.png',
+        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+        hasDiscount: true
+    },
+    {
+        img: 'dualshock.png',
+        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+        hasDiscount: true
+    },
+    {
+        img: 'mouse.png',
+        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+        hasDiscount: false
+    },
+    {
+        img: 'mouse.png',
+        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+        hasDiscount: true
+    },
+    {
+        img: 'mouse.png',
+        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+        hasDiscount: false
+    },
+    {
+        img: 'mouse.png',
+        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+        hasDiscount: false
+    },
+])
+
+const isDescount = ref<boolean>()
+const filteredList = ref([...productList.value])
+
+
+    const discountList = () => {
+    if(isDescount.value) {
+      filteredList.value =  productList.value.filter((item)=>{
+             return item?.hasDiscount
+        })        
+    }else {
+        filteredList.value = [...productList.value]
+    }
+}
 </script>
 
 <style>
-    input[type='text']::placeholder{
-        font-size: small;
-    }
+input[type='text']::placeholder {
+    font-size: small;
+}
 </style>
