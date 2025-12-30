@@ -24,7 +24,8 @@
                         </div>
                         <div class="flex justify-between mb-5">
                             <span class="text-sm text-slate-700 dark:text-slate-100">تخفیف ها</span>
-                            <USwitch v-model="isDescount" dir="ltr" size="sm" color="success" class="self-center" @update:model-value="discountList" />
+                            <USwitch v-model="isDescount" dir="ltr" size="sm" color="success" class="self-center"
+                                @update:model-value="discountList" />
                         </div>
                         <div class="flex justify-between">
                             <span class="text-sm text-slate-700 dark:text-slate-100">محبوب ترین ها</span>
@@ -57,26 +58,30 @@
                             <span class="text-base"> ترتیب: </span>
                         </div>
                     </div>
-                    <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-2 gap-3 w-full mt-5">
-                        <UCard v-for="(val, index) in filteredList" :key="index" variant="soft">
-                            <div class="flex flex-col gap-y-3">
-                                <ULink to="/products/سونی">
-                                    <NuxtImg :src="val?.img" width="170" height="170" class="mx-auto" />
-                                </ULink>
-                                <span class="text-muted text-sm line-clamp-2">{{ val?.description }}</span>
-                                <div class="flex justify-between mt-5">
-                                    <UBadge v-if="val?.hasDiscount" variant="solid" color="primary"
-                                        class="rounded-full self-center">45%</UBadge>
-                                    <div class="flex flex-col w-full text-end gap-y-2">
-                                        <span class="text-slate-700 dark:text-slate-200 font-bold sm:text-sm text-xs">1,000,000
-                                            تومان</span>
-                                        <span v-if="val?.hasDiscount"
-                                            class="text-slate-600 dark:text-slate-200 text-xs text-end line-through">2,000,000</span>
+                   
+                    <TransitionGroup class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-2 gap-3 w-full mt-5" tag="div" name="list">
+                            <UCard v-for="(val, index) in filteredList" :key="index" variant="soft">
+                                <div class="flex flex-col gap-y-3">
+                                    <ULink to="/products/سونی">
+                                        <NuxtImg :src="val?.img" width="170" height="170" class="mx-auto" />
+                                    </ULink>
+                                    <span class="text-muted text-sm line-clamp-2">{{ val?.description }}</span>
+                                    <div class="flex justify-between mt-5">
+                                        <UBadge v-if="val?.hasDiscount" variant="solid" color="primary"
+                                            class="rounded-full self-center">45%</UBadge>
+                                        <div class="flex flex-col w-full text-end gap-y-2">
+                                            <span
+                                                class="text-slate-700 dark:text-slate-200 font-bold sm:text-sm text-xs">1,000,000
+                                                تومان</span>
+                                            <span v-if="val?.hasDiscount"
+                                                class="text-slate-600 dark:text-slate-200 text-xs text-end line-through">2,000,000</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </UCard>
-                    </div>
+                            </UCard>
+                        </TransitionGroup>
+                 
+
 
                     <!-- pagination -->
 
@@ -124,7 +129,7 @@ const productList = ref([
     {
         img: 'monitor.png',
         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-        hasDiscount: true
+        hasDiscount: false
     },
     {
         img: 'monitor.png',
@@ -134,6 +139,16 @@ const productList = ref([
     {
         img: 'monitor.png',
         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+        hasDiscount: false
+    },
+    {
+        img: 'dualshock.png',
+        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+        hasDiscount: false
+    },
+    {
+        img: 'dualshock.png',
+        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
         hasDiscount: true
     },
     {
@@ -142,16 +157,6 @@ const productList = ref([
         hasDiscount: false
     },
     {
-        img: 'dualshock.png',
-        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-        hasDiscount: true
-    },
-    {
-        img: 'dualshock.png',
-        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-        hasDiscount: true
-    },
-    {
         img: 'mouse.png',
         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
         hasDiscount: false
@@ -169,7 +174,7 @@ const productList = ref([
     {
         img: 'mouse.png',
         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-        hasDiscount: false
+        hasDiscount: true
     },
 ])
 
@@ -178,17 +183,27 @@ const isDescount = ref<boolean>()
 const filteredList = ref([...productList.value])
 
 const discountList = () => {
-    if(isDescount.value) {
-      filteredList.value =  productList.value.filter((item)=>{
-             return item?.hasDiscount
-        })        
-    }else {
+    if (isDescount.value) {
+        filteredList.value = productList.value.filter((item) => {
+            return item?.hasDiscount
+        })
+    } else {
         filteredList.value = [...productList.value]
     }
 }
 </script>
 
 <style>
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
 input[type='text']::placeholder {
     font-size: small;
 }
