@@ -53,9 +53,21 @@
                             <span class="text-base"> ترتیب: </span>
                           </div>
                      </div>
-                     <div class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 w-full mt-5">
-                       <UCard v-for="(val, index) in 6" :key="index">
-                        hello
+                     <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-3 w-full mt-5">
+                       <UCard variant="soft" v-for="(val, index) in 10" :key="index">
+                        <div class="flex flex-col gap-y-3">
+                           <ULink to="/products/سونی">
+                            <NuxtImg src="dualshock.png" width="170" height="170" class="mx-auto"/>
+                           </ULink>
+                           <span class="text-muted text-sm line-clamp-2">ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN</span>
+                           <div class="flex justify-between mt-5">
+                            <UBadge variant="solid" color="primary" class="rounded-full self-center">45%</UBadge>
+                            <div class="flex flex-col gap-y-2">
+                                <span class="text-slate-700 dark:text-slate-200 font-bold text-sm">1,000,000 تومان</span>
+                                <span class="text-slate-400 dark:text-slate-200 text-xs text-end line-through">2,000,000</span>
+                            </div>
+                           </div>
+                        </div>
                        </UCard>
                      </div>
 
