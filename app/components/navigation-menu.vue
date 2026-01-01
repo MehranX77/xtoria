@@ -3,9 +3,9 @@
         <div class="flex justify-between w-full">
           <div class="basis-3xs max-w-fit border dark:border-slate-600 border-slate-200 px-5 py-3 rounded-xl flex self-center gap-x-2">
              <UIcon class="text-xl hover:cursor-pointer self-center" name="solar:user-broken"/>
-            <ULink to="/register" >ثبت نام</ULink>
+            <ULink to="/auth/authentication" >ثبت نام</ULink>
             <div class="max-h-7 w-0.5 dark:bg-slate-600 bg-slate-200" />
-            <ULink to="/login">ورود</ULink>
+            <ULink to="/auth/authentication">ورود</ULink>
           </div>
           <div class="logo transition-all basis-7xl self-center">
             <NuxtImg  width="240" class="mx-auto" :class="{'hidden': res }" src="logo.svg"/>
