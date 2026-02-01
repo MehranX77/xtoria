@@ -3,9 +3,9 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: false },
 
-  runtimeConfig:{
+  runtimeConfig: {
     public: {
-      baseURL: 'https://xtoria.liara.run/api/v1'
+      baseURL: import.meta.env.BASE_URL
     }
   },
 
@@ -15,8 +15,13 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/fonts',
     '@nuxt/ui',
-    '@nuxtjs/leaflet'
+    '@nuxtjs/leaflet',
+    '@pinia/nuxt',
+    'nuxt-countdown'
   ],
   css: ['~/assets/css/main.css'],
+  build:{
+    transpile:['nuxt-countdown']
+  }
 
 })

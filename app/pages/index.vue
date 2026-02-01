@@ -27,12 +27,23 @@
                     <UCarousel v-slot="{ item }" dir="ltr" class="mt-4" :items="items" arrows loop autoplay dots
                         :ui="{ controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2', dots: 'absolute md:-bottom-38 -bottom-60 md:flex hidden', dot: 'w-10 h-1.5' }"
                         :prev-icon="prevIcon" :next-icon="nextIcon">
-                        <UPageCard class="w-full" orientation="horizontal" title="مانیتور asus"
-                            description=" ابلابلابابل ابل اب لاب لا بلا ب ایب ایبلایب لایبل ایب لا یبلایبلابل امانیتور خمیده مخصوص بازی asus">
-                            <NuxtImg
-                                class="aspect-square xl:min-w-56 xl:max-w-56 xl:min-h-56 xl:max-h-56 lg:min-w-46 lg:max-w-46 lg:min-h-46 lg:max-h-46 md:w-[260px] md:h-[260px] w-[180px] h-[180px] mx-auto"
-                                :src="item" />
-                        </UPageCard>
+                        <div class="discount-card w-full rounded-lg h-full bg-white dark:bg-slate-700 p-4">
+                            <UBadge size="lg" color="error" variant="soft" class="text-md">50% OFF</UBadge>
+                           <div class="flex justify-between gap-x-5">
+                             <div class="flex flex-col justify-between text-end gap-y-2">
+                                <h2 class="lg:text-xl">هندزفری</h2>
+                                <span class="text-base text-muted line-clamp-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores natus ipsam, quaerat impedit deleniti molestiae sequi accusamus praesentium earum consequuntur incidunt iste ipsum sapiente ducimus iure recusandae atque blanditiis ipsa?</span>
+                                <div class="flex justify-start gap-x-5">
+                                    <UButton dir="rtl" class="lg:w-50 place-content-center lg:text-2xl" color="warning">50,000 تومن</UButton>
+                                    <span class="self-center text-xl line-through text-muted">100/000</span>
+                                </div>
+                                <Countdown class="text-start font-bold text-xl text-rose-500" :date="new Date('feb 2, 2026 16:50:30')" v-slot="{  hours, minutes, seconds }">
+                                    {{ hours }} : {{ minutes }} : {{ seconds }}
+                                </Countdown>
+                             </div>
+                             <NuxtImg :src="item" class="aspect-square xl:min-w-56 xl:max-w-56 xl:min-h-56 xl:max-h-56 lg:min-w-46 lg:max-w-46 lg:min-h-46 lg:max-h-46 md:w-65 md:h-65 w-45 h-45 mx-auto"/>
+                           </div>
+                        </div>
                     </UCarousel>
                 </div>
             </div>
@@ -41,11 +52,11 @@
                     <UButton to="/products" color="neutral" variant="ghost" size="xl"
                         icon="solar:arrow-left-bold-duotone" class="self-center text-md hover:cursor-pointer">مشاهده همه
                     </UButton>
-                    <h3 class="text-xl text-end">لیست محصولات</h3>
+                    <h3 class="text-xl text-end self-center-safe">لیست محصولات</h3>
                 </div>
                 <div
                     class="grid xl:grid-cols-12 lg:grid-cols-8 md:grid-cols-6 grid-cols-2 gap-x-4 xl:gap-y-0 gap-y-5 mt-4">
-                    <div v-for="(item, index) in product?.data.results" :key="index"
+                    <div v-for="(item, index) in product?.data?.results" :key="index"
                         class="md:col-span-2 col-span-1 flex flex-col gap-y-1">
                         <NuxtImg class="md:max-w-46 max-w-30 mx-auto rounded-lg" :src="item?.picture" />
                         <span class="text-sm font-bold text-center">{{ item.product?.name }}</span>
@@ -60,11 +71,11 @@
                 <div class="flex justify-between">
                     <UButton to="/" color="neutral" variant="ghost" size="xl" icon="solar:arrow-left-bold-duotone"
                         class="self-center text-md hover:cursor-pointer">مشاهده همه</UButton>
-                    <h3 class="text-xl text-end">محصولات پرفروش</h3>
+                    <h3 class="text-xl text-end self-center-safe">محصولات پرفروش</h3>
                 </div>
                 <div
                     class="grid xl:grid-cols-12 lg:grid-cols-8 md:grid-cols-6 grid-cols-2 gap-x-4 xl:gap-y-0 gap-y-5 mt-4">
-                    <div v-for="(item, index) in product?.data.results" :key="index"
+                    <div v-for="(item, index) in product?.data?.results" :key="index"
                         class="md:col-span-2 col-span-1 flex flex-col gap-y-1">
                         <NuxtImg class="md:max-w-46 max-w-30 mx-auto rounded-lg" :src="item?.picture" />
                         <span class="text-sm font-bold text-center">{{ item.product?.name }}</span>
