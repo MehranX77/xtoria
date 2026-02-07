@@ -37,51 +37,46 @@
                         icon="solar:map-arrow-left-broken">ارسال پیام</UButton>
                 </template>
             </UCard>
-            <div class="grid lg:grid-cols-2 grid-cols-1 my-10 gap-x-10">
-                <ClientOnly>
-                    <div style="height:60vh; width:100%">
-                        <LMap ref="map" :zoom="zoom" :center="[47.21322, -1.559482]" :use-global-leaflet="false">
-                            <LTileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                attribution="&amp;copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors"
-                                layer-type="base" name="OpenStreetMap" />
-                        </LMap>
-                    </div>
-                </ClientOnly>
-                <div class="flex flex-col justify-center items-start lg:gap-y-10 gap-y-3">
-                    <div class="flex gap-x-3">
-                        <div
-                            class="bg-green-500/70 flex justify-center items-center rounded-full lg:w-25 lg:h-25 md:w-20 md:h-20 w-15 h-15 basis-3xs">
-                            <UIcon class="text-5xl" name="solar:phone-calling-outline" />
+            <div class="flex flex-col gap-y-5 mt-5">
+                <UCard variant="outline">
+                    <template #header>
+                        <h1 class="text-lg text-slate-700 dark:text-slate-200 mb-6">اطلاعات ایکستور</h1>
+                        <p class="text-2xl mb-2">آدرس فروشگاه</p>
+                        <span class="text-muted text-sm mb-2">{{ info?.data?.province }} - {{ info?.data?.city }} - {{
+                            info?.data?.address }}</span>
+                    </template>
+                    <template #default>
+                        <ClientOnly>
+                            <template #default>
+                                <div class="z-0" style="height:60vh; width:100%">
+                                    <LMap class="z-0" ref="map" :zoom="zoom" :max-zoom="18" :center="[lat, long]"
+                                        :use-global-leaflet="false">
+                                        <LTileLayer class="z-0" url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                            attribution="&amp;copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors"
+                                            layer-type="base" name="OpenStreetMap" />
+                                    </LMap>
+                                </div>
+                            </template>
+                            <template #fallback>
+                                <USkeleton class="w-full h-full rounded-lg bg-slate-300/85" />
+                            </template>
+                        </ClientOnly>
+                        <USeparator color="neutral" class="mt-10"/>
+                        <h1 class="text-balance text-lg font-bold text-center mt-5">اطلاعات تماس</h1>
+                        <div class="flex justify-center gap-x-3">
+                            <div class="bg-slate-100 dark:bg-slate-700 rounded-lg p-4 flex flex-col gap-y-4 mt-5 grow">
+                               <UIcon class="self-center" name="solar:map-arrow-left-broken"/>
+                               <p class="text-center text-lg font-normal">ایمیل فروشگاه</p>
+                               <p class="text-center text-base text-muted">{{ info?.data?.email }}</p>
+                            </div>
+                            <div class="bg-slate-100 dark:bg-slate-700 rounded-lg p-4 flex flex-col gap-y-4 mt-5 grow">
+                               <UIcon class="self-center" name="solar:map-arrow-left-broken"/>
+                               <p class="text-center text-lg font-normal">تلفن تماس</p>
+                               <p class="text-center text-base text-muted">{{ info?.data?.phone }}</p>
+                            </div>
                         </div>
-                        <span class="text-base text-muted self-center">Lorem ipsum dolor, sit amet consectetur
-                            adipisicing elit.
-                            Eveniet, dolorum! Modi eos atque molestias, cumque ratione debitis sed, repellendus autem
-                            architecto
-                            ullam quos nesciunt mollitia? Iusto dolore repudiandae sint explicabo?</span>
-                    </div>
-                    <div class="flex gap-x-3">
-                        <div
-                            class="bg-green-500/70 flex justify-center items-center rounded-full lg:w-25 lg:h-25 md:w-20 md:h-20 w-15 h-15 basis-3xs">
-                            <UIcon class="text-5xl" name="solar:map-point-wave-broken" />
-                        </div>
-                        <span class="text-base text-muted self-center">Lorem ipsum dolor, sit amet consectetur
-                            adipisicing elit.
-                            Eveniet, dolorum! Modi eos atque molestias, cumque ratione debitis sed, repellendus autem
-                            architecto
-                            ullam quos nesciunt mollitia? Iusto dolore repudiandae sint explicabo?</span>
-                    </div>
-                    <div class="flex gap-x-3">
-                        <div
-                            class="bg-green-500/70 flex justify-center items-center rounded-full lg:w-25 lg:h-25 md:w-20 md:h-20 w-15 h-15 basis-3xs">
-                            <UIcon class="text-5xl" name="solar:point-on-map-perspective-line-duotone" />
-                        </div>
-                        <span class="text-base text-muted self-center">Lorem ipsum dolor, sit amet consectetur
-                            adipisicing elit.
-                            Eveniet, dolorum! Modi eos atque molestias, cumque ratione debitis sed, repellendus autem
-                            architecto
-                            ullam quos nesciunt mollitia? Iusto dolore repudiandae sint explicabo?</span>
-                    </div>
-                </div>
+                    </template>
+                </UCard>
             </div>
         </UContainer>
     </div>
@@ -108,14 +103,27 @@ interface contactResponse {
 const sendContactForm = async () => {
     const data = await $fetch<contactResponse>(`${baseURL}/contact`, {
         method: 'POST',
-        headers:{
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
         },
         body: contactForm
     })
 
-    console.log(data.valueOf());
-    
+    console.log(data);
+
 }
+
+//contact info
+
+const { data: info } = await useFetch(`${baseURL}/contact-info`)
+
+console.log(info.value);
+
+//forooshgah position on map
+const position = info.value?.data?.location || '7.256545,8.452596'
+const lat = position.split(',')[0];
+const long = position.split(',')[1];
+
+
 </script>

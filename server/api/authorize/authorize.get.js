@@ -5,10 +5,17 @@ export default defineEventHandler(async (event) => {
     try {
         const res = await $fetch(`${baseURL}/account/phone`, {
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}` 
             }
         })
-        return res
+        console.log(res, 'authorize resualt server');
+
+        if (res.status === 200) {
+            return res
+        } else if (res.status === 401 || res.status === 400) {
+
+            return navigateTo('/auth/authentication')
+        }
     } catch (error) {
         console.log(error);
 

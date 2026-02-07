@@ -1,5 +1,5 @@
 export const usePhone = () => {
-    const userPhone = useState('user_phone', () => '')
+    const userPhone = useState<string | null>('user_phone', () => null)
     return { userPhone }
 }
 

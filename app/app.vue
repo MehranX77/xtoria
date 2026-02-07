@@ -1,5 +1,5 @@
 <template>
-  <div>
+    <NuxtLoadingIndicator />
     <UApp>
       <NuxtRouteAnnouncer />
       <NuxtLayout>
@@ -8,6 +8,5 @@
         </UMain>
         </NuxtLayout>
     </UApp>
-  </div>
 </template>
 

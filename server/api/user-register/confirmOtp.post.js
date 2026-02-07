@@ -3,7 +3,6 @@ const { public: { baseURL } } = useRuntimeConfig()
 export default defineEventHandler(async (event) => {
     const { phone, otp } = await readBody(event)
 
-    console.log(phone, otp, 'body from server');
     try {
         const res = await $fetch(`${baseURL}/account/verify`, {
             method: 'POST',
@@ -22,23 +21,32 @@ export default defineEventHandler(async (event) => {
                 httpOnly: true,
                 secure: true,
                 path: '/',
-                sameSite: 'lax'
+                sameSite: 'lax',
+                maxAge:2.5*24*60*60,
             })
             setCookie(event, 'refresh-token', res.data?.refresh, {
                 httpOnly: true,
                 secure: true,
                 path: '/',
-                sameSite: 'lax'
+                sameSite: 'lax',
+                maxAge:7*24*60*60,
             })
             return {
                 message: res.message,
-                status: res.status
+                status: res.status,
             }
+        }else if(res.status === 401){
+            deleteCookie(event, 'access-token', {
+                path:'/',
+                secure:true,
+                httpOnly:true,
+            })
+            return navigateTo('/auth/authentication')
         }
 
 
     } catch (error) {
-        console.log(error);
+        return error
     }
 
 

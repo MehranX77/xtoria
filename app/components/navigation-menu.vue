@@ -1,11 +1,12 @@
 <template>
-  <div class="md:flex dark:bg-slate-800 bg-slate-50/70 backdrop-blur-3xl lg:p-4 p-3 fixed z-50 w-full top-0 hidden">
+ <div>
+    <div class="md:flex dark:bg-slate-800 bg-slate-50/70 backdrop-blur-3xl lg:p-4 p-3 fixed z-50 w-full top-0 hidden">
     <div class="flex justify-between w-full">
  <ClientOnly>
   <template #default>
-         <div v-if="authUser" class="lg:basis-3xs basis-lg max-w-fit border dark:border-slate-600 border-slate-200 px-5 py-3 rounded-xl flex self-center gap-x-2">
+         <div v-if="authUser !== '' && authUser !== null" class="lg:basis-3xs basis-lg max-w-fit border dark:border-slate-600 border-slate-200 px-5 py-3 rounded-xl flex self-center gap-x-2">
         <UIcon class="text-xl hover:cursor-pointer self-center" name="solar:user-broken" />
-        <ULink to="/auth/authentication">پروفایل</ULink>
+        <ULink to="/user">پروفایل</ULink>
       </div>
       <div v-else class="lg:basis-3xs basis-lg max-w-fit border dark:border-slate-600 border-slate-200 px-5 py-3 rounded-xl flex self-center gap-x-2">
         <UIcon class="text-xl hover:cursor-pointer self-center" name="solar:user-broken" />
@@ -92,6 +93,7 @@
       <span class="text-sm font-medium self-center">منو</span>
     </div>
   </div>
+ </div>
 </template>
 
 <script setup lang="ts">
@@ -233,6 +235,9 @@ async function open() {
 const { res } = useScroll()
 
 const basketItemCount = ref(1)
+
+
+console.log(authUser.value,'auth user value in header');
 
 
 

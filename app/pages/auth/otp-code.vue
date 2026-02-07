@@ -11,7 +11,7 @@
                     <div class="mt-10 flex flex-col gap-y-3">
                         <h3 class="text-base font-semibold text-black dark:text-slate-50">کد یکبار مصرف را وارد کنید
                         </h3>
-                        <span class="text-muted text-sm">کد به شماره 09362762801 ارسال شد</span>
+                        <span class="text-muted text-sm">کد به شماره {{ userPhone }} ارسال شد</span>
                         <UPinInput v-model="otpCode" class="self-center" placeholder="*" :length="6" color="info" :ui="{ base: 'w-14 h-14 text-2xl' }"  @complete="confirmOtpCode" />
                         <UButton variant="link" color="info" class="text-sm self-center">ارسال دوباره کد</UButton>
                     </div>
@@ -33,7 +33,7 @@ const { userPhone } = usePhone()
 const { authUser } = useAuth()
 const userId = useId()
 const confirmOtpCode = async () => {
-    Object.values(otpCode.value).forEach((item) => normalizedOtp.value += item);
+  Object.values(otpCode.value).forEach((item) => normalizedOtp.value += item);
 
     try {
         const res = await $fetch('/api/user-register/confirmOtp', {
@@ -41,13 +41,13 @@ const confirmOtpCode = async () => {
             body: {
                 phone: userPhone.value,
                 otp: normalizedOtp.value
-            },
+            },  
             headers: {
                 'Accept': 'application/json'
             }
         })
 
-        if(res.status === 200) {
+        if(res.status === 200 && res.status !== 'undefined') {
             toast.add({
                 description: res.message,
                 color:'success'
@@ -60,8 +60,11 @@ const confirmOtpCode = async () => {
         }
 
     } catch (error) {
-        console.log(error);
-
+        // showError(String(error))
+        toast.add({
+            color:'error',
+            description:'در ارسال کد یکبار مصرف خطایی رخ داد'
+        })
     }
 }
 </script>
