@@ -236,11 +236,6 @@ const { res } = useScroll()
 
 const basketItemCount = ref(1)
 
-
-console.log(authUser.value,'auth user value in header');
-
-
-
 </script>
 
 <style>

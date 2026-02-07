@@ -11,6 +11,4 @@
 const { public: { baseURL } } = useRuntimeConfig()
 const { data: about } = await useFetch(`${baseURL}/about`)
 
-console.log(about.value);
-
 </script>

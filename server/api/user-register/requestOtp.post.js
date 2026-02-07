@@ -1,10 +1,9 @@
 import { defineEventHandler, readBody } from "#imports"
 // import { showError } from "nuxt/app";
 const { public: { baseURL } } = useRuntimeConfig()
+
 export default defineEventHandler(async (event) => {
     const { phone } = await readBody(event)
-
-    console.log(phone, 'body from server');
 
     try {
         const res = await $fetch(`${baseURL}/account/auth`, {
@@ -14,9 +13,17 @@ export default defineEventHandler(async (event) => {
             }
 
         })
-        console.log(res);
-        if (res.status === 200 && res.status !== 'undefined') {
+
+        console.log(res, 'res request server');
+
+
+        if (res.status === 200 && res.status !== undefined) {
             return res
+        } else if (res.status === 401 || res.status === 400) {
+            return {
+                message: res.message,
+                status: res.status,
+            }
         }
 
 

@@ -149,12 +149,6 @@ import {addToBasket} from '../stores/index'
 
 const store = addToBasket()
 
-console.log(store.showProduct);
-
-
-
-
-
 defineProps<{
     prevIcon?: 'i-lucide-chevron-right',
     nextIcon?: 'i-lucide-chevron-left'

@@ -33,8 +33,7 @@
                     <UFormField label="متن پیام" required class="mt-5">
                         <UTextarea v-model="contactForm.text" class="w-full" size="xl" :rows="11" color="secondary" />
                     </UFormField>
-                    <UButton @click="sendContactForm" class="mt-5" size="xl" variant="subtle" color="secondary" trailing
-                        icon="solar:map-arrow-left-broken">ارسال پیام</UButton>
+                    <UButton  class="mt-5" size="xl" variant="subtle" color="secondary" trailing icon="solar:map-arrow-left-broken" @click="sendContactForm">ارسال پیام</UButton>
                 </template>
             </UCard>
             <div class="flex flex-col gap-y-5 mt-5">
@@ -110,15 +109,14 @@ const sendContactForm = async () => {
         body: contactForm
     })
 
-    console.log(data);
+    console.log(data, 'contact data');
+    
 
 }
 
 //contact info
 
 const { data: info } = await useFetch(`${baseURL}/contact-info`)
-
-console.log(info.value);
 
 //forooshgah position on map
 const position = info.value?.data?.location || '7.256545,8.452596'

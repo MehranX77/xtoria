@@ -31,7 +31,4 @@ const { data: category } = await useFetch<CategoryResponse>(`${baseURL}/product/
     pick: ['data']
 })
 
-console.log(category.value);
-
-
 </script>

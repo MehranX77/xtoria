@@ -59,37 +59,40 @@ const auth = reactive<user_register>({
 
 const sendOtpCode = async (event: FormSubmitEvent<typeof auth>) => {
 
-    try {
-        const res = await $fetch('/api/user-register/requestOtp', {
-            method: 'POST',
-            body: auth,
+
+    const { data, error } = await useFetch('/api/user-register/requestOtp', {
+        method: 'POST',
+        body: auth,
+    })
+
+    console.log(data);
+    console.log(error);
+    
+    
+
+    if (data.value?.status === 200) {
+        toast.add({
+            color: 'success',
+            description: data.value?.message
         })
 
-        if (res.status === 200) {
-            toast.add({
-                color: 'success',
-                description: res?.message
-            })
-            userPhone.value = auth.phone
-            router.push('/auth/otp-code')
-            console.log(event.data.phone);
+        console.log('ok');
+        
 
-        } else {
-            toast.add({
-                color: 'error',
-                description: 'خطا هنگام ارسال اطلاعات'
-            })
-        }
-        console.log(res, 'res');
+        userPhone.value = auth.phone
+        router.push('/auth/otp-code')
 
-    } catch (error) {
-        // console.log(error);
+    } else if (error.value!.data.data?.status === 400) {
+        console.log('nok');
+        
         toast.add({
             color: 'error',
-            description: 'به‌نظر میرسه خطایی رخ داد'
+            title: error.value!.data.data.message,
+            description: error.value!.data.data.data.errors[0]
         })
-        //  showError(String(error))
     }
+
+
 
 
 }

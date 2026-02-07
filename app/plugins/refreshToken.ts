@@ -9,12 +9,12 @@ export default defineNuxtPlugin({
             const token = useRequestHeaders(['cookie'])
 
             if (!token.cookie) {
-                 await $fetch('/api/authorize/getNewToken', {
+               const res=   await $fetch('/api/authorize/getNewToken', {
                     method: 'GET',
                     headers: token as Record<string, string>
                 })
 
-                // return res
+                
             }
 
         } catch (error) {

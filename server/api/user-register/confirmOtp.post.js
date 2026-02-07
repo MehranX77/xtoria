@@ -3,6 +3,7 @@ const { public: { baseURL } } = useRuntimeConfig()
 export default defineEventHandler(async (event) => {
     const { phone, otp } = await readBody(event)
 
+    const token = getCookie(event, 'access-token')
     try {
         const res = await $fetch(`${baseURL}/account/verify`, {
             method: 'POST',
@@ -11,37 +12,48 @@ export default defineEventHandler(async (event) => {
                 otp: otp
             },
             headers: {
-                'Accept': 'application/json'
+                'Content-Type': 'application/json'
             }
 
         })
-        console.log(res, 'res from otp server');
+
         if (res.status === 200) {
             setCookie(event, 'access-token', res.data?.access, {
                 httpOnly: true,
                 secure: true,
                 path: '/',
                 sameSite: 'lax',
-                maxAge:2.5*24*60*60,
+                maxAge: 2.5 * 24 * 60 * 60,
             })
             setCookie(event, 'refresh-token', res.data?.refresh, {
                 httpOnly: true,
                 secure: true,
                 path: '/',
                 sameSite: 'lax',
-                maxAge:7*24*60*60,
+                maxAge: 7 * 24 * 60 * 60,
             })
             return {
                 message: res.message,
                 status: res.status,
             }
-        }else if(res.status === 401){
-            deleteCookie(event, 'access-token', {
-                path:'/',
-                secure:true,
-                httpOnly:true,
-            })
-            return navigateTo('/auth/authentication')
+        } else if (res.status === 401 || res.status === 400) {
+
+            if (token) {
+                deleteCookie(event, 'access-token', {
+                    path: '/',
+                    secure: true,
+                    httpOnly: true,
+                })
+                deleteCookie(event, 'refresh-token', {
+                    path: '/',
+                    secure: true,
+                    httpOnly: true,
+                })
+            }
+            return {
+                message: res.message,
+                status: res.status,
+            }
         }
 
 

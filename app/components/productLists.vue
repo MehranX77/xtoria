@@ -39,6 +39,5 @@ interface ProductResponse {
 }
 
 const { data: product } = await useFetch<ProductResponse>(`${baseURL}/product/products/`)
-console.log(product.value);
 
 </script>

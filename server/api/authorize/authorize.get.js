@@ -5,16 +5,23 @@ export default defineEventHandler(async (event) => {
     try {
         const res = await $fetch(`${baseURL}/account/phone`, {
             headers: {
-                'Authorization': `Bearer ${token}` 
+                'Authorization': `Bearer ${token}`
             }
         })
-        console.log(res, 'authorize resualt server');
 
         if (res.status === 200) {
             return res
         } else if (res.status === 401 || res.status === 400) {
-
-            return navigateTo('/auth/authentication')
+            deleteCookie(event, 'access-token', {
+                path: '/',
+                secure: true,
+                httpOnly: true,
+            })
+            deleteCookie(event, 'refresh-token', {
+                path: '/',
+                secure: true,
+                httpOnly: true,
+            })
         }
     } catch (error) {
         console.log(error);
