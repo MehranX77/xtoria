@@ -65,10 +65,6 @@ const sendOtpCode = async (event: FormSubmitEvent<typeof auth>) => {
         body: auth,
     })
 
-    console.log(data);
-    console.log(error);
-    
-    
 
     if (data.value?.status === 200) {
         toast.add({
@@ -76,19 +72,24 @@ const sendOtpCode = async (event: FormSubmitEvent<typeof auth>) => {
             description: data.value?.message
         })
 
-        console.log('ok');
-        
+
+
 
         userPhone.value = auth.phone
         router.push('/auth/otp-code')
 
-    } else if (error.value!.data.data?.status === 400) {
-        console.log('nok');
-        
+    } else if (error.value?.data.data?.status === 400) {
+
         toast.add({
             color: 'error',
-            title: error.value!.data.data.message,
-            description: error.value!.data.data.data.errors[0]
+            title: error.value?.data.data.message,
+            description: error.value?.data.data.data.errors[0]
+        })
+    } else {
+        toast.add({
+            color: 'error',
+            title: 'خطایی رخ داد',
+            description: 'ارتباط با سرور برقرار نشد'
         })
     }
 

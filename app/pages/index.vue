@@ -94,18 +94,15 @@
             </div>
 
             <div class="my-8">
-                <h1 class="text-center  text-2xl">خرید بر اساس دسته بندی</h1>
+                <h1 class="text-center text-xl">خرید بر اساس دسته بندی</h1>
                 <NuxtErrorBoundary>
                         <div class="grid xl:grid-cols-9 lg:grid-cols-6 md:grid-cols-4 grid-cols-2  gap-y-10 mt-10">
-                        <!-- defualt component -->
-                        <LazyCategoryLists hydrate-on-visible/>
+                            <!-- defualt component -->
+                            <LazyCategoryLists class="col-span-12" hydrate-on-visible/>
                         </div>
                         <!-- error handler -->
                         <template #error="{ error, clearError }">
-                           <div class="w-full border border-slate-300 rounded-lg p-4 text-center mt-8 flex justify-center gap-x-3">
-                            <UButton @click="clearError" variant="soft" color="error">تلاش مجدد</UButton>
-                            <h3 class="text-base self-center-safe">{{ error?.message }}</h3>
-                           </div>
+                            <UAlert class="mt-5" orientation="horizontal" dir="rtl"  title="خطایی رخ داد" :description="error?.message" color="warning" variant="soft" :actions="[{label:'تلاش محدد', color:'neutral', variant:'soft', onClick: ()=> clearError()}]"/>
                         </template>
                     </NuxtErrorBoundary>
 
@@ -145,9 +142,9 @@
 
 import { LazyCategoryLists, UButton } from '#components';
 
-import {addToBasket} from '../stores/index'
+// import {addToBasket} from '../stores/index'
 
-const store = addToBasket()
+// const store = addToBasket()
 
 defineProps<{
     prevIcon?: 'i-lucide-chevron-right',

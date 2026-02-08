@@ -25,7 +25,8 @@
 
 <script setup lang="ts">
 definePageMeta({
-    layout: 'custom'
+    layout: 'custom',
+    middleware:'phone-state-check'
 })
 const router = useRouter()
 const toast = useToast()
@@ -63,16 +64,19 @@ const confirmOtpCode = async () => {
         return navigateTo('/')
     }
 
-    else if (error.value!.data.data?.status === 400) {
+    else if (error.value?.data.data?.status === 400) {
         toast.add({
             color: 'error',
-            title: error.value!.data.data.message,
-            description: error.value!.data.data.data.errors[0]
+            title: error.value?.data.data.message,
+            description: error.value?.data.data.data.errors[0]
+        })
+    }else {
+        toast.add({
+            color: 'error',
+            title: 'خطایی رخ داد',
+            description: 'ارتباط با سرور برقرار نشد'
         })
     }
-
-    // console.log(error.value.data.data.message);
-    // console.log(error.value.data.data.data.errors);
 
 }
 </script>
