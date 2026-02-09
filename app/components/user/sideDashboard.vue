@@ -1,11 +1,11 @@
 <template>
-    <UDashboardSidebar collapsible resizable :ui="{ footer: 'border-t border-default', root: 'border mt-2 rounded-lg'}">
-        <template #header="{ collapsed }">
-            <UUser v-if="!collapsed" name="mehran" description="09362762801" :avatar="{ src: 'https://i.pravatar.cc/150?u=john-doe' }" size="xl" />
+    <UDashboardSidebar :ui="{ footer: 'border-t border-default', root: 'border mt-2 rounded-lg max-h-dvh min-h-[90dvh]'}">
+        <template #header>
+            <UUser name="mehran" description="09362762801" :avatar="{ src: 'https://i.pravatar.cc/150?u=john-doe' }" size="xl" />
         </template>
-        <template #default="{ collapsed }">
-            <UNavigationMenu :collapsed="collapsed" :items="items[0]" orientation="vertical" dir="rtl" :ui="{linkLabel:'my-2 text-md font-stretch-50%'}"/>
-            <UNavigationMenu :collapsed="collapsed" :items="items[1]" orientation="vertical" class="mt-auto" dir="rtl"/>
+        <template #default>
+            <UNavigationMenu :highlight="true" color="success" variant="link"  :items="items[0]" orientation="vertical" dir="rtl" :ui="{linkLabel:'my-2 lg:text-lg/tight text-md/tight font-stretch-50%' , linkLeadingIcon:'lg:text-lg/tight text-md/tight'}"/>
+            <UNavigationMenu :items="items[1]" orientation="vertical" class="mt-auto" :ui="{linkLabel:'my-2 lg:text-lg/tight text-md/tight font-stretch-50%' , linkLeadingIcon:'lg:text-lg/tight text-md/tight'}" dir="rtl"/>
         </template>
     </UDashboardSidebar>
 </template>
@@ -15,38 +15,46 @@ import type { NavigationMenuItem } from '@nuxt/ui';
 
 const items: NavigationMenuItem[][] = [[
     {
-        label: 'داشبورد',
+        label: 'خلاصه فعالیت ها',
         icon: 'solar:home-angle-linear',
-        to: '/user'
+        to: '/user',
+        exact:true
     },
     {
         label: 'اطلاعات کاربری',
         icon: 'solar:home-angle-linear',
-        to: '/'
+        to: '/user/information',
     },
     {
         label: 'سفارش های من',
         icon: 'solar:home-angle-linear',
-        to: '/'
+        to: '/user/orders'
     },
     {
         label: 'تیکت ها',
         icon: 'solar:home-angle-linear',
-        to: '/'
+        to: '/user/tickets'
     },
     {
         label: 'آدرس های من',
         icon: 'solar:home-angle-linear',
-        to: '/'
+        to: '/user/address'
     },
     {
         label: 'امنیت',
         icon: 'solar:home-angle-linear',
-        to: '/'
+        to: '/user/privacy'
     },
 ], [{
     label: 'پشتیبانی',
     icon: 'solar:home-angle-linear',
-    to: '/user'
-}]]
+    to: '/user/support'
+},
+{
+    label: 'خروج از حساب کاربری',
+    icon: 'solar:home-angle-linear',
+    to: '/',
+    class:'text-rose-500 bg-rose-100 dark:bg-rose-950 dark:text-rose-500 rounded-lg'
+}
+]]
 </script>
