@@ -1,13 +1,19 @@
 <template>
-    <div class="mt-44">
-        <h1>panel...</h1>
-    </div>
+  <div>
+    <UContainer>
+        <LazyUserHeaderSection />
+        <div class="flex gap-x-4">
+          <UserSideDashboard class="basis-xs"/>
+        </div>
+    </UContainer>
+  </div>
 </template>
 
 
 
 <script setup lang="ts">
 definePageMeta({
-    middleware:'auth-middleware'
+    // middleware:'auth-middleware',
+    layout:'custom'
 })
 </script>

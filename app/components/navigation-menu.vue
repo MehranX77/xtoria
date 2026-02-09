@@ -5,7 +5,7 @@
  <ClientOnly>
   <template #default>
          <div v-if="authUser !== '' && authUser !== null" class="lg:basis-3xs basis-lg max-w-fit border dark:border-slate-600 border-slate-200 px-5 py-3 rounded-xl flex self-center gap-x-2">
-        <UIcon class="text-xl hover:cursor-pointer self-center" name="solar:user-broken" />
+        <UIcon class="text-xl hover:cursor-pointer self-center" name="solar:user-id-broken" />
         <ULink to="/user">پروفایل</ULink>
       </div>
       <div v-else class="lg:basis-3xs basis-lg max-w-fit border dark:border-slate-600 border-slate-200 px-5 py-3 rounded-xl flex self-center gap-x-2">
