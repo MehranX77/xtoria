@@ -1,5 +1,6 @@
 <template>
   <div>
+    <NuxtLoadingIndicator />
     <UContainer>
         <LazyUserHeaderSection />
         <div class="flex gap-x-4">

@@ -35,7 +35,7 @@
 
                 <ul class="w-1/4 bg-gray-50 border-l border-gray-100 py-2">
                   <li v-for="category in categories" :key="category.id"
-                    :class="['px-4 py-4 cursor-pointer flex items-center gap-2 transition-all text-sm', activeTab === category.id ? 'bg-white text-red-600 font-bold border-r-4 border-red-600' : 'text-gray-600 hover:bg-gray-100']"
+                      :class="['px-4 py-4 cursor-pointer flex items-center gap-2 transition-all text-sm', activeTab === category.id ? 'bg-white text-red-600 font-bold border-r-4 border-red-600' : 'text-gray-600 hover:bg-gray-100']"
                     @mouseenter="activeTab = category.id">
                     {{ category.title }}
                   </li>
@@ -153,131 +153,9 @@
 </template>
 
 <script setup lang="ts">
-// import type { NavigationMenuItem } from '@nuxt/ui'
+
 import { LazyMobileSlideover } from '#components'
 const { authUser } = useAuth()
-// const items = ref<NavigationMenuItem[]>([
-//   {
-//     label: 'لوازم دیجیتال',
-//     icon: 'i-lucide-book-open',
-//     to: '/docs/getting-started',
-//     children: [
-//       {
-//         label: 'ایتم 1',
-//         icon: 'i-lucide-house',
-//         to: '/about'
-//       },
-//       {
-//         label: 'Installation',
-//         icon: 'i-lucide-cloud-download'
-//       },
-//       {
-//         label: 'Icons',
-//         icon: 'i-lucide-smile',
-//       },
-//       {
-//         label: 'Colors',
-//         icon: 'i-lucide-swatch-book',
-//       },
-//       {
-//         label: 'Theme',
-//         icon: 'i-lucide-cog',
-//       },
-//       {
-//         label: 'Theme',
-//         icon: 'i-lucide-cog',
-//       },
-//       {
-//         label: 'Theme',
-//         icon: 'i-lucide-cog',
-//       },
-//       {
-//         label: 'Theme',
-//         icon: 'i-lucide-cog',
-//       }
-//     ]
-//   },
-//   {
-//     label: 'لوازم دیجیتال',
-//     icon: 'i-lucide-book-open',
-//     to: '/docs/getting-started',
-//     children: [
-//       {
-//         label: 'ایتم 1',
-//         icon: 'i-lucide-house',
-//         to: '/about'
-//       },
-//       {
-//         label: 'Installation',
-//         icon: 'i-lucide-cloud-download'
-//       },
-//       {
-//         label: 'Icons',
-//         icon: 'i-lucide-smile',
-//       },
-//       {
-//         label: 'Colors',
-//         icon: 'i-lucide-swatch-book',
-//       },
-//       {
-//         label: 'Theme',
-//         icon: 'i-lucide-cog',
-//       },
-//       {
-//         label: 'Theme',
-//         icon: 'i-lucide-cog',
-//       },
-//       {
-//         label: 'Theme',
-//         icon: 'i-lucide-cog',
-//       },
-//       {
-//         label: 'Theme',
-//         icon: 'i-lucide-cog',
-//       }
-//     ]
-//   },
-//   {
-//     label: 'لوازم دیجیتال',
-//     icon: 'i-lucide-book-open',
-//     to: '/docs/getting-started',
-//     children: [
-//       {
-//         label: 'ایتم 1',
-//         icon: 'i-lucide-house',
-//         to: '/about'
-//       },
-//       {
-//         label: 'Installation',
-//         icon: 'i-lucide-cloud-download'
-//       },
-//       {
-//         label: 'Icons',
-//         icon: 'i-lucide-smile',
-//       },
-//       {
-//         label: 'Colors',
-//         icon: 'i-lucide-swatch-book',
-//       },
-//       {
-//         label: 'Theme',
-//         icon: 'i-lucide-cog',
-//       },
-//       {
-//         label: 'Theme',
-//         icon: 'i-lucide-cog',
-//       },
-//       {
-//         label: 'Theme',
-//         icon: 'i-lucide-cog',
-//       },
-//       {
-//         label: 'Theme',
-//         icon: 'i-lucide-cog',
-//       }
-//     ]
-//   },
-// ])
 
 const overlay = useOverlay()
 
@@ -308,7 +186,7 @@ const categories = [
     subGroups: [
       { title: 'برندها', items: ['ایسوس (ASUS)', 'لنوو (Lenovo)', 'اپل (MacBook)'] },
       { title: 'کاربری', items: ['گیمینگ', 'اداری', 'دانشجویی'] },
-      { title: 'کاربری', items: ['گیمینگ', 'اداری', 'دانشجویی'] }
+      { title: 'کاربری2', items: ['گیمینگ', 'اداری', 'دانشجویی'] }
     ]
   },
   {
@@ -329,6 +207,9 @@ const activeTab = ref(1)
 const activeCategory = computed(() => {
   return categories.find(c => c.id === activeTab.value) || categories[0]
 })
+
+
+
 
 </script>
 
