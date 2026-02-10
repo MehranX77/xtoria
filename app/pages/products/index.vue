@@ -1,7 +1,7 @@
 <template>
     <div class="md:mt-44 mt-10">
         <UContainer>
-            <UBreadcrumb :items="productBreadcrumb" :ui="{link:'text-rose-500'}">
+            <UBreadcrumb :items="productBreadcrumb" :ui="{ link: 'text-rose-500' }">
                 <template #separator>
                     <span class="mx-2 text-muted">
                         <UIcon class="align-middle" name="solar:alt-arrow-left-linear" />
@@ -24,8 +24,7 @@
                         </div>
                         <div class="flex justify-between mb-5">
                             <span class="text-sm text-slate-700 dark:text-slate-100">تخفیف ها</span>
-                            <USwitch v-model="isDescount" dir="ltr" size="sm" color="success" class="self-center"
-                                @update:model-value="discountList" />
+                            <USwitch v-model="isDescount" dir="ltr" size="sm" color="success" class="self-center" />
                         </div>
                         <div class="flex justify-between">
                             <span class="text-sm text-slate-700 dark:text-slate-100">محبوب ترین ها</span>
@@ -58,34 +57,36 @@
                             <span class="text-base"> ترتیب: </span>
                         </div>
                     </div>
-                   
-                    <TransitionGroup class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-2 gap-3 w-full mt-5" tag="div" name="list">
-                            <UCard v-for="(val, index) in filteredList" :key="index" variant="soft">
-                                <div class="flex flex-col gap-y-3">
-                                    <ULink to="/products/سونی">
-                                        <NuxtImg :src="val?.img" width="170" height="170" class="mx-auto" />
-                                    </ULink>
-                                    <span class="text-muted text-sm line-clamp-2">{{ val?.description }}</span>
-                                    <div class="flex justify-between mt-5">
-                                        <UBadge v-if="val?.hasDiscount" variant="solid" color="warning"
-                                            class="rounded-full self-center">45%</UBadge>
-                                        <div class="flex flex-col w-full text-end gap-y-2">
-                                            <span
-                                                class="text-slate-700 dark:text-slate-200 font-bold sm:text-sm text-xs">1,000,000
-                                                تومان</span>
-                                            <span v-if="val?.hasDiscount"
-                                                class="text-slate-600 dark:text-slate-200 text-xs text-end line-through">2,000,000</span>
-                                        </div>
+
+                    <TransitionGroup class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-2 gap-3 w-full mt-5" tag="div"
+                        name="list">
+                        <UCard v-for="(val, index) in discountList" :key="index" variant="soft">
+                            <div class="flex flex-col gap-y-3">
+                                <ULink to="/products/سونی">
+                                    <NuxtImg :src="val?.img" width="170" height="170" class="mx-auto" />
+                                </ULink>
+                                <span class="text-muted text-sm line-clamp-2">{{ val?.description }}</span>
+                                <div class="flex justify-between mt-5">
+                                    <UBadge v-if="val?.hasDiscount" variant="solid" color="warning"
+                                        class="rounded-full self-center">45%</UBadge>
+                                    <div class="flex flex-col w-full text-end gap-y-2">
+                                        <span
+                                            class="text-slate-700 dark:text-slate-200 font-bold sm:text-sm text-xs">1,000,000
+                                            تومان</span>
+                                        <span v-if="val?.hasDiscount"
+                                            class="text-slate-600 dark:text-slate-200 text-xs text-end line-through">2,000,000</span>
                                     </div>
                                 </div>
-                            </UCard>
-                        </TransitionGroup>
-                 
+                            </div>
+                        </UCard>
+                    </TransitionGroup>
+
 
 
                     <!-- pagination -->
 
-                    <UPagination v-model:page="page" :total="100" color="neutral" active-color="neutral" active-variant="solid" class="mt-5 flex justify-center" dir="ltr" />
+                    <UPagination v-model:page="page" :total="100" color="neutral" active-color="neutral"
+                        active-variant="solid" class="mt-5 flex justify-center" dir="ltr" />
                 </div>
             </div>
         </UContainer>
@@ -180,28 +181,28 @@ const productList = ref([
 
 // نمایش لیست محصولات دارای تخفیف
 const isDescount = ref<boolean>()
-const filteredList = ref([...productList.value])
 
-const discountList = () => {
+const discountList = computed(() => {
+
     if (isDescount.value) {
-        filteredList.value = productList.value.filter((item) => {
-            return item?.hasDiscount
-        })
-    } else {
-        filteredList.value = [...productList.value]
+        return productList.value.filter(item => item?.hasDiscount)
+        
     }
-}
+    return [...productList.value]
+
+})
 </script>
 
 <style>
 .list-enter-active,
 .list-leave-active {
-  transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
+
 .list-enter-from,
 .list-leave-to {
-  opacity: 0;
-  transform: translateY(30px);
+    opacity: 0;
+    transform: translateY(30px);
 }
 
 input[type='text']::placeholder {
