@@ -16,7 +16,7 @@
           </div>
           <div class="flex md:gap-x-5 gap-x-3">
         <USlideover side="left" inset title="سبد خرید">
-          <UChip :text="2" size="3xl" inset>
+          <UChip :text="2" size="3xl" inset color="error">
             <UButton class="text-2xl" color="neutral" variant="soft" icon="mdi-light:cart" />
           </UChip>
           <template #body>

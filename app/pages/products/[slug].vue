@@ -1,7 +1,7 @@
 <template>
     <div class="md:mt-44 mt-10">
         <UContainer>
-            <UBreadcrumb :items="items">
+            <UBreadcrumb :items="items" :ui="{link:'text-rose-500'}">
                 <template #separator>
                     <span class="mx-2 text-muted">
                         <UIcon class="align-middle" name="solar:alt-arrow-left-linear" />
@@ -67,9 +67,7 @@
                                     <URadioGroup v-model="garantee" size="xl" dir="rtl" class="text-end w-fit "
                                         :items="garanteeList" />
                                 </UFormField>
-                                <UButton variant="solid" size="xl" color="success"
-                                    class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing
-                                    icon="solar:cart-large-2-line-duotone">76000 تومن</UButton>
+                                <UButton  variant="subtle" size="xl" color="neutral" class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone">{{ numberFormater(76000) }}</UButton>
                             </div>
                         </div>
                     </div>
@@ -104,7 +102,7 @@
                 </div>
             </div>
 
-            <div class="mt-10 w-full border dark:border-slate-800/70 border-slate-200 rounded-lg p-5">
+            <div class="mt-8 w-full border dark:border-slate-800/70 border-slate-200 rounded-lg p-5">
                 <h1 class="text-xl dark:text-slate-300">کالاهای مشابه</h1>
                 <UCarousel v-slot="{ item }" dir="ltr" class="mt-10" :items="carouselItem" loop arrows
                     :autoplay="{ delay: 2000 }"
@@ -114,15 +112,15 @@
                         Core دو سیم
                         کارت ظرفیت 64 گیگابایت و رم 4 گیگابایت</span>
                     <div class="flex justify-end">
-                        <UBadge class="mt-3" color="success" variant="subtle">موجود در انبار</UBadge>
+                        <UBadge class="mt-3" color="neutral" variant="subtle">موجود در انبار</UBadge>
                     </div>
                     <div dir="rtl" class="flex justify-between mt-3 text-end">
-                        <span class="dark:text-slate-300 text-xl self-center">20000</span>
+                        <span class="dark:text-slate-300 text-xl self-center">{{ numberFormater(20000) }}</span>
                         <span class="dark:text-slate-300 self-center">تومان</span>
                     </div>
                 </UCarousel>
             </div>
-            <UTabs dir="rtl" size="xl" color="success" class="mt-10" :items="tabsItem">
+            <UTabs dir="rtl" size="xl" color="neutral" class="mt-10" :items="tabsItem">
                 <template #ProductOverview>
                     <p>ProductOverview</p>
                 </template>

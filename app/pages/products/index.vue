@@ -1,7 +1,7 @@
 <template>
     <div class="md:mt-44 mt-10">
         <UContainer>
-            <UBreadcrumb :items="productBreadcrumb">
+            <UBreadcrumb :items="productBreadcrumb" :ui="{link:'text-rose-500'}">
                 <template #separator>
                     <span class="mx-2 text-muted">
                         <UIcon class="align-middle" name="solar:alt-arrow-left-linear" />
@@ -67,7 +67,7 @@
                                     </ULink>
                                     <span class="text-muted text-sm line-clamp-2">{{ val?.description }}</span>
                                     <div class="flex justify-between mt-5">
-                                        <UBadge v-if="val?.hasDiscount" variant="solid" color="primary"
+                                        <UBadge v-if="val?.hasDiscount" variant="solid" color="warning"
                                             class="rounded-full self-center">45%</UBadge>
                                         <div class="flex flex-col w-full text-end gap-y-2">
                                             <span
@@ -85,7 +85,7 @@
 
                     <!-- pagination -->
 
-                    <UPagination v-model:page="page" :total="100" class="mt-5 flex justify-center" dir="ltr" />
+                    <UPagination v-model:page="page" :total="100" color="neutral" active-color="neutral" active-variant="solid" class="mt-5 flex justify-center" dir="ltr" />
                 </div>
             </div>
         </UContainer>
