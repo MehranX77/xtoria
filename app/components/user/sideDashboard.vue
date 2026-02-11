@@ -32,9 +32,9 @@ const items: NavigationMenuItem[][] = [[
         to: '/user/orders'
     },
     {
-        label: 'تیکت ها',
+        label: 'پیام های دریافتی',
         icon: 'solar:home-angle-linear',
-        to: '/user/tickets'
+        to: '/user/notifications'
     },
     {
         label: 'آدرس های من',
@@ -49,7 +49,8 @@ const items: NavigationMenuItem[][] = [[
 ], [{
     label: 'پشتیبانی',
     icon: 'solar:home-angle-linear',
-    to: '/user/support'
+    to: '/user/support',
+    class:'mb-2'
 },
 {
     label: 'خروج از حساب کاربری',

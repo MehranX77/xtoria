@@ -35,7 +35,7 @@
         <!-- باکس خلاصه خرید های کاربر -->
     <div class="w-full border border-slate-300/70 dark:border-slate-800 rounded-lg p-6 mt-6">
       <div class="flex justify-between">
-        <p class="order self-baseline-safe text-neutral-900 dark:text-neutral-100 relative mb-16">خرید های اخیر من</p>
+        <p class="order self-baseline-safe text-neutral-900 dark:text-neutral-100 relative mb-16">خرید های اخیر</p>
         <ULink class="self-baseline-safe text-sm text-sky-500 hover:text-sky-600 h-fit" to="/">مشاهده همه <UIcon class="align-middle" name="solar:alt-arrow-left-linear"/></ULink>
       </div>
 
