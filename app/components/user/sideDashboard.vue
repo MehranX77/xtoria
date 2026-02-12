@@ -22,33 +22,33 @@ const items: NavigationMenuItem[][] = [[
     },
     {
         label: 'اطلاعات کاربری',
-        icon: 'solar:home-angle-linear',
+        icon: 'solar:shield-user-outline',
         to: '/user/information',
 
     },
     {
         label: 'سفارش های من',
-        icon: 'solar:home-angle-linear',
+        icon: 'solar:cart-large-2-line-duotone',
         to: '/user/orders'
     },
     {
         label: 'پیام های دریافتی',
-        icon: 'solar:home-angle-linear',
+        icon: 'solar:bell-line-duotone',
         to: '/user/notifications'
     },
     {
         label: 'آدرس های من',
-        icon: 'solar:home-angle-linear',
+        icon: 'solar:map-point-linear',
         to: '/user/address'
     },
     {
         label: 'امنیت',
-        icon: 'solar:home-angle-linear',
+        icon: 'solar:lock-keyhole-line-duotone',
         to: '/user/privacy'
     },
 ], [{
     label: 'پشتیبانی',
-    icon: 'solar:home-angle-linear',
+    icon: 'material-symbols-light:support-agent-outline-sharp',
     to: '/user/support',
     class:'mb-2'
 },
@@ -56,7 +56,7 @@ const items: NavigationMenuItem[][] = [[
     label: 'خروج از حساب کاربری',
     icon: 'solar:home-angle-linear',
     to: '/',
-    class:'text-rose-500 bg-rose-100 dark:bg-rose-950 dark:text-rose-500 rounded-lg'
+    class:'text-rose-500 bg-rose-100 dark:bg-red-700 dark:text-red-100 rounded-lg'
 }
 ]]
 </script>
