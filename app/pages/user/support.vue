@@ -36,7 +36,7 @@
                     </UButton>
                     <template #header>
                         <div class="flex flex-col gap-y-5 grow">
-                        <div class="flex background justify-between w-full transition-all hover:cursor-pointer dark:border-slate-800 border-slate-300/70 hover:border-teal-700 hover:bg-green-400/10 border-2 rounded-lg py-8 px-6" @click="saveToClipboard">
+                        <div class="flex background justify-between w-full transition-all hover:cursor-pointer dark:border-slate-800 border-slate-300/70 hover:border-sky-700 hover:bg-sky-400/10 border-2 rounded-lg py-8 px-6" @click="saveToClipboard">
                             <p class="dark:text-neutral-300 text-neutral-600 self-center">تلفن واحد فروش:</p>
                             <h3 class="font-bold text-xl dark:text-neutral-400 text-neutral-700 self-center">025-32098000</h3>
                         </div>
@@ -45,42 +45,36 @@
                     </template>
                 </UModal>
             </div>
-            <!-- باکس پرسش و پاسخ مشتریان -->
-             
-                <div class="flex md:w-4/5 md:mx-auto w-full mt-16">
-                    <UCard variant="soft" class="w-full">
-                        <template #header>
-                            <div class="flex justify-between">
-                                <div class="flex flex-col gap-y-4">
-                                    <h1 class="text-2xl">تیکت تستی</h1>
-                                    <span class="text-muted text-md">ایجاد شده در چهارشنبه 22 بهمن 1404</span>
-                                </div>
-                                <div class="flex flex-col gap-y-4">
-                                 <UBadge variant="outline" color="warning" size="xl">در انتظار پاسخ واحد فروش</UBadge>
-                                 <span class="text-muted text-sm">آیدی تیکت : #14256</span>
-                                </div>
-                            </div>
-                        </template>
-                        <template #default>
-                                <UTextarea variant="subtle" color="neutral" placeholder="متن تیکت" :rows="10" class="w-full"/>
-                                <div class="flex justify-between mt-6">
-                                     <div class="flex flex-col gap-y-3">
-                                        <p class="dark:text-neutral-300 text-neutral-700 text-base">پیوست‌ها</p>
-                                        <span class="text-muted text-sm">اگر تصویر محصول خریداری شده دارید که برای حل مشکل به ما کمک می‌کند. لطفا آن را پیوست کنید</span>
-                                        <UFileUpload accept="image/*" label="فایل پیوست خود را وارد کنید" description="(png, jpeg)" icon="i-lucide-image" class="w-96"/>
-                                     </div>
-                                     <UButton class="self-baseline" size="xl" color="neutral" variant="subtle">ارسال پاسخ</UButton>
-                                </div>
-                        </template>
-                    </UCard>
-                </div>
-            
+           <div class=" w-full mx-auto rounded-lg dark:bg-slate-800/40 dark:border-0 border border-slate-300/70 p-6 mt-10">
+             <div class="grid grid-cols-5">
+                <p class="dark:text-neutral-400 text-neutral-700 text-sm">#</p>
+                <p class="dark:text-neutral-400 text-neutral-700 text-sm">موضوع</p> 
+                <p class="dark:text-neutral-400 text-neutral-700 text-sm">وضعیت</p>
+                <p class="dark:text-neutral-400 text-neutral-700 text-sm">تاریخ بروزرسانی</p>
+                <p class="dark:text-neutral-400 text-neutral-700 text-sm">لینک تیکت</p>
+             </div>
+             <USeparator color="neutral" class="mt-3"/>
+               <div class="grid grid-cols-5 mt-4 hover:dark:bg-slate-800/50 hover:bg-slate-100 transition-all">
+                <p class="dark:text-neutral-300 text-md self-center">#1404</p>
+                <p class="dark:text-neutral-300 text-md self-center">تیکت تستی</p>
+                <p class="dark:text-neutral-300 text-md self-center"><UBadge color="success" variant="outline">تایید شده</UBadge></p>
+                <p class="dark:text-neutral-300 text-md self-center">1404/11/24</p>
+                <UButton to="/user/tickets" color="neutral" variant="ghost" icon="solar:arrow-left-bold" size="xl" class="w-fit hover:cursor-pointer text-xl self-center"/>
+             </div>
+             <USeparator color="neutral" class="mt-3"/>
+             <div class="grid grid-cols-5 mt-4 hover:dark:bg-slate-800/50 hover:bg-slate-100 transition-all">
+                <p class="dark:text-neutral-300 text-md self-center">#1404</p>
+                <p class="dark:text-neutral-300 text-md self-center">تیکت تستی</p>
+                <p class="dark:text-neutral-300 text-md self-center"><UBadge color="warning" variant="outline">در انتظار تایید</UBadge></p>
+                <p class="dark:text-neutral-300 text-md self-center">1404/11/24</p>
+                <UButton to="/user/tickets" color="neutral" variant="ghost" icon="solar:arrow-left-bold" size="xl" class="w-fit hover:cursor-pointer text-xl self-center"/>
+             </div>
+           </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-
 const toast = useToast()
 
 const saveToClipboard = () => {
@@ -102,6 +96,7 @@ const sendTicket = async () => {
             description:'تیکت شما با موفقیت ارسال شد'
         })
 }
+
 
 </script>
 
