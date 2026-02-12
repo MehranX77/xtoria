@@ -25,15 +25,14 @@
           <div class="flex justify-center gap-x-6 mt-4 dir-rtl" dir="rtl" :class="{ 'hidden': res }">
             <div class="relative group">
 
-              <UButton variant="link"
-                class="py-3 flex items-center  gap-2 text-gray-700 hover:text-red-500 transition-all ">
-                <UIcon name="quill:hamburger" class="self-center" />
-                <span class="text-sm font-bold">دسته‌بندی کالاها</span>
+              <UButton variant="link" class="py-3 flex items-center  gap-2 text-gray-700 hover:text-red-500 transition-all ">
+                <UIcon name="quill:hamburger" class="self-center dark:text-neutral-300" />
+                <span class="text-sm font-bold dark:text-neutral-300">دسته‌بندی کالاها</span>
               </UButton>
 
               <div  class="absolute left-0 translate-x-[-64%] top-full mt-1 w-220  bg-white shadow-2xl rounded-lg border border-gray-200 flex opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
 
-                <ul class="w-1/4 bg-gray-50 border-l border-gray-100 py-2">
+                <ul class="w-1/4 bg-gray-50 dark:bg-slate-800 border-l border-gray-100 dark:border-slate-300/70 py-2">
                   <li v-for="category in categories" :key="category.id"
                       :class="['px-4 py-4 cursor-pointer flex items-center gap-2 transition-all text-sm', activeTab === category.id ? 'bg-white text-red-600 font-bold border-r-4 border-red-600' : 'text-gray-600 hover:bg-gray-100']"
                     @mouseenter="activeTab = category.id">
@@ -41,7 +40,7 @@
                   </li>
                 </ul>
 
-                <div class="w-3/4 p-6 grid grid-cols-3 gap-8 content-start bg-white">
+                <div class="w-3/4 p-6 grid grid-cols-3 gap-8 content-start bg-white dark:bg-slate-800">
                   <div v-for="sub in activeCategory?.subGroups" :key="sub.title">
                     <h3 class="text-gray-900 font-bold border-r-2 border-red-500 pr-2 mb-4 text-sm flex items-center">
                       {{ sub.title }}
@@ -63,17 +62,17 @@
               </div>
             </div>
             <!-- ادامه navbar حالت دسکتاپ -->
-            <div class="flex gap-x-1 text-gray-700">
+            <div class="flex gap-x-1 text-gray-700 dark:text-neutral-300">
               <UIcon name="solar:gamepad-broken" class="self-center" />
-              <ULink class="text-sm font-bold text-gray-700 hover:text-red-500">کنسول بازی</ULink>
+              <ULink class="text-sm font-bold text-gray-700 dark:text-neutral-300 hover:text-red-500">کنسول بازی</ULink>
             </div>
-             <div class="flex gap-x-1 text-gray-700">
+             <div class="flex gap-x-1 text-gray-700 dark:text-neutral-300">
               <UIcon name="solar:airbuds-charge-broken" class="self-center" />
-              <ULink class="text-sm font-bold text-gray-700 hover:text-red-500">هندزفری</ULink>
+              <ULink class="text-sm font-bold text-gray-700 dark:text-neutral-300 hover:text-red-500">هندزفری</ULink>
             </div>
-            <div class="flex gap-x-1 text-gray-700">
+            <div class="flex gap-x-1 text-gray-700 dark:text-neutral-300">
               <UIcon name="solar:monitor-broken" class="self-center" />
-              <ULink class="text-sm font-bold text-gray-700 hover:text-red-500">مانیتور</ULink>
+              <ULink class="text-sm font-bold text-gray-700 dark:text-neutral-300 hover:text-red-500">مانیتور</ULink>
             </div>
           </div>
         </div>
