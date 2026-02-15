@@ -4,7 +4,7 @@
             <UUser name="mehran" description="09362762801" :avatar="{ src: 'https://i.pravatar.cc/150?u=john-doe' }" size="xl" />
         </template>
         <template #default>
-            <UNavigationMenu :highlight="true" color="neutral" variant="link"  :items="items[0]" orientation="vertical" dir="rtl" :ui="{item:'border-b border-b-slate-200 dark:border-b-slate-800', linkLabel:'my-2 text-md/tight font-stretch-50% ' , linkLeadingIcon:'lg:text-lg/tight text-md/tight'}"/>
+            <UNavigationMenu  :highlight="true" color="neutral" variant="link"  :items="items[0]" orientation="vertical" dir="rtl" :ui="{item:'border-b border-b-slate-200 dark:border-b-slate-800', linkLabel:'my-2 text-md/tight font-stretch-50% ' , linkLeadingIcon:'lg:text-lg/tight text-md/tight'}"/>
             <UNavigationMenu :items="items[1]" orientation="vertical" class="mt-auto" :ui="{linkLabel:'my-2  text-md/tight font-stretch-50%' , linkLeadingIcon:'lg:text-lg/tight text-md/tight'}" dir="rtl"/>
         </template>
     </UDashboardSidebar>
@@ -56,7 +56,8 @@ const items: NavigationMenuItem[][] = [[
     label: 'خروج از حساب کاربری',
     icon: 'solar:home-angle-linear',
     to: '/',
-    class:'text-rose-500 bg-rose-100 dark:bg-red-700 dark:text-red-100 rounded-lg'
+    class:'text-rose-500 bg-rose-100 dark:bg-red-700 dark:text-red-100 rounded-lg',
+    disabled:true
 }
 ]]
 </script>

@@ -65,6 +65,8 @@ const sendOtpCode = async (event: FormSubmitEvent<typeof auth>) => {
         body: auth,
     })
 
+    console.log(data.value);
+    
 
     if (data.value?.status === 200) {
         toast.add({

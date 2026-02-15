@@ -36,8 +36,8 @@
                                 <div class="py-3 px-1">
                                     <USlider v-model="priceArray" dir="ltr" :min="1000" :max="5000000" tooltip />
                                 </div>
-                                <span class="text-muted text-xs"> محدوده قیمت از : {{ priceArray[0] }}تومان تا {{
-                                    priceArray[1] }} تومان </span>
+                                <span class="text-muted text-xs"> محدوده قیمت از : {{ numberFormater(priceArray[0]!) }}تومان تا {{
+                                    numberFormater(priceArray[1]!) }} تومان </span>
                             </template>
                             <template #category>
                                 <div class="py-3 px-1">

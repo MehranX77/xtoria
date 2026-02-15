@@ -1,6 +1,7 @@
 <template>
     <div class="md:mt-44 mt-10">
         <UContainer>
+
             <UBreadcrumb :items="items" :ui="{link:'text-rose-500'}">
                 <template #separator>
                     <span class="mx-2 text-muted">
@@ -8,53 +9,53 @@
                     </span>
                 </template>
             </UBreadcrumb>
+
+            <!-- بنر پیشنهاد شده -->
+                <UBanner v-if="product.data?.suggested" title="پیشنهاد شگفت انگیز"  color="error" class="rounded-md mt-4" :ui="{title:'font-bold'}"/>
+                <UBanner v-if="product.data?.special_discount" title="تخفیف ویژه"   color="success" class="rounded-md mt-4" :ui="{title:'font-bold'}"/>
             <div class="flex lg:flex-nowrap flex-wrap gap-x-3">
+
                 <div class="flex lg:flex-col gap-y-2 mt-5 lg:order-first order-last">
-                    <UButton size="xl" variant="ghost" color="neutral" class="self-start text-2xl rounded-lg"
-                        icon="solar:share-line-duotone" />
-                    <UButton size="xl" variant="ghost" color="neutral" class="self-start text-2xl rounded-lg"
-                        icon="mage:telegram" />
-                    <UButton size="xl" variant="ghost" color="neutral" class="self-start text-2xl rounded-lg"
-                        icon="mage:instagram-square" />
+                    <UButton size="xl" variant="ghost" color="neutral" class="self-start text-2xl rounded-lg" icon="solar:share-line-duotone" />
+                    <UButton size="xl" variant="ghost" color="neutral" class="self-start text-2xl rounded-lg" icon="mage:telegram" />
+                    <UButton size="xl" variant="ghost" color="neutral" class="self-start text-2xl rounded-lg" icon="mage:instagram-square" />
                 </div>
-                <div
-                    class="flex md:flex-nowrap flex-wrap dark:bg-slate-800 bg-slate-100 w-full p-4 rounded-lg mt-5 gap-x-5">
+
+                <div class="flex md:flex-nowrap flex-wrap dark:bg-slate-800 bg-slate-100 w-full p-4 rounded-lg mt-5 gap-x-5">
+
                     <div class="gallery basis-110">
-                        <NuxtImg
-                            class="lg:w-80 lg:h-80 lg:max-h-80 w-40 h-40 max-h-40 mx-auto lg:mx-0 object-fit rounded-lg"
-                            :src="galleryRef" />
+                        <NuxtImg class="lg:w-80 lg:h-80 lg:max-h-80 w-40 h-40 max-h-40 mx-auto lg:mx-0 object-fit rounded-lg" :src="galleryRef" />
                         <div class="flex justify-center sub-img gap-x-5">
-                            <NuxtImg v-for="(value, index) in galleryList" :key="index"
-                                class="w-20 h-20 max-h-20 hover:cursor-pointer transition-all object-fit rounded-lg border border-slate-300 dark:border-slate-700/90 hover:border-rose-700/90 p-2"
-                                :src="value" @click="changeImg(value)" />
+                            <template v-for="(items, index) in product.data.product.images" :key="index">
+                               <NuxtImg class="w-20 h-20 max-h-20 hover:cursor-pointer transition-all object-fit rounded-lg border border-slate-300 dark:border-slate-700/90 hover:border-rose-700/90 p-2" :src="items.image" @click="changeImg(items)" />
+                                <!-- {{ items.image }} -->
+                            </template>
                         </div>
                     </div>
+
                     <div class="basis-full mt-8">
                         <div class="flex justify-between">
                             <!-- مشخصات محصول -->
                             <div class="flex flex-col gap-y-3">
-                                <h3 class="text-2xl font-bold text-slate-900 dark:text-slate-200">خرید مانیتور - مشکی
-                                </h3>
+                                <h3 class="text-2xl font-bold text-slate-900 dark:text-slate-200">{{ product.data?.product?.name|| 'بدون نام' }} {{  product.data?.product?.description || 'بدون مدل' }}</h3>
                                 <div class="flex gap-x-2">
                                     <h4 class="text-lg font-bold">مدل:</h4>
-                                    <span class="self-center text-muted">دوال سنس مشکی</span>
+                                    <span class="self-center text-muted">{{ product.data?.product?.brand?.name || 'بدون نام' }} {{ product.data?.product?.brand?.description || 'بدون توضیحات'}} </span>
                                 </div>
                                 <div class="flex gap-x-2">
                                     <h4 class="text-lg font-bold">تولید کننده:</h4>
-                                    <span class="self-center text-sky-500">Sony</span>
+                                    <span class="self-center text-sky-500">{{ product.data?.product?.brand?.name || 'بدون نام' }}</span>
                                 </div>
                                 <ul class="space-y-2">
-                                    <li class="lg:text-xl md:text-lg text-base">
-                                        <UIcon class="align-middle me-1 text-2xl text-green-500"
-                                            name="solar:check-circle-line-duotone" />قابل استفاده به صورت بی‌سیم و با
-                                        کابل USB-C
-                                    </li>
-                                    <li class="lg:text-xl md:text-lg text-base">
-                                        <UIcon class="align-middle me-1 text-2xl text-green-500"
-                                            name="solar:check-circle-line-duotone" />قابل استفاده به صورت بی‌سیم و با
-                                        کابل USB-C
-                                    </li>
+                                    <li v-for="(options, index) in product.data?.options" :key="index" class="lg:text-xl md:text-lg text-base"><UIcon class="align-middle me-1 text-2xl text-green-500" name="solar:check-circle-line-duotone" />{{ options?.value }}</li>
                                 </ul>
+                                <USeparator class="mt-2"/>
+                                <div class="flex flex-col gap-y-2 mt-2">
+                                    <div v-for="(property, index) in product.data?.properties" :key="index" class="flex gap-x-2">
+                                        <span class="text-muted text-sm">{{ property?.key }}: </span>
+                                        <span class="text-neutral-700 dark:text-neutral-200 text-sm">{{ property?.value }}</span>
+                                    </div>
+                                </div>
                                 <div class="flex lg:flex-nowrap flex-wrap lg:gap-x-6 gap-y-3 mt-4">
                                     <UFormField orientation="horizontal" label="فروشنده" class="lg:text-xl text-base">
                                         <USelect v-model="value" size="xl" :items="branch" class="w-full" />
@@ -63,19 +64,20 @@
                                         <UInputNumber v-model="deviceNumber" size="xl" :min="1" />
                                     </UFormField>
                                 </div>
-                                <UFormField label="انتخاب گارانتی" required class="space-y-4 lg:text-xl text-base">
-                                    <URadioGroup v-model="garantee" size="xl" dir="rtl" class="text-end w-fit "
-                                        :items="garanteeList" />
+                                <UFormField label="انتخاب گارانتی" required :hint="product.data?.guanranty[0].name + '!'" class="space-y-4 lg:text-xl text-base" :ui="{hint:'text-rose-500 text-sm font-bold'}">
+                                    <URadioGroup v-model="garantee" size="xl" dir="rtl" class="text-end w-fit " :items="garanteeList" color="neutral"/>
                                 </UFormField>
-                                <UButton  variant="subtle" size="xl" color="neutral" class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone">{{ numberFormater(76000) }}</UButton>
+                                <div class="flex gap-x-3">
+                                <UButton v-if="product.data?.stock !== 0"  variant="subtle" size="xl" color="neutral" class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone">{{ numberFormater(product?.data.price) }} <span class="text-sm text-muted">تومان</span></UButton>
+                                <UButton v-else disabled variant="subtle" size="xl" color="error" class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone">اتمام موجودی</UButton>
+                                <span v-if="product.data?.discount !== 0" class="text-md text-muted self-center "> تخفیف: {{ numberFormater(product.data?.discount) }} تومان</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="flex basis-3xs gap-x-1 mt-8">
-                        <UIcon class="text-2xl text-orange-400" name="solar:star-bold" />
-                        <UIcon class="text-2xl text-orange-400" name="solar:star-bold" />
-                        <UIcon class="text-2xl text-orange-400" name="solar:star-bold" />
-                        <span class="text-muted">(از 27 نفر)</span>
+                    <div v-if="product.data?.product.score !==0" class="flex basis-3xs gap-x-1 flex-wrap h-fit mt-8">
+                        <UIcon v-for="(star, index) in product.data?.product.score" :key="index" class="text-2xl text-orange-400" name="solar:star-bold" />
+                        <span class="text-muted self-start mt-2">(از 27 نفر)</span>
                     </div>
                 </div>
             </div>
@@ -145,12 +147,17 @@ const { public: { baseURL } } = useRuntimeConfig()
 
 const route = useRoute()
 
+interface products{
+   data:{
+    product:{
+        images: []
+    }
+   }
+}
 
-const { data: product, error } = await useFetch(`${baseURL}/product/product/${route.params.slug}`)
+const { data: product } = await useFetch<products | undefined>(`${baseURL}/product/product/${route.params.slug}`)
 
 console.log(product.value);
-console.log(error.value);
-
 
 const items: BreadcrumbItem[] = [
     {
@@ -167,17 +174,20 @@ const items: BreadcrumbItem[] = [
     }
 ]
 
-const galleryRef = ref<string>('case.png')
+const galleryRef = ref()
 
-const galleryList: string[] = [
-    'case.png',
-    'monitor.png'
-]
+onMounted(() => {
+   galleryRef.value = product?.value.data?.product?.images[0].image
+})
+
 
 const changeImg = (x: string) => {
     galleryRef.value = x
 
 }
+
+
+
 
 const branch = ref<string[]>(['شعبه میدان انار'])
 

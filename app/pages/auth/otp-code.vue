@@ -13,8 +13,7 @@
                         <h3 class="text-base font-semibold text-black dark:text-slate-50">کد یکبار مصرف را وارد کنید
                         </h3>
                         <span class="text-muted text-sm">کد به شماره {{ userPhone }} ارسال شد</span>
-                        <UPinInput v-model="otpCode" class="self-center" placeholder="*" :length="6" color="info"
-                            :ui="{ base: 'w-14 h-14 text-2xl' }" @complete="confirmOtpCode" />
+                        <UPinInput v-model="otpCode" class="self-center" placeholder="*" :length="6" color="info" :ui="{ base: 'w-14 h-14 text-2xl' }" @complete="confirmOtpCode" />
                         <UButton variant="link" color="info" class="text-sm self-center">ارسال دوباره کد</UButton>
                     </div>
                 </template>
@@ -24,6 +23,7 @@
 </template>
 
 <script setup lang="ts">
+
 definePageMeta({
     layout: 'custom',
     middleware:'phone-state-check'
@@ -31,18 +31,18 @@ definePageMeta({
 const router = useRouter()
 const toast = useToast()
 const otpCode = ref()
-const normalizedOtp = ref('')
 const { userPhone } = usePhone()
 const { authUser } = useAuth()
 const userId = useId()
 const confirmOtpCode = async () => {
-    Object.values(otpCode.value).forEach((item) => normalizedOtp.value += item);
 
+   const otp =  otpCode.value.join('')
+   
     const { data, error } = await useFetch('/api/user-register/confirmOtp', {
         method: 'POST',
         body: {
             phone: userPhone.value,
-            otp: normalizedOtp.value
+            otp:  otp 
         },
         headers: {
             'Content-Type': 'application/json'

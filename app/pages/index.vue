@@ -40,7 +40,7 @@
                                         <span class="self-center text-xl line-through text-muted">100/000</span>
                                     </div>
                                     <Countdown class="text-start font-bold text-xl text-rose-500"
-                                        :date="new Date('feb 2, 2026 16:50:30')" v-slot="{ hours, minutes, seconds }">
+                                        :date="new Date('feb 14, 2026 16:50:30')" v-slot="{ hours, minutes, seconds }">
                                         {{ hours }} : {{ minutes }} : {{ seconds }}
                                     </Countdown>
                                 </div>
@@ -59,7 +59,7 @@
                     <h3 class="text-xl text-end self-center-safe">لیست محصولات</h3>
                 </div>
                 <div  class="grid xl:grid-cols-12 lg:grid-cols-8 md:grid-cols-6 grid-cols-2 gap-x-4 xl:gap-y-0 gap-y-5 mt-4">
-                   <LazyProductLists hydrate-on-visible/>
+                   <!-- <LazyProductLists hydrate-on-visible/> -->
                 </div>
             </div>
             <div class="mt-5 bg-slate-50 dark:bg-slate-800 p-5 rounded-lg">
@@ -70,7 +70,7 @@
                 </div>
                 <div
                     class="grid xl:grid-cols-12 lg:grid-cols-8 md:grid-cols-6 grid-cols-2 gap-x-4 xl:gap-y-0 gap-y-5 mt-4">
-                     <LazyProductLists hydrate-on-visible/>
+                     <LazyMostSold :most-sold="homeData?.data.most_sold" hydrate-on-visible />
                 </div>
             </div>
             <div class="mt-5 md:grid md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-4 hidden">
@@ -137,7 +137,7 @@
 <script setup lang="ts">
 
 import { LazyCategoryLists, UButton } from '#components';
-
+const {public:{baseURL}} = useRuntimeConfig()
 // import {addToBasket} from '../stores/index'
 
 // const store = addToBasket()
@@ -183,6 +183,14 @@ const posts = ref([
         date: '2024-08-22'
     },
 ])
+
+interface home_data {
+ data:{
+    most_sold:[]
+ }
+}
+
+const {data: homeData} = await useFetch<home_data>(`${baseURL}/home-data`)
 
 
 </script>
