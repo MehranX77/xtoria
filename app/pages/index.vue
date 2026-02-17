@@ -9,47 +9,46 @@
             <div dir="rtl" class="grid lg:grid-cols-2 grid-cols-1 gap-x-4 lg:gap-y-0 gap-y-5 mt-5">
                 <div class="bg-slate-100 dark:bg-slate-800 rounded-lg shadow p-4 h-fit">
                     <h3 class="text-xl dark:text-slate-300">جدیدترین کالاها</h3>
-                    <UCarousel v-slot="{ item }" dir="ltr" class="mt-4" :items="items" arrows loop autoplay
+                    <UCarousel v-slot="{ item }" dir="ltr" class="mt-4" :items="homeData?.data?.newest" arrows loop autoplay
                         :ui="{ item: 'xl:basis-1/3 md:basis-1/2', controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2' }"
                         :prev-icon="prevIcon" :next-icon="nextIcon">
                         <div class="flex flex-col gap-y-2 bg-slate-50 dark:bg-slate-700 items-center rounded-lg">
-                            <NuxtImg :src="item" width="340" height="340"
+                            <NuxtImg :src="item?.product?.picture" width="340" height="340"
                                 class="rounded-lg md:max-w-46 md:mx-0 max-w-44 mx-auto" />
-                            <span class="text-sm font-bold text-center">stressless mouse</span>
-                            <span class="text-sm text-muted text-center">موس گیمینگ- بیسیم</span>
-                            <UButton dir="rtl" color="neutral" variant="link" size="lg" class="rounded-lg place-content-center w-[86%] mx-auto mb-1"> {{ numberFormater(950000) }} تومن</UButton>
+                            <span class="text-sm font-bold text-center">{{ item?.product?.name }}</span>
+                            <span v-html="item?.product?.description" class="text-sm text-muted text-center" />
+                            <UButton :to="{name:'products-slug', params:{slug: item?.slug}, query:{p_id:item?.id}}" dir="rtl" color="neutral" variant="soft" size="lg" class="rounded-lg place-content-center w-[86%] mx-auto mb-1"> {{ numberFormater(item?.price) }} تومن</UButton>
                         </div>
                     </UCarousel>
                 </div>
+
                 <div class="bg-slate-100 dark:bg-slate-800 rounded-lg shadow p-4">
                     <h3 class="text-xl text-rose-500">تخفیف های ویژه</h3>
-                    <UCarousel v-slot="{ item }" dir="ltr" class="mt-4" :items="items" arrows loop autoplay dots
+                    <UCarousel v-slot="{ item }" dir="ltr" class="mt-4" :items="homeData?.data?.special_discount" arrows loop autoplay dots
                         :ui="{ controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2', dots: 'absolute md:-bottom-38 -bottom-60 md:flex hidden', dot: 'w-10 h-1.5' }"
                         :prev-icon="prevIcon" :next-icon="nextIcon">
                         <div class="discount-card w-full rounded-lg h-full bg-white dark:bg-slate-700 p-4">
-                            <UBadge size="md" color="error" variant="soft" class="text-sm">50% OFF</UBadge>
+                            <UBadge v-if="item?.discount" size="md" color="error" variant="soft" class="text-sm">50% OFF</UBadge>
                             <div class="flex justify-between gap-x-5">
                                 <div class="flex flex-col justify-between text-end gap-y-2">
-                                    <h2 class="lg:text-xl">هندزفری</h2>
-                                    <span class="text-base text-muted line-clamp-2">Lorem ipsum dolor sit, amet
-                                        consectetur adipisicing elit. Dolores natus ipsam, quaerat impedit deleniti
-                                        molestiae sequi accusamus praesentium earum consequuntur incidunt iste ipsum
-                                        sapiente ducimus iure recusandae atque blanditiis ipsa?</span>
+                                    <h2 class="lg:text-xl">{{item?.product?.name}}</h2>
+                                    <span v-html="item?.product?.description" class="text-base text-muted line-clamp-2" />
                                     <div class="flex justify-start gap-x-5">
-                                        <UButton dir="rtl" class="lg:w-50 place-content-center lg:text-xl rounded-md" color="error" variant="subtle">50,000 تومن</UButton>
-                                        <span class="self-center text-xl line-through text-muted">100/000</span>
+                                        <UButton dir="rtl" class="lg:w-50 place-content-center lg:text-xl rounded-md" color="error" variant="subtle">{{ numberFormater(item?.price) }}</UButton>
+                                        <span v-if="item?.discount" class="self-center text-xl line-through text-muted">{{ item?.discount }}</span>
                                     </div>
                                     <Countdown class="text-start font-bold text-xl text-rose-500"
                                         :date="new Date('feb 14, 2026 16:50:30')" v-slot="{ hours, minutes, seconds }">
                                         {{ hours }} : {{ minutes }} : {{ seconds }}
                                     </Countdown>
                                 </div>
-                                <NuxtImg :src="item"
+                                <NuxtImg :src="item?.product?.picture"
                                     class="aspect-square xl:min-w-56 xl:max-w-56 xl:min-h-56 xl:max-h-56 lg:min-w-46 lg:max-w-46 lg:min-h-46 lg:max-h-46 md:w-65 md:h-65 w-45 h-45 mx-auto" />
                             </div>
                         </div>
                     </UCarousel>
                 </div>
+
             </div>
             <div class="mt-5 bg-slate-50 dark:bg-slate-800 p-5 rounded-lg">
                 <div class="flex justify-between">
@@ -59,7 +58,7 @@
                     <h3 class="text-xl text-end self-center-safe">لیست محصولات</h3>
                 </div>
                 <div  class="grid xl:grid-cols-12 lg:grid-cols-8 md:grid-cols-6 grid-cols-2 gap-x-4 xl:gap-y-0 gap-y-5 mt-4">
-                   <!-- <LazyProductLists hydrate-on-visible/> -->
+                   <MainProducts :main-product="homeData?.data.products"/>
                 </div>
             </div>
             <div class="mt-5 bg-slate-50 dark:bg-slate-800 p-5 rounded-lg">
@@ -147,15 +146,7 @@ defineProps<{
     nextIcon?: 'i-lucide-chevron-left'
 }>()
 
-const items = [
-    'headphone.png',
-    'headphone.png',
-    'monitor.png',
-    'mouse.png',
-    'mouse.png',
-    'mouse.png',
-    'mouse.png',
-]
+
 
 const posts = ref([
     {
@@ -184,13 +175,21 @@ const posts = ref([
     },
 ])
 
+const items =[
+    'banner.jpg',
+    'banner.jpg',
+    'banner.jpg',
+    'banner.jpg',
+]
+
 interface home_data {
  data:{
-    most_sold:[]
+    most_sold:[],
  }
 }
 
-const {data: homeData} = await useFetch<home_data>(`${baseURL}/home-data`)
+const {data: homeData} = await useFetch<home_data |string >(`${baseURL}/home-data`)
 
+    console.log(homeData.value);
 
 </script>
