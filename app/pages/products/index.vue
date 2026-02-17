@@ -62,19 +62,18 @@
                         name="list">
                         <UCard v-for="(val, index) in discountList" :key="index" variant="soft">
                             <div class="flex flex-col gap-y-3">
-                                <ULink to="/products/سونی">
-                                    <NuxtImg :src="val?.img" width="170" height="170" class="mx-auto" />
+                                <ULink :to="{name:'products-slug', params:{slug:val?.slug}, query:{p_id:val?.id}}">
+                                    <NuxtImg :src="val?.product.picture" width="170" height="170" class="mx-auto" />
                                 </ULink>
-                                <span class="text-muted text-sm line-clamp-2">{{ val?.description }}</span>
+                                <span v-html="val?.product.description" class="text-muted text-sm line-clamp-2" />
                                 <div class="flex justify-between mt-5">
-                                    <UBadge v-if="val?.hasDiscount" variant="solid" color="warning"
+                                    <UBadge v-if="val?.discount" variant="solid" color="warning"
                                         class="rounded-full self-center">45%</UBadge>
                                     <div class="flex flex-col w-full text-end gap-y-2">
                                         <span
-                                            class="text-slate-700 dark:text-slate-200 font-bold sm:text-sm text-xs">1,000,000
-                                            تومان</span>
-                                        <span v-if="val?.hasDiscount"
-                                            class="text-slate-600 dark:text-slate-200 text-xs text-end line-through">2,000,000</span>
+                                            class="text-slate-700 dark:text-slate-200 font-bold sm:text-sm text-xs">{{ numberFormater(val?.price) }} تومان</span>
+                                        <span v-if="val?.discount"
+                                            class="text-slate-600 dark:text-slate-200 text-xs text-end line-through">{{ numberFormater(val?.discount) }} تومان</span>
                                     </div>
                                 </div>
                             </div>
@@ -95,6 +94,8 @@
 
 <script setup lang="ts">
 import type { AccordionItem, BreadcrumbItem } from '@nuxt/ui';
+
+const {public:{baseURL}} = useRuntimeConfig()
 
 const productBreadcrumb: BreadcrumbItem[] = [
     {
@@ -126,58 +127,62 @@ const categoryCheckbox = ref<string[]>(['هدفون', 'هدست', 'میکروف�
 
 const page = ref<number>(5)
 
-const productList = ref([
-    {
-        img: 'monitor.png',
-        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-        hasDiscount: false
-    },
-    {
-        img: 'monitor.png',
-        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-        hasDiscount: true
-    },
-    {
-        img: 'monitor.png',
-        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-        hasDiscount: false
-    },
-    {
-        img: 'dualshock.png',
-        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-        hasDiscount: false
-    },
-    {
-        img: 'dualshock.png',
-        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-        hasDiscount: true
-    },
-    {
-        img: 'dualshock.png',
-        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-        hasDiscount: false
-    },
-    {
-        img: 'mouse.png',
-        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-        hasDiscount: false
-    },
-    {
-        img: 'mouse.png',
-        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-        hasDiscount: true
-    },
-    {
-        img: 'mouse.png',
-        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-        hasDiscount: false
-    },
-    {
-        img: 'mouse.png',
-        description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-        hasDiscount: true
-    },
-])
+// const productList = ref([
+//     {
+//         img: 'monitor.png',
+//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+//         hasDiscount: false
+//     },
+//     {
+//         img: 'monitor.png',
+//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+//         hasDiscount: true
+//     },
+//     {
+//         img: 'monitor.png',
+//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+//         hasDiscount: false
+//     },
+//     {
+//         img: 'dualshock.png',
+//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+//         hasDiscount: false
+//     },
+//     {
+//         img: 'dualshock.png',
+//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+//         hasDiscount: true
+//     },
+//     {
+//         img: 'dualshock.png',
+//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+//         hasDiscount: false
+//     },
+//     {
+//         img: 'mouse.png',
+//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+//         hasDiscount: false
+//     },
+//     {
+//         img: 'mouse.png',
+//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+//         hasDiscount: true
+//     },
+//     {
+//         img: 'mouse.png',
+//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+//         hasDiscount: false
+//     },
+//     {
+//         img: 'mouse.png',
+//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
+//         hasDiscount: true
+//     },
+// ])
+
+const {data:productList} = await useFetch(`${baseURL}/product/products/`)
+
+// console.log(productList.value);
 
 // نمایش لیست محصولات دارای تخفیف
 const isDescount = ref<boolean>()
@@ -185,12 +190,15 @@ const isDescount = ref<boolean>()
 const discountList = computed(() => {
 
     if (isDescount.value) {
-        return productList.value.filter(item => item?.hasDiscount)
+        return productList.value.data.results.filter(item => item?.discount)
         
     }
-    return [...productList.value]
+    return [...productList.value.data.results]
 
 })
+
+console.log(discountList.value);
+
 </script>
 
 <style>

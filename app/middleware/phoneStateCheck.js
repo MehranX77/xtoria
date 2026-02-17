@@ -3,7 +3,7 @@ export default defineNuxtRouteMiddleware((to) => {
 
     if(to.path==='/auth/otp-code' && (userPhone.value ==='' || userPhone.value === null)){
             return abortNavigation({
-                statusCode:400,
+                statusCode:404,
                 statusMessage:'شما قادر به مشاهده این صفحه نیستید!'
             })
     }

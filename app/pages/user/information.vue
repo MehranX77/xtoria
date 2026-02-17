@@ -6,9 +6,10 @@
                 <div class="flex gap-y-2 flex-col py-5 px-5">
                     <div class="flex gap-x-2">
                         <span class="text-muted text-md">نام و نام خانوادگی</span>
-                        <UBadge color="success" variant="soft" class="rounded-full">تایید شده</UBadge>
+                        <UBadge v-if="me?.data?.first_name && me?.data?.last_name" color="success" variant="soft" class="rounded-full">تایید شده</UBadge>
+                        <UBadge v-else color="neutral" variant="soft" class="rounded-full">نامشخص</UBadge>
                     </div>
-                    <p class="text-neutral-800 dark:text-neutral-300">مهران مهرابی فر</p>
+                    <p class="text-neutral-800 dark:text-neutral-300">{{ me?.data?.first_name }} {{ me?.data?.last_name || 'کاربر بدون نام'}}</p>
                 </div>
                 <UButton icon="solar:pen-2-line-duotone" variant="ghost" color="neutral" class="text-xl self-center-safe hover:cursor-pointer"/>
             </div>
@@ -17,9 +18,10 @@
                 <div class="flex gap-y-2 flex-col py-5 px-5">
                     <div class="flex gap-x-2">
                         <span class="text-muted text-md">کدملی</span>
-                        <UBadge color="success" variant="soft" class="rounded-full">تایید شده</UBadge>
+                       <UBadge v-if="me?.data?.national_code" color="success" variant="soft" class="rounded-full">تایید شده</UBadge>
+                        <UBadge v-else color="neutral" variant="soft" class="rounded-full">نامشخص</UBadge>
                     </div>
-                    <p class="text-neutral-800 dark:text-neutral-300">3241565708</p>
+                    <p class="text-neutral-800 dark:text-neutral-300">{{ me?.data?.national_code || 'کدملی ثبت نشده'}}</p>
                 </div>
                 <UButton icon="solar:pen-2-line-duotone" variant="ghost" color="neutral" class="text-xl self-center-safe hover:cursor-pointer"/>
             </div>
@@ -28,9 +30,10 @@
                 <div class="flex gap-y-2 flex-col py-5 px-5">
                     <div class="flex gap-x-2">
                         <span class="text-muted text-md">شماره موبایل</span>
-                        <UBadge color="success" variant="soft" class="rounded-full">تایید شده</UBadge>
+                        <UBadge v-if="me?.data?.phone" color="success" variant="soft" class="rounded-full">تایید شده</UBadge>
+                        <UBadge v-else color="neutral" variant="soft" class="rounded-full">نامشخص</UBadge>
                     </div>
-                    <p class="text-neutral-800 dark:text-neutral-300">09361236548</p>
+                    <p class="text-neutral-800 dark:text-neutral-300">{{ me?.data?.phone  || 'شماره موبایل ثبت نشده'}}</p>
                 </div>
                 <UButton icon="solar:pen-2-line-duotone" variant="ghost" color="neutral" class="text-xl self-center-safe hover:cursor-pointer"/>
             </div>
@@ -39,9 +42,10 @@
                 <div class="flex gap-y-2 flex-col py-5 px-5">
                     <div class="flex gap-x-2">
                         <span class="text-muted text-md">ایمیل</span>
-                        <UBadge color="warning" variant="soft" class="rounded-full">در انتظار تایید</UBadge>
+                        <UBadge v-if="me?.data?.email" color="success" variant="soft" class="rounded-full">تایید شده</UBadge>
+                        <UBadge v-else color="neutral" variant="soft" class="rounded-full">نامشخص</UBadge>
                     </div>
-                    <p class="text-neutral-800 dark:text-neutral-300">user@gmail.com</p>
+                    <p class="text-neutral-800 dark:text-neutral-300">{{ me?.data?.email || 'ایمیل ثبت نشده'}}</p>
                 </div>
                 <UButton icon="solar:pen-2-line-duotone" variant="ghost" color="neutral" class="text-xl self-center-safe hover:cursor-pointer"/>
             </div>
@@ -50,9 +54,10 @@
                 <div class="flex gap-y-2 flex-col py-5 px-5">
                     <div class="flex gap-x-2">
                         <span class="text-muted text-md">تاریخ تولد</span>
-                        <UBadge color="success" variant="soft" class="rounded-full">تایید شده</UBadge>
+                        <UBadge v-if="me?.data?.birth_date" color="success" variant="soft" class="rounded-full">تایید شده</UBadge>
+                        <UBadge v-else color="neutral" variant="soft" class="rounded-full">نامشخص</UBadge>
                     </div>
-                    <p class="text-neutral-800 dark:text-neutral-300">1377/07/18</p>
+                    <p class="text-neutral-800 dark:text-neutral-300">{{ me?.data?.birth_date || 'تاریخ تولد ثبت نشده' }}</p>
                 </div>
                 <UButton icon="solar:pen-2-line-duotone" variant="ghost" color="neutral" class="text-xl self-center-safe hover:cursor-pointer"/>
             </div>
@@ -86,6 +91,11 @@
 </template>
 
 <script setup lang="ts">
+    const { me } = useMyInfo()
+
+    console.log(me.value);
+    
+
 </script>
 
 <style scoped>

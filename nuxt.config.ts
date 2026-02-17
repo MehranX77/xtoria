@@ -19,6 +19,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'nuxt-countdown'
   ],
+  
   css: ['~/assets/css/main.css'],
   build:{
     transpile:['nuxt-countdown']

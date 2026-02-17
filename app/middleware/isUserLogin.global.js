@@ -3,7 +3,7 @@ export default defineNuxtRouteMiddleware((to) =>{
     if(authUser.value !== '' && authUser.value !== null){
         if(to.path ==='/auth/authentication' || to.path === '/auth/otp-code'){
             return navigateTo('/', {
-                redirectCode:400
+                redirectCode:404
             })
         }
     }
