@@ -96,7 +96,7 @@
                 <NuxtErrorBoundary>
                         <div class="grid xl:grid-cols-9 lg:grid-cols-6 md:grid-cols-4 grid-cols-2  gap-y-10 mt-10">
                             <!-- defualt component -->
-                            <LazyCategoryLists class="col-span-12" hydrate-on-visible/>
+                            <LazyCategoryLists :category-list="homeData?.data?.categories" class="col-span-12" hydrate-on-visible/>
                         </div>
                         <!-- error handler -->
                         <template #error="{ error, clearError }">
@@ -113,15 +113,15 @@
 
             <div class="bg-slate-100 dark:bg-slate-800 rounded-lg shadow p-4 h-fit md:mt-8 mt-14">
                 <h3 class="text-xl text-rose-500 text-end">پیشنهاد ویژه</h3>
-                <UCarousel v-slot="{ item }" dir="ltr" class="mt-4" :items="items" arrows loop autoplay
+                <UCarousel v-slot="{ item }" dir="ltr" class="mt-4" :items="homeData?.data?.suggested_products" arrows loop autoplay
                     :ui="{ item: 'xl:basis-1/7 lg:basis-1/4 md:basis-1/3', controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2' }"
                     :prev-icon="prevIcon" :next-icon="nextIcon">
                     <div class="flex flex-col items-center gap-y-2 bg-slate-50 dark:bg-slate-700">
-                        <NuxtImg :src="item" width="340" height="340"
+                        <NuxtImg :src="item?.product?.picture" width="340" height="340"
                             class="rounded-lg md:max-w-46 md:mx-0 max-w-44 mx-auto" />
-                        <span class="text-sm font-bold text-center">stressless mouse</span>
-                        <span class="text-sm text-muted text-center">موس گیمینگ- بیسیم</span>
-                        <UButton dir="rtl" size="lg" color="error" variant="subtle" class="rounded-md place-content-center w-[86%] mx-auto mb-1">{{ numberFormater(95000) }} تومان</UButton>
+                        <span class="text-sm font-bold text-center">{{item?.product?.name}}</span>
+                        <span v-html="item?.product?.description" class="text-sm text-muted text-center" />
+                        <UButton :to="{name:'products-slug', params:{slug: item?.slug}, query:{p_id:item?.id}}" dir="rtl" size="lg" color="error" variant="subtle" class="rounded-md place-content-center w-[86%] mx-auto mb-1">{{ numberFormater(item?.price) }} تومان</UButton>
                     </div>
                 </UCarousel>
             </div>
