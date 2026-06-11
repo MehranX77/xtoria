@@ -11,12 +11,12 @@
             </UBreadcrumb>
 
             <!-- بنر پیشنهاد شده -->
-                <UBanner v-if="product?.data?.suggested" title="پیشنهاد شگفت انگیز"  color="error" class="rounded-md mt-4" :ui="{title:'font-bold'}"/>
+                 <UBanner v-if="product?.data?.suggested" title="پیشنهاد شگفت انگیز"  color="error" class="rounded-md mt-4" :ui="{title:'font-bold'}"/>
                 <UBanner v-if="product?.data?.special_discount" title="تخفیف ویژه"   color="success" class="rounded-md mt-4" :ui="{title:'font-bold'}"/>
             <div class="flex lg:flex-nowrap flex-wrap gap-x-3">
 
                 <div class="flex lg:flex-col gap-y-2 mt-5 lg:order-first order-last">
-                    <UButton size="xl" variant="ghost" color="neutral" class="self-start text-2xl rounded-lg" icon="solar:share-line-duotone" />
+                    <UButton @click="shareThisProduct" size="xl" variant="ghost" color="neutral" class="self-start text-2xl rounded-lg" icon="solar:share-line-duotone" />
                     <UButton size="xl" variant="ghost" color="neutral" class="self-start text-2xl rounded-lg" icon="mage:telegram" />
                     <UButton size="xl" variant="ghost" color="neutral" class="self-start text-2xl rounded-lg" icon="mage:instagram-square" />
                 </div>
@@ -26,7 +26,7 @@
                     <div class="gallery basis-110">
                         <NuxtImg class="lg:w-80 lg:h-80 lg:max-h-80 w-40 h-40 max-h-40 mx-auto lg:mx-0 object-fit rounded-lg" :src="galleryRef"/>
                         <div class="flex justify-center sub-img gap-x-5">
-                            <template v-for="(items, index) in product?.data?.product.images" :key="index">
+                            <template v-for="(items, index) in product?.data?.product.images.slice(0,3)" :key="index">
                                <NuxtImg class="w-20 h-20 max-h-20 hover:cursor-pointer transition-all object-fit rounded-lg border border-slate-300 dark:border-slate-700/90 hover:border-rose-700/90 p-2" :src="items.image" @click="changeImg(items)" />
                                 <!-- {{ items.image }} -->
                             </template>
@@ -68,7 +68,7 @@
                                     <URadioGroup v-for="(key,index) in product?.data?.guanranty" :key="index" v-model="options.selectedGuanranty" size="xl" dir="rtl" class="text-end w-fit " :items="[key.name]" color="neutral"/>
                                 </UFormField>
                                 <div class="flex gap-x-3">
-                                <UButton v-if="product?.data?.stock !== 0"  variant="subtle" size="xl" color="neutral" class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone" @click="report">{{ numberFormater(product?.data.price || 0) }} <span class="text-sm text-muted">تومان</span></UButton>
+                                <UButton v-if="product?.data?.stock !== 0"  variant="subtle" size="xl" color="neutral" class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone" @click="AddToBasket(product.data.id)">{{ numberFormater(product?.data.price || 0) }} <span class="text-sm text-muted">تومان</span></UButton>
                                 <UButton v-else disabled variant="subtle" size="xl" color="error" class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone">اتمام موجودی</UButton>
                                 <span v-if="product?.data?.discount !== 0" class="text-md text-muted self-center "> تخفیف: {{ numberFormater(product?.data?.discount || 0) }} تومان</span>
                                 </div>
@@ -142,10 +142,12 @@
 
 <script setup lang="ts">
 import type { BreadcrumbItem } from '@nuxt/ui';
-
+import {addToBasket} from '../../stores/index'
+const { authUser } = useAuth()
 const { public: { baseURL } } = useRuntimeConfig()
-
+const toast = useToast()
 const route = useRoute()
+const store = addToBasket()
 
 // *************Data Fetching*************************
 
@@ -185,9 +187,17 @@ const items: BreadcrumbItem[] = [
 // *************Gallery*************************
 
 const galleryRef = ref()
+
 const changeImg = (x: string) => {
-    galleryRef.value = x
+    galleryRef.value = x?.image
 }
+
+// const jj = product.value?.data?.product.images.slice(0,3)
+
+// console.log(jj);
+
+
+
 onMounted(() => {
    galleryRef.value = product?.value?.data?.product?.images[0].image
 })
@@ -199,6 +209,13 @@ onMounted(() => {
 const branch = ref(['شعبه مطهری'])
 
 const options = reactive({
+ productId:product.value?.data.id,
+ productSlug:product.value?.data.slug,
+ productName:product.value?.data.product.name,
+ productColor:'سفید',
+ productImage:product?.value?.data?.product?.images[0].image,
+ price:product.value?.data.price || 0,
+ discount:product.value?.data.discount || 0,
  selectedBranch: 'شعبه مطهری',
  qty: 1,
  selectedGuanranty:'',
@@ -246,9 +263,37 @@ const tabsItem = [
 
 // ***************End Carousel And Tabs Items **********************
 
+// ***************Add To Basket Code **********************
+const AddToBasket = (id: number) => {
+    if (authUser.value !== null) {
+        const res = store.showProduct.find(item => Number(item?.productId) === id)
+        if (res !== undefined) {
+        return false
+        }else{
+            store.addToBasket(options)
+            toast.add({
+                description: 'کالا به سبد خرید اضافه شد'
+            })
+        }
+    } else {
+        return navigateTo('/auth/authentication', {
+            redirectCode: 401,
+        })
+    }
 
-const report = () => {
-    console.log(options);
-    
+}
+
+// ***************End Add To Basket Code **********************
+
+// ***************share urls products **********************
+
+const shareThisProduct = () => {
+    if(import.meta.client) {
+        window.navigator.share({
+            title: product.value?.data?.product.name,
+            url:route.fullPath,
+            text:product.value?.data.product.brand?.description || 'بدون توضیح'
+        })
+    }
 }
 </script>

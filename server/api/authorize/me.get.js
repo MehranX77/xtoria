@@ -15,11 +15,13 @@ export default defineEventHandler(async (event) => {
             deleteCookie(event, 'access-token', {
                 path: '/',
                 secure: true,
+                sameSite:'lax',
                 httpOnly: true,
             })
             deleteCookie(event, 'refresh-token', {
                 path: '/',
                 secure: true,
+                sameSite:'lax',
                 httpOnly: true,
             })
         }

@@ -2,11 +2,7 @@ import { defineStore } from "pinia";
 
 export const addToBasket = defineStore('add-to-basket', {
     state: () => ({
-       basketCart:[{
-         id:1,
-         productName: 'mobile',
-         price:2_500_000
-       }]
+       basketCart:[]
     }),
     getters:{
       showProduct(state){
@@ -14,6 +10,8 @@ export const addToBasket = defineStore('add-to-basket', {
       }
     },
     actions:{
-
+       addToBasket(basket){
+         this.basketCart.push(basket)
+       }
     }
 })

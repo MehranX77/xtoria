@@ -24,7 +24,8 @@
                         </div>
                         <div class="flex justify-between mb-5">
                             <span class="text-sm text-slate-700 dark:text-slate-100">تخفیف ها</span>
-                            <USwitch v-model="isDescount" dir="ltr" size="sm" color="success" class="self-center" />
+                            <USwitch v-model="isDescount" dir="ltr" size="sm" color="success"
+                                class="self-center" />
                         </div>
                         <div class="flex justify-between">
                             <span class="text-sm text-slate-700 dark:text-slate-100">محبوب ترین ها</span>
@@ -36,8 +37,9 @@
                                 <div class="py-3 px-1">
                                     <USlider v-model="priceArray" dir="ltr" :min="1000" :max="5000000" tooltip />
                                 </div>
-                                <span class="text-muted text-xs"> محدوده قیمت از : {{ numberFormater(priceArray[0]!) }}تومان تا {{
-                                    numberFormater(priceArray[1]!) }} تومان </span>
+                                <span class="text-muted text-xs"> محدوده قیمت از : {{ numberFormater(priceArray[0]!)
+                                }}تومان تا {{
+                                        numberFormater(priceArray[1]!) }} تومان </span>
                             </template>
                             <template #category>
                                 <div class="py-3 px-1">
@@ -58,27 +60,31 @@
                         </div>
                     </div>
 
-                    <TransitionGroup class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-2 gap-3 w-full mt-5" tag="div"
-                        name="list">
+                    <TransitionGroup v-if="discountList"
+                        class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-2 gap-3 w-full mt-5" tag="div" name="list">
                         <UCard v-for="(val, index) in discountList" :key="index" variant="soft">
                             <div class="flex flex-col gap-y-3">
-                                <ULink :to="{name:'products-slug', params:{slug:val?.slug}, query:{p_id:val?.id}}">
-                                    <NuxtImg :src="val?.product.picture" width="170" height="170" class="mx-auto" />
+                                <ULink
+                                    :to="{ name: 'products-slug', params: { slug: val?.slug }, query: { p_id: val?.id } }">
+                                    <NuxtImg :src="val?.product?.picture" width="170" height="170" class="mx-auto" />
                                 </ULink>
-                                <span v-html="val?.product.description" class="text-muted text-sm line-clamp-2" />
+                                <span v-html="val?.product?.description" class="text-muted text-sm line-clamp-2" />
                                 <div class="flex justify-between mt-5">
                                     <UBadge v-if="val?.discount" variant="solid" color="warning"
-                                        class="rounded-full self-center">45%</UBadge>
+                                        class="rounded-full self-center">
+                                        45%</UBadge>
                                     <div class="flex flex-col w-full text-end gap-y-2">
-                                        <span
-                                            class="text-slate-700 dark:text-slate-200 font-bold sm:text-sm text-xs">{{ numberFormater(val?.price) }} تومان</span>
+                                        <span class="text-slate-700 dark:text-slate-200 font-bold sm:text-sm text-xs">{{
+                                            numberFormater(val?.price) }} تومان</span>
                                         <span v-if="val?.discount"
-                                            class="text-slate-600 dark:text-slate-200 text-xs text-end line-through">{{ numberFormater(val?.discount) }} تومان</span>
+                                            class="text-slate-600 dark:text-slate-200 text-xs text-end line-through">{{
+                                                numberFormater(val?.discount) }} تومان</span>
                                     </div>
                                 </div>
                             </div>
                         </UCard>
                     </TransitionGroup>
+                    <div v-else>theres no product in this time</div>
 
 
 
@@ -95,7 +101,7 @@
 <script setup lang="ts">
 import type { AccordionItem, BreadcrumbItem } from '@nuxt/ui';
 
-const {public:{baseURL}} = useRuntimeConfig()
+const { public: { baseURL } } = useRuntimeConfig()
 
 const productBreadcrumb: BreadcrumbItem[] = [
     {
@@ -180,7 +186,7 @@ const page = ref<number>(5)
 //     },
 // ])
 
-const {data:productList} = await useFetch(`${baseURL}/product/products/`)
+const { data: productList } = await useFetch(`${baseURL}/product/products/`)
 
 // console.log(productList.value);
 
@@ -190,14 +196,21 @@ const isDescount = ref<boolean>()
 const discountList = computed(() => {
 
     if (isDescount.value) {
-        return productList.value.data.results.filter(item => item?.discount)
-        
+        return productList.value?.data.results.filter(item => item?.discount)
+
+    } if (productList.value) {
+
+        return [...productList.value.data.results]
+
+    } else {
+        return false
     }
-    return [...productList.value.data.results]
 
 })
 
+
 console.log(discountList.value);
+
 
 </script>
 

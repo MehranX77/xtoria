@@ -10,11 +10,13 @@
                     <h3 class="text-xl dark:text-slate-300">جدیدترین کالاها</h3>
                     <UCarousel v-slot="{ item }" dir="ltr" class="mt-4" :items="homeData?.data?.newest" arrows loop autoplay :ui="{ item: 'xl:basis-1/3 md:basis-1/2', controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2' }" :prev-icon="prevIcon" :next-icon="nextIcon">
                         <div class="flex flex-col gap-y-2 bg-slate-50 dark:bg-slate-700 items-center rounded-lg">
-                            <NuxtImg :src="item?.product?.picture" width="340" height="340" class="rounded-lg md:max-w-46 md:mx-0 max-w-44 mx-auto" />
+                            <NuxtImg :src="`${baseURLAssets}${item?.product?.picture}`" width="340" height="340" class="rounded-lg md:max-w-46 md:mx-0 max-w-44 mx-auto" />
                             <span class="text-sm font-bold text-center">{{ item?.product?.name }}</span>
                             <span v-html="item?.product?.description" class="text-sm text-muted text-center" />
                             <UButton :to="{ name: 'products-slug', params: { slug: item?.slug }, query: { p_id: item?.id } }" dir="rtl" color="neutral" variant="soft" size="lg" class="rounded-lg place-content-center w-[86%] mx-auto mb-1"> {{numberFormater(item?.price) }} تومن</UButton>
                         </div>
+<!-- {{ homeData?.data?.newest }} -->
+
                     </UCarousel>
                 </div>
 
@@ -40,7 +42,7 @@
                                         {{ hours }} : {{ minutes }} : {{ seconds }}
                                     </Countdown>
                                 </div>
-                                <NuxtImg :src="item?.product?.picture"
+                                <NuxtImg :src='`${baseURLAssets}${item?.product?.picture}`'
                                     class="aspect-square xl:min-w-56 xl:max-w-56 xl:min-h-56 xl:max-h-56 lg:min-w-46 lg:max-w-46 lg:min-h-46 lg:max-h-46 md:w-65 md:h-65 w-45 h-45 mx-auto" />
                             </div>
                         </div>
@@ -55,10 +57,8 @@
                     </UButton>
                     <h3 class="text-xl text-end self-center-safe">لیست محصولات</h3>
                 </div>
-                <div
-                    class="grid xl:grid-cols-12 lg:grid-cols-8 md:grid-cols-6 grid-cols-2 gap-x-4 xl:gap-y-0 gap-y-5 mt-4">
+
                     <MainProducts :main-product="homeData?.data.products" />
-                </div>
             </div>
             <div class="mt-5 bg-slate-50 dark:bg-slate-800 p-5 rounded-lg">
                 <div class="flex justify-between">
@@ -66,41 +66,22 @@
                         class="self-center text-md hover:cursor-pointer">مشاهده همه</UButton>
                     <h3 class="text-xl text-end self-center-safe">محصولات پرفروش</h3>
                 </div>
-                <div
-                    class="grid xl:grid-cols-12 lg:grid-cols-8 md:grid-cols-6 grid-cols-2 gap-x-4 xl:gap-y-0 gap-y-5 mt-4">
                     <LazyMostSold :most-sold="homeData?.data.most_sold" hydrate-on-visible />
-                </div>
             </div>
-            <div class="mt-5 md:grid md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-4 hidden">
-                <div class="console">
-                    <NuxtImg class="w-full rounded-lg" src="console.jpg" />
-                </div>
-                <div class="md:grid grid-cols-2 gap-x-3 gap-y-4 hidden">
-                    <NuxtImg class="h-full rounded-lg object-cover object-center" src="console.jpg" />
-                    <NuxtImg class="h-full rounded-lg object-cover object-center" src="console.jpg" />
-                </div>
-            </div>
-            <div class="mt-5 md:grid grid-cols-2 gap-y-4 gap-x-4 hidden">
-                <div class="grid grid-cols-2  gap-x-3 ">
-                    <NuxtImg class="h-full rounded-lg object-cover object-center" src="console.jpg" />
-                    <NuxtImg class="h-full rounded-lg object-cover object-center" src="console.jpg" />
-                </div>
-                <div class="console">
-                    <NuxtImg class="w-full rounded-lg" src="console.jpg" />
-                </div>
-            </div>
+
+            <!-- banners -->
+             <div class="grid md:grid-cols-2 grid-cols-1 mt-10 gap-x-3">
+                <NuxtImg class="rounded-lg" v-for="banner in banner1" :key="banner.id" :src="`${baseURLAssets}${banner?.media}`"/>
+             </div>
 
             <div class="my-8">
                 <h1 class="text-center text-xl">خرید بر اساس دسته بندی</h1>
                 <NuxtErrorBoundary>
-                    <div class="grid xl:grid-cols-9 lg:grid-cols-6 md:grid-cols-4 grid-cols-2  gap-y-10 mt-10">
                         <!-- defualt component -->
                         <LazyCategoryLists :category-list="homeData?.data?.categories" class="col-span-12"  hydrate-on-visible />
-                    </div>
                     <!-- error handler -->
                     <template #error="{ error, clearError }">
-                        <UAlert class="mt-5" orientation="horizontal" dir="rtl" title="خطایی رخ داد"
-                            :description="error?.message" color="warning" variant="soft"
+                        <UAlert class="mt-5" orientation="horizontal" dir="rtl" title="خطایی رخ داد" :description="error?.message" color="warning" variant="soft"
                             :actions="[{ label: 'تلاش محدد', color: 'neutral', variant: 'soft', onClick: () => clearError() }]" />
                     </template>
                 </NuxtErrorBoundary>
@@ -108,9 +89,7 @@
             </div>
             <div
                 class="md:grid md:grid-cols-2 hidden gap-x-4 mt-30 border dark:border-slate-700/70 border-slate-200 lg:p-5 p-3">
-                <NuxtImg src="case.png"
-                    class="lg:w-full border-r dark:border-slate-700/70 border-slate-200 lg:h-87.5 w-65 h-65 mx-auto" />
-                <NuxtImg src="case.png" class="lg:w-full lg:h-87.5 w-65 h-65 mx-auto" />
+                <NuxtImg v-for="banner in banner2" :key="banner.id" :src="`${baseURL}${banner?.media}`" class="lg:w-full rounded-lg border-r dark:border-slate-700/70 border-slate-200 lg:h-87.5 w-65 h-65 mx-auto" />
             </div>
 
             <div class="bg-slate-100 dark:bg-slate-800 rounded-lg shadow p-4 h-fit md:mt-8 mt-14">
@@ -140,11 +119,10 @@
 </template>
 
 <script setup lang="ts">
-
 import { LazyCategoryLists, UButton } from '#components';
-const { public: { baseURL } } = useRuntimeConfig()
 // import {addToBasket} from '../stores/index'
-
+const { public: { baseURL } } = useRuntimeConfig()
+const {public:{baseURLAssets}} = useRuntimeConfig()
 // const store = addToBasket()
 
 defineProps<{
@@ -195,12 +173,19 @@ interface home_data {
         categories:any[],
         products:any[],
         special_discount:any[],
-        newest:any[]
+        newest:any[],
+        banners:any[]
     }
 }
 
 const { data: homeData } = await useFetch<home_data>(`${baseURL}/home-data`)
 
-console.log(homeData.value);
+    const banner1 = ref(homeData.value?.data?.banners.slice(0,2))
+    const banner2 = ref(homeData.value?.data?.banners.slice(2,4))
+
+
+
+    // محاسبه ی نهایی مبلغ قابل پرداخت 
+
 
 </script>

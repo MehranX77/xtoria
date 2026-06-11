@@ -5,7 +5,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      baseURL: import.meta.env.BASE_URL
+      baseURL: import.meta.env.BASE_URL,
+      baseURLAssets: import.meta.env.BASE_URL_ASSETS
     }
   },
 

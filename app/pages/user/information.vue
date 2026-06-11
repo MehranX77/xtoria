@@ -74,18 +74,7 @@
             </div>
         </div>
         <!-- پایان باکس -->
-       <!-- باکس آدرس کاربر -->
-
-      <div class="w-full border border-slate-300/70 dark:border-slate-800 rounded-lg mt-5 p-4">
-        <p class="address relative text-neutral-800 dark:text-neutral-300">آدرس فعلی شما</p>
-        <p class="text-muted mt-10 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis minus iure sed. Dolores id error, sequi dolore porro rem, molestiae ad harum voluptates ex amet incidunt iusto quidem fuga sunt.</p>            
-        <div class="flex gap-x-1 mt-4">
-            <ULink class="text-sm text-sky-500 hover:text-sky-600 hover:cursor-pointer">ویرایش آدرس</ULink>
-            <UIcon class="self-center text-sky-500" name="solar:alt-arrow-left-line-duotone"/>
-        </div>
-      </div>
-
-       <!-- پایان باکس -->
+  
 
     </div>
 </template>

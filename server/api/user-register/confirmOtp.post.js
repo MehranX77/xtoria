@@ -22,14 +22,14 @@ export default defineEventHandler(async (event) => {
                 httpOnly: true,
                 secure: true,
                 path: '/',
-                sameSite: 'lax',
+                sameSite:'lax',
                 maxAge: 2.5 * 24 * 60 * 60,
             })
             setCookie(event, 'refresh-token', res.data?.refresh, {
                 httpOnly: true,
                 secure: true,
                 path: '/',
-                sameSite: 'lax',
+                sameSite:'lax',
                 maxAge: 7 * 24 * 60 * 60,
             })
             return {
@@ -42,11 +42,13 @@ export default defineEventHandler(async (event) => {
                 deleteCookie(event, 'access-token', {
                     path: '/',
                     secure: true,
+                    sameSite:'lax',
                     httpOnly: true,
                 })
                 deleteCookie(event, 'refresh-token', {
                     path: '/',
                     secure: true,
+                    sameSite:'lax',
                     httpOnly: true,
                 })
             }

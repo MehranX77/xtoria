@@ -41,11 +41,6 @@ const items: NavigationMenuItem[][] = [[
         icon: 'solar:map-point-linear',
         to: '/user/address'
     },
-    {
-        label: 'امنیت',
-        icon: 'solar:lock-keyhole-line-duotone',
-        to: '/user/privacy'
-    },
 ], [{
     label: 'پشتیبانی',
     icon: 'material-symbols-light:support-agent-outline-sharp',
