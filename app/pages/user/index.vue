@@ -2,14 +2,12 @@
   <div>
     <!-- باکس خلاصه وضعیت سفارشات -->
     <div class="w-full border border-slate-300/70 dark:border-slate-800 rounded-lg p-6 mt-2">
-      <div class="flex justify-between">
         <p class="order self-baseline-safe text-neutral-900 dark:text-neutral-100 relative mb-16">سفارش های من</p>
-      </div>
       <div class="flex justify-around ">
         <div class="flex gap-x-2">
           <NuxtImg width="70" height="70" src="status-delivered.svg" />
           <div class="flex flex-col self-center gap-y-2">
-            <p class="text-neutral-800 dark:text-neutral-100">{{ data?.data?.delivered || 0}}</p>
+            <p class="text-neutral-800 dark:text-neutral-100">{{ data?.data?.delivered || 0 }}</p>
             <span class="text-xs text-muted">تحویل شده</span>
           </div>
         </div>
@@ -17,7 +15,7 @@
         <div class="flex gap-x-2">
           <NuxtImg width="70" height="70" src="status-processing.svg" />
           <div class="flex flex-col self-center gap-y-2">
-            <p class="text-neutral-800 dark:text-neutral-100">{{ data?.data?.current_order || 0}}</p>
+            <p class="text-neutral-800 dark:text-neutral-100">{{ data?.data?.current_order || 0 }}</p>
             <span class="text-xs text-muted">جاری</span>
           </div>
         </div>
@@ -33,8 +31,12 @@
     </div>
     <!-- باکس خلاصه خرید های کاربر -->
     <div class="w-full border border-slate-300/70 dark:border-slate-800 rounded-lg p-6 mt-6">
-      <div class="flex justify-between">
-        <p class="order self-baseline-safe text-neutral-900 dark:text-neutral-100 relative mb-16">خرید های اخیر</p>
+        <p class="order self-baseline-safe text-neutral-900 dark:text-neutral-100 relative mb-10">خرید های اخیر</p>
+      <div v-if="false" class="">
+
+      </div>
+      <div v-else>
+        <ULink class="text-sky-400" to="/products">تا به حال محصولی خریداری نکرده اید، ورود به صفحه محصولات</ULink>
       </div>
     </div>
   </div>
@@ -47,8 +49,8 @@ try {
   console.log(data.data.refered);
 
 } catch (error) {
-   console.log(error);
-   
+  console.log(error);
+
 }
 </script>
 
@@ -59,6 +61,6 @@ p.order::before {
   border-bottom: 2px solid red;
   bottom: -7px;
   right: 0;
-  width: 70%;
+  width: 5%;
 }
 </style>

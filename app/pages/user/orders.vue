@@ -1,8 +1,9 @@
 <template>
     <div class="flex flex-col gap-y-3">
         <h2 class="dark:text-slate-200 text-slate-700  lg:text-2xl font-bold mt-5">مدیریت سفارشات</h2>
-        <div class="flex flex-col gap-y-3 mt-5">
-            <UCard>
+        <div v-if="res?.data?.results" class="flex flex-col gap-y-3 mt-5">
+            <!-- i must set v-for on this component for render data -->
+            <UCard v-for="product in res?.data?.results" :key="product.id">
                 <template #header>
                    <div class="flex justify-between">
                     <p class="font-bold dark:text-slate-200 text-slate-700 text-md">سفارش 1257#</p>
@@ -41,6 +42,11 @@
                     </div>
                 </template>
             </UCard>
+            <!-- end data rendered -->
+        </div>
+        <div v-else class="flex flex-col gap-y-5 justify-center items-center h-full">
+          <UIcon class="text-5xl text-slate-400 dark:text-slate-600" name="line-md:moon-alt-twotone-loop"/>
+          <p class="font-black text-muted">تاکنون سفارشی ثبت نشده!</p>
         </div>
     </div>
 

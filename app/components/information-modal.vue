@@ -5,17 +5,17 @@
     </template>
     <template #body>
       <div class="grid lg:grid-cols-2 grid-cols-1 gap-3">
-        <UInput color="neutral" variant="subtle" size="xl" placeholder="نام و نام خانوادگی" />
-        <UInput color="neutral" variant="subtle" size="xl" placeholder="کدملی" />
+        <UInput v-model="userInfo.fullname" color="neutral" variant="subtle" size="xl" placeholder="نام و نام خانوادگی" />
+        <UInput v-model="userInfo.nationalCode" color="neutral" variant="subtle" size="xl" placeholder="کدملی" />
         <UInput color="neutral" variant="subtle" size="xl" placeholder="شماره موبایل" readonly disabled />
-        <UInput color="neutral" variant="subtle" size="xl" placeholder="ایمیل" />
-        <UInputDate :is-date-unavailable="isDateUnavailable" color="neutral" variant="subtle" size="xl" />
-        <UInput color="neutral" variant="subtle" size="xl" placeholder="کدپستی" />
+        <UInput v-model="userInfo.email" color="neutral" variant="subtle" size="xl" placeholder="ایمیل" />
+        <UInputDate v-model="userInfo.birthDate" :is-date-unavailable="isDateUnavailable" color="neutral" variant="subtle" size="xl" />
+        <UInput v-model="userInfo.postalCode" color="neutral" variant="subtle" size="xl" placeholder="کدپستی" />
       </div>
     </template>
     <template #footer>
       <div class="flex gap-2">
-        <UButton color="neutral" size="xl" variant="solid" label="بررسی اطلاعات" @click="emit('close', true)" />
+        <UButton color="neutral" size="xl" variant="solid" label="بررسی اطلاعات" @click="checkData" />
       </div>
     </template>
   </UModal>
@@ -65,4 +65,33 @@ const isDateUnavailable = (date: DateValue) => {
 }
 
 
+const userInfo = reactive({
+  fullname: null,
+  nationalCode: null,
+  email: null,
+  birthDate: null,
+  postalCode: null
+})
+
+
+const checkData = async () => {
+
+  
+  try {
+    const res = await $fetch('/api/user-information', {
+      method:'POST',
+      body: userInfo,
+      headers:{
+        'Content-Type':'application/json'
+      }
+    })
+
+    console.log(res);
+    
+  } catch (error) {
+    console.log(error);
+    
+  }
+  
+}
 </script>
