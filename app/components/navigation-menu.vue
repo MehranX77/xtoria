@@ -123,7 +123,7 @@
                   <p v-if="totalPriceForPay" class="text-xl dark:text-slate-50 text-slate-700">{{ numberFormater(totalPriceForPay) }} تومان</p>
                   <p v-else class="text-sm dark:text-slate-50 text-slate-700">سبد خرید خالی است!</p>
                 </div>
-                <UButton v-if="totalPriceForPay" :to="{ name: 'checkout-cart', params: { id: '1' } }" color="success"
+                <UButton v-if="totalPriceForPay" :to="{ name: 'checkout-cart'}" color="success"
                   class="md:w-30 place-content-center-safe" variant="solid">ثبت سفارش</UButton>
               </div>
             </template>
