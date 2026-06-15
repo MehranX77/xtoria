@@ -78,7 +78,7 @@
             </div>
           </div>
         </div>
-
+          <!-- منوی سبد خرید کاربر -->
         <div dir="ltr" class="flex self-center gap-x-3">
           <USlideover side="left" inset title="سبد خرید">
             <UChip color="error" :text="products?.length || 0" size="3xl">
@@ -86,12 +86,12 @@
             </UChip>
             <template #body>
               <div v-if="products?.length > 0" class="min-w-96 min-h-96 size-full">
-                <div v-for="(product, index) in products" :key="product?.productId" class="flex gap-x-3 w-full">
-                  <NuxtImg src="monitor.png" width="80" height="80" class="max-h-20" />
+                <div v-for="(product, index) in products" :key="product?.id" class="flex gap-x-3 w-full">
+                  <NuxtImg :src="`${baseURLAssets}${product.product?.images[0].image}`" width="80" height="80" class="max-h-20" />
                   <div class="w-full">
                     <span
                       class="text-slate-700 dark:text-slate-50 font-black dark:font-medium text-wrap line-clamp-2 text-sm/8">{{
-                      product?.productName }}</span>
+                      product.product?.name }}</span>
                     <div class="mt-3">
                       <p class="text-muted text-nowrap">
                         <UIcon name="icon-park-twotone:color-filter" class="align-middle me-1" /> {{
@@ -132,6 +132,7 @@
           <UColorModeSwitch class="m-auto" />
           <UButton class="text-2xl" color="neutral" variant="subtle" icon="i-lucide-search" />
         </div>
+
       </div>
       <!-- mobile navigation -->
 
@@ -159,7 +160,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { LazyMobileSlideover } from '#components'
 
 import { addToBasket } from '../stores/index'
@@ -167,6 +168,7 @@ const { authUser } = useAuth()
 const overlay = useOverlay()
 const slideover = overlay.create(LazyMobileSlideover)
 const store = addToBasket()
+const {public:{baseURLAssets}} = useRuntimeConfig()
 
 async function open() {
   const instance = slideover.open()
@@ -219,11 +221,15 @@ const products = computed(() => {
   return store.showProduct
 })
 
+console.log(products.value);
+
+
+
 // محاسبه قیمت جزء و قیمت نهایی
 
 const totalPrice = computed(() => {
-  return store.basketCart?.map((item) => {
-    return (item?.price * item?.qty)
+  return store.basketCart?.map((item) => {    
+    return (item?.price * item?.qty || item?.price * 1)
   })
 })
 
@@ -239,6 +245,15 @@ const totalPriceForPay = computed(() => {
 })
 
 
+
+  const getBasketList = async () => {
+     await store.getBasketList()
+  }
+
+  console.log(getBasketList());
+  
+
+getBasketList()
 
 </script>
 

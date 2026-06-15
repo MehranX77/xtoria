@@ -264,13 +264,13 @@ const tabsItem = [
 // ***************End Carousel And Tabs Items **********************
 
 // ***************Add To Basket Code **********************
-const AddToBasket = (id: number) => {
+const AddToBasket = async (id: number) => {
     if (authUser.value !== null) {
-        const res = store.showProduct.find(item => Number(item?.productId) === id)
+        const res = store.showProduct.find(item => Number(item?.id) === id)
         if (res !== undefined) {
         return false
         }else{
-            store.addToBasket(options)
+          await store.addToBasket(options)
             toast.add({
                 description: 'کالا به سبد خرید اضافه شد'
             })

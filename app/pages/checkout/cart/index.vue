@@ -11,10 +11,11 @@
                             class="place-content-center hover:cursor-pointer">ویرایش</UButton>
                     </div>
 
-                    <div class="dark:bg-slate-700 bg-slate-50 rounded-lg p-4 flex flex-col gap-y-4 basis-full max-h-fit">
+                    <div
+                        class="dark:bg-slate-700 bg-slate-50 rounded-lg p-4 flex flex-col gap-y-4 basis-full max-h-fit">
                         <div class="flex justify-between">
                             <span class="text-sm">تعداد کالاها</span>
-                            <span class="text-muted">5</span>
+                            <span class="text-muted">{{ res.data.results?.length || 0 }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-sm">جمع سبد خرید</span>
@@ -26,10 +27,11 @@
                         </div>
                         <UButton size="xl" color="error" variant="solid"
                             class="place-content-center hover:cursor-pointer">تایید و پرداخت وجه</UButton>
+
+
                     </div>
                 </div>
                 <!-- باکس محصولات -->
-
 
                 <div class="dark:bg-slate-700 bg-slate-50 rounded-lg p-4 grow h-fit lg:order-2 order-1">
                     <div class="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 gap-3 w-full">
@@ -60,17 +62,22 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 useHead({
     bodyAttrs: {
         'class': 'bg-slate-100 dark:bg-slate-900'
     }
 })
 
-const route = useRoute()
+    const res = await $fetch('/api/basket-list', {
+        method: 'GET',
+        headers: useRequestHeaders(['cookie'])
+    })
+
+    console.log(res.data);
 
 
-console.log(route.params.slug);
+
 
 </script>
 

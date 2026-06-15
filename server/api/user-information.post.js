@@ -11,7 +11,7 @@ export default defineEventHandler(async(event) => {
             method:'PATCH',
             headers:{
                 'Authorization': `Bearer ${token}`,
-                'Content-Type': 'Application/json'
+                'Content-Type': 'application/json'
             },
             body:{
                 first_name: fullname,
