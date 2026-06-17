@@ -18,26 +18,20 @@ export const addToBasket = defineStore('add-to-basket', {
             basketqty: basket?.qty
           }
         })
-        console.log(res?.data);
-
         this.basketCart.push(res?.data)
       } catch (error) {
         return error.data
       }
     },
-
-    async getBasketList() {
-      try {
-        const res = await $fetch('/api/basket-list', {
-          method: 'GET',
-          headers: useRequestHeaders(['cookie'])
-        })
-        this.basketCart.push(res?.data)
-        console.log('result from pinia', res);
-
-      } catch (error) {
-        return error
-      }
+    basketListHandler(p){
+      // console.log('len:', p.length == false);
+      
+      console.log('basket list array:', this.basketCart);
+      if(p.length){
+        this.basketCart = []
+        this.basketCart.push(...p)
+        console.log('product list from pinia', p);
+       }
     }
   }
 })

@@ -87,25 +87,24 @@
             <template #body>
               <div v-if="products?.length > 0" class="min-w-96 min-h-96 size-full">
                 <div v-for="(product, index) in products" :key="product?.id" class="flex gap-x-3 w-full">
-                  <NuxtImg :src="`${baseURLAssets}${product.product?.images[0].image}`" width="80" height="80" class="max-h-20" />
+                  <!-- {{ product.product.product.picture }} -->
+                  <NuxtImg :src="`${product.product.product.picture}`" width="80" height="80" class="max-h-20" />
                   <div class="w-full">
-                    <span
-                      class="text-slate-700 dark:text-slate-50 font-black dark:font-medium text-wrap line-clamp-2 text-sm/8">{{
-                      product.product?.name }}</span>
+                    <span class="text-slate-700 dark:text-slate-50 font-black dark:font-medium text-wrap line-clamp-2 text-sm/8">{{ product.product.product.name }}</span>
                     <div class="mt-3">
-                      <p class="text-muted text-nowrap">
+                      <!-- <p class="text-muted text-nowrap">
                         <UIcon name="icon-park-twotone:color-filter" class="align-middle me-1" /> {{
                         product?.productColor }}
-                      </p>
+                      </p> -->
                       <p class="text-muted text-nowrap mt-2">
                         <UIcon name="akar-icons:truck" class="align-middle me-1 text-green-500" /> ارسال ایکستور
                       </p>
                       <p class="text-xl dark:text-slate-50 text-slate-800 text-end mt-3">{{
-                        numberFormater(product?.price) }} تومان</p>
+                        numberFormater(product.product.price) }} تومان</p>
                       <div class="flex justify-between items-center w-full">
-                        <UInputNumber :default-value="product?.qty" disabled class="w-25" variant="subtle" />
+                        <UInputNumber :default-value="product.quantity" disabled class="w-25" variant="subtle" />
                         <p v-if="product?.discount" class="text-sm dark:text-rose-400 text-rose-500 text-end mt-2">{{
-                          numberFormater(product?.discount) }} تومان تخفیف</p>
+                          numberFormater(product.product?.discount) }} تومان تخفیف</p>
                       </div>
                     </div>
                     <USeparator class="my-4" />
@@ -218,10 +217,10 @@ const activeCategory = computed(() => {
 
 // نمایش تعداد محصولات افزوده شده به سبد خرید
 const products = computed(() => {
-  return store.showProduct
+  return store.showProduct || null
 })
 
-console.log(products.value);
+console.log('product list: ',products.value);
 
 
 
@@ -229,7 +228,7 @@ console.log(products.value);
 
 const totalPrice = computed(() => {
   return store.basketCart?.map((item) => {    
-    return (item?.price * item?.qty || item?.price * 1)
+    return (item?.price * item?.quantity || item?.price * 1)
   })
 })
 
@@ -244,16 +243,6 @@ const totalPriceForPay = computed(() => {
 
 })
 
-
-
-  const getBasketList = async () => {
-     await store.getBasketList()
-  }
-
-  console.log(getBasketList());
-  
-
-getBasketList()
 
 </script>
 

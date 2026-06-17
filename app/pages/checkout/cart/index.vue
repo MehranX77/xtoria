@@ -15,7 +15,7 @@
                         class="dark:bg-slate-700 bg-slate-50 rounded-lg p-4 flex flex-col gap-y-4 basis-full max-h-fit">
                         <div class="flex justify-between">
                             <span class="text-sm">تعداد کالاها</span>
-                            <span class="text-muted">{{ res.data.results?.length || 0 }}</span>
+                            <span class="text-muted">{{ res.data?.results?.length || 0 }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-sm">جمع سبد خرید</span>

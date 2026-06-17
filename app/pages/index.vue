@@ -10,7 +10,7 @@
                     <h3 class="text-xl dark:text-slate-300">جدیدترین کالاها</h3>
                     <UCarousel v-slot="{ item }" dir="ltr" class="mt-4" :items="homeData?.data?.newest" arrows loop autoplay :ui="{ item: 'xl:basis-1/3 md:basis-1/2', controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2' }" :prev-icon="prevIcon" :next-icon="nextIcon">
                         <div class="flex flex-col gap-y-2 bg-slate-50 dark:bg-slate-700 items-center rounded-lg">
-                            <NuxtImg :src="`${baseURLAssets}${item?.product?.picture}`" width="340" height="340" class="rounded-lg md:max-w-46 md:mx-0 max-w-44 mx-auto" />
+                            <NuxtImg :src="`${baseURLAssets}${item?.product?.picture}`" class="rounded-lg md:max-w-46 max-w-30 md:max-h-46 max-h-30 bg-cover md:mx-0 mx-auto" />
                             <span class="text-sm font-bold text-center">{{ item?.product?.name }}</span>
                             <span v-html="item?.product?.description" class="text-sm text-muted text-center" />
                             <UButton :to="{ name: 'products-slug', params: { slug: item?.slug }, query: { p_id: item?.id } }" dir="rtl" color="neutral" variant="soft" size="lg" class="rounded-lg place-content-center w-[86%] mx-auto mb-1"> {{numberFormater(item?.price) }} تومن</UButton>
