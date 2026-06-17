@@ -71,7 +71,7 @@
 
             <!-- banners -->
              <div class="grid md:grid-cols-2 grid-cols-1 mt-10 gap-x-3">
-                <NuxtImg class="rounded-lg" v-for="banner in banner1" :key="banner.id" :src="`${baseURLAssets}${banner?.media}`"/>
+                <NuxtImg class="rounded-lg self-center max-w-full w-full md:max-h-52 bg-cover" v-for="banner in banner1" :key="banner.id" :src="`${baseURLAssets}${banner?.media}`"/>
              </div>
 
             <div class="my-8">
@@ -89,7 +89,7 @@
             </div>
             <div
                 class="md:grid md:grid-cols-2 hidden gap-x-4 mt-30 border dark:border-slate-700/70 border-slate-200 lg:p-5 p-3">
-                <NuxtImg v-for="banner in banner2" :key="banner.id" :src="`${baseURL}${banner?.media}`" class="lg:w-full rounded-lg border-r dark:border-slate-700/70 border-slate-200 lg:h-87.5 w-65 h-65 mx-auto" />
+                <NuxtImg v-for="banner in banner2" :key="banner.id" :src="`${baseURLAssets}${banner?.media}`" class="lg:w-full rounded-lg border-r dark:border-slate-700/70 border-slate-200 lg:h-87.5 w-65 h-65 mx-auto bg-cover" />
             </div>
 
             <div class="bg-slate-100 dark:bg-slate-800 rounded-lg shadow p-4 h-fit md:mt-8 mt-14">
