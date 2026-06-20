@@ -5,8 +5,13 @@
                 <!-- ساید باکس -->
                 <div class="flex flex-col gap-3 lg:basis-xs basis-full lg:order-1 order-2 ">
                     <div class="dark:bg-slate-700 bg-slate-50 rounded-lg p-4 flex flex-col gap-y-2">
-                        <h3 class="text-md font-bold text-slate-600 dark:text-slate-200">آدرس فعلی شما</h3>
-                        <span class="text-muted text-justify">کرمانشاه شهرک پردیس کوی 276 قطعه شمالی ضلع پنجم</span>
+                        <div class="flex justify-between">
+                            <h3 class="text-md font-bold text-slate-600 dark:text-slate-200 self-center-safe">آدرس فعلی شما</h3>
+                            <UBadge color="secondary" variant="solid">آدرس اصلی</UBadge>
+                        </div>
+                        <template v-for="Address in address.data.results" :key="Address.id">
+                            <span v-if="Address.main_address" class="text-muted text-justify my-4">{{ Address?.province }} {{ Address?.city }} - {{ Address?.address_line }}</span>
+                        </template>
                         <UButton to="/user/address" variant="outline" color="neutral" size="xl"  class="place-content-center hover:cursor-pointer">ویرایش</UButton>
                     </div>
 
@@ -18,11 +23,11 @@
                         </div>
                         <div class="flex justify-between">
                             <span class="text-sm">جمع سبد خرید</span>
-                            <span class="font-bold text-sm">1/000/000 تومان</span>
+                            <span class="font-bold text-sm">{{ numberFormater(totalPriceForPay) || 0 }} تومان</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-sm text-green-500">سود شما از خرید</span>
-                            <span class="text-green-500 text-sm">500/000 تومان</span>
+                            <span class="text-green-500 text-sm">{{ numberFormater(Tbonouse) }} تومان</span>
                         </div>
                         <UButton size="xl" color="error" variant="solid"
                             class="place-content-center hover:cursor-pointer">تایید و پرداخت وجه</UButton>
@@ -61,6 +66,8 @@
 
 <script setup>
 import { addToBasket } from '../../../stores/index'
+const { data: address } = await useFetch('/api/user-address')
+console.log(address.value);
 useHead({
     bodyAttrs: {
         'class': 'bg-slate-100 dark:bg-slate-900'
@@ -77,6 +84,38 @@ const store = addToBasket()
 const products = computed(() => {
   return store.showProduct || null
 })
+
+const totalPrice = computed(() => {
+  return store.basketCart?.map((item) => {    
+    return (item?.price * item?.quantity || item?.price * 1) - item?.discount
+  })
+})
+
+const totalPriceForPay = computed(() => {
+  if (totalPrice.value.length <= 0) {
+    return false
+  } else {
+    return totalPrice?.value?.reduce((cu = 0, to = 0) => {
+      return cu + to
+    }, 0)
+  }
+
+})
+
+
+const bonouse = computed(() => {
+    return store.basketCart.map((item) => {
+        return item.discount
+        
+    })
+})
+
+const Tbonouse = computed(() => {
+    return bonouse.value.reduce((current=0, total=0)=>{
+        return current + total
+    })
+})
+
 
 </script>
 

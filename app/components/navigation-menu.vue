@@ -227,7 +227,7 @@ console.log('product list: ',products.value);
 
 const totalPrice = computed(() => {
   return store.basketCart?.map((item) => {    
-    return (item?.price * item?.quantity || item?.price * 1)
+    return (item?.price * item?.quantity || item?.price * 1) - item?.discount
   })
 })
 
