@@ -42,7 +42,7 @@ export const addToBasket = defineStore('add-to-basket', {
         this.basketCart = []
         for (let item = 0; item <= p.length; item++) {
           this.basketCart.push({
-            discount: p[item].basket,
+            discount: p[item].discount,
             id: p[item].id,
             name: p[item].product.product.name,
             price: p[item].product.price,

@@ -10,7 +10,7 @@
                     <h3 class="text-xl dark:text-slate-300">جدیدترین کالاها</h3>
                     <UCarousel v-slot="{ item }" dir="ltr" class="mt-4" :items="homeData?.data?.newest" arrows loop autoplay :ui="{ item: 'xl:basis-1/3 md:basis-1/2', controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2' }" :prev-icon="prevIcon" :next-icon="nextIcon">
                         <div class="flex flex-col gap-y-2 bg-slate-50 dark:bg-slate-700 items-center rounded-lg">
-                            <NuxtImg :src="`${baseURLAssets}${item?.product?.picture}`" class="rounded-lg md:max-w-46 max-w-30 md:max-h-46 max-h-30 bg-cover md:mx-0 mx-auto" />
+                            <NuxtImg :src="`${baseURLAssets}${item?.product?.picture}`" class="rounded-lg md:min-w-46 md:min-h-46 md:max-w-46 max-w-30 md:max-h-46 max-h-30 bg-cover md:mx-0 mx-auto" />
                             <span class="text-sm font-bold text-center">{{ item?.product?.name }}</span>
                             <span v-html="item?.product?.description" class="text-sm text-muted text-center" />
                             <UButton :to="{ name: 'products-slug', params: { slug: item?.slug }, query: { p_id: item?.id } }" dir="rtl" color="neutral" variant="soft" size="lg" class="rounded-lg place-content-center w-[86%] mx-auto mb-1"> {{numberFormater(item?.price) }} تومن</UButton>
@@ -89,7 +89,7 @@
             </div>
             <div
                 class="md:grid md:grid-cols-2 hidden gap-x-4 mt-30 border dark:border-slate-700/70 border-slate-200 lg:p-5 p-3">
-                <NuxtImg v-for="banner in banner2" :key="banner.id" :src="`${baseURLAssets}${banner?.media}`" class="lg:w-full rounded-lg border-r dark:border-slate-700/70 border-slate-200 lg:h-87.5 w-65 h-65 mx-auto bg-cover" />
+                <NuxtImg v-for="banner in banner2" :key="banner.id" :src="`${baseURLAssets}${banner?.media}`" class="lg:w-full rounded-lg border-r dark:border-slate-700/70 border-slate-200 lg:h-87.5 w-55 h-40 mx-auto bg-cover" />
             </div>
 
             <div class="bg-slate-100 dark:bg-slate-800 rounded-lg shadow p-4 h-fit md:mt-8 mt-14">
@@ -99,8 +99,8 @@
                     :ui="{ item: 'xl:basis-1/7 lg:basis-1/4 md:basis-1/3', controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2' }"
                     :prev-icon="prevIcon" :next-icon="nextIcon">
                     <div class="flex flex-col items-center gap-y-2 bg-slate-50 dark:bg-slate-700">
-                        <NuxtImg :src="item?.product?.picture" width="340" height="340"
-                            class="rounded-lg md:max-w-46 md:mx-0 max-w-44 mx-auto" />
+                        <NuxtImg :src="`${baseURLAssets}${item?.product?.picture}`" 
+                            class="rounded-lg md:min-w-46 md:min-h-46 md:max-w-46 max-w-30 md:max-h-46 max-h-30 bg-cover  md:mx-0 mx-auto" />
                         <span class="text-sm font-bold text-center">{{ item?.product?.name }}</span>
                         <span v-html="item?.product?.description" class="text-sm text-muted text-center" />
                         <UButton :to="{ name: 'products-slug', params: { slug: item?.slug }, query: { p_id: item?.id } }"

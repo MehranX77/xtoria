@@ -6,10 +6,7 @@ export default defineNuxtPlugin(async (nuxtApp) =>{
             method:'GET',
             headers: useRequestHeaders(['cookie'])
         })
-         
         store.basketListHandler(res.data.results)
-
-        console.log('log res basket data from plugin:', res.data.results);
     } catch (error) {
         console.log(error);
     }

@@ -122,8 +122,7 @@
                   <p v-if="totalPriceForPay" class="text-xl dark:text-slate-50 text-slate-700">{{ numberFormater(totalPriceForPay) }} تومان</p>
                   <p v-else class="text-sm dark:text-slate-50 text-slate-700">سبد خرید خالی است!</p>
                 </div>
-                <UButton v-if="totalPriceForPay" :to="{ name: 'checkout-cart'}" color="success"
-                  class="md:w-30 place-content-center-safe" variant="solid">ثبت سفارش</UButton>
+                <UButton v-if="totalPriceForPay" color="success" class="md:w-30 place-content-center-safe" variant="solid" @click="() => navigateTo('/checkout/cart')">ثبت سفارش</UButton>
               </div>
             </template>
           </USlideover>
@@ -159,9 +158,8 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { LazyMobileSlideover } from '#components'
-
 import { addToBasket } from '../stores/index'
 const { authUser } = useAuth()
 const overlay = useOverlay()
@@ -173,6 +171,7 @@ async function open() {
   const instance = slideover.open()
   await instance.result
 }
+
 
 const { res } = useScroll()
 
