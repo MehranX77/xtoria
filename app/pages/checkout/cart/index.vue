@@ -15,7 +15,7 @@
                         class="dark:bg-slate-700 bg-slate-50 rounded-lg p-4 flex flex-col gap-y-4 basis-full max-h-fit">
                         <div class="flex justify-between">
                             <span class="text-sm">تعداد کالاها</span>
-                            <span class="text-muted">{{ res.data?.results?.length || 0 }}</span>
+                            <span class="text-muted">{{ products.length }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-sm">جمع سبد خرید</span>
@@ -63,21 +63,23 @@
 </template>
 
 <script setup>
+import { addToBasket } from '../../../stores/index'
 useHead({
     bodyAttrs: {
         'class': 'bg-slate-100 dark:bg-slate-900'
     }
 })
 
-    const res = await $fetch('/api/basket-list', {
-        method: 'GET',
-        headers: useRequestHeaders(['cookie'])
-    })
-
-    console.log(res.data);
+definePageMeta({
+    middleware:['auth-middleware']
+})
 
 
+const store = addToBasket()
 
+const products = computed(() => {
+  return store.showProduct || null
+})
 
 </script>
 

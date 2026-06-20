@@ -88,9 +88,9 @@
               <div v-if="products?.length > 0" class="min-w-96 min-h-96 size-full">
                 <div v-for="(product, index) in products" :key="product?.id" class="flex gap-x-3 w-full">
                   <!-- {{ product.product.product.picture }} -->
-                  <NuxtImg :src="`${product.product.product.picture}`" width="80" height="80" class="max-h-20" />
+                  <NuxtImg :src="`${product?.picture}`" width="80" height="80" class="max-h-20" />
                   <div class="w-full">
-                    <span class="text-slate-700 dark:text-slate-50 font-black dark:font-medium text-wrap line-clamp-2 text-sm/8">{{ product.product.product.name }}</span>
+                    <span class="text-slate-700 dark:text-slate-50 font-black dark:font-medium text-wrap line-clamp-2 text-sm/8">{{ product?.name }}</span>
                     <div class="mt-3">
                       <!-- <p class="text-muted text-nowrap">
                         <UIcon name="icon-park-twotone:color-filter" class="align-middle me-1" /> {{
@@ -100,11 +100,11 @@
                         <UIcon name="akar-icons:truck" class="align-middle me-1 text-green-500" /> ارسال ایکستور
                       </p>
                       <p class="text-xl dark:text-slate-50 text-slate-800 text-end mt-3">{{
-                        numberFormater(product.product.price) }} تومان</p>
+                        numberFormater(product?.price) }} تومان</p>
                       <div class="flex justify-between items-center w-full">
                         <UInputNumber :default-value="product.quantity" disabled class="w-25" variant="subtle" />
                         <p v-if="product?.discount" class="text-sm dark:text-rose-400 text-rose-500 text-end mt-2">{{
-                          numberFormater(product.product?.discount) }} تومان تخفیف</p>
+                          numberFormater(product?.discount) }} تومان تخفیف</p>
                       </div>
                     </div>
                     <USeparator class="my-4" />

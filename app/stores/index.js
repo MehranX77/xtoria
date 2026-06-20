@@ -18,20 +18,42 @@ export const addToBasket = defineStore('add-to-basket', {
             basketqty: basket?.qty
           }
         })
-        this.basketCart.push(res?.data)
+        console.log(res.data);
+        
+        this.basketCart.push({
+          discount: res.data.discount,
+          id: res.data.id,
+          price: res.data?.price,
+          name: res.data.product?.name,
+          picture: res.data.product?.picture,
+          brand: res.data.brand?.name,
+          isFamous: res.data.brand?.is_famous,
+          description: res.data.product?.description,
+          score: res.data.product?.score,
+          specialDiscount: res.data?.special_discount,
+          quantity:1
+        })
       } catch (error) {
         return error.data
       }
     },
-    basketListHandler(p){
-      // console.log('len:', p.length == false);
-      
-      console.log('basket list array:', this.basketCart);
-      if(p.length){
+    basketListHandler(p) {
+      if (p.length) {
         this.basketCart = []
-        this.basketCart.push(...p)
-        console.log('product list from pinia', p);
-       }
+        for (let item = 0; item <= p.length; item++) {
+          this.basketCart.push({
+            discount: p[item].basket,
+            id: p[item].id,
+            name: p[item].product.product.name,
+            price: p[item].product.price,
+            picture: p[item].product.product.picture,
+            brand: p[item].product.product.brand,
+            description: p[item].product.product.description,
+            score: p[item].product.product.score,
+            quantity:p[item].quantity
+          })
+        }
+      }
     }
   }
 })

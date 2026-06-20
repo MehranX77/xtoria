@@ -9,7 +9,7 @@ export default defineNuxtPlugin(async (nuxtApp) =>{
          
         store.basketListHandler(res.data.results)
 
-        console.log('log res basket data from plugin:', ...res.data.results);
+        console.log('log res basket data from plugin:', res.data.results);
     } catch (error) {
         console.log(error);
     }
