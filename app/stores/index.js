@@ -15,14 +15,14 @@ export const addToBasket = defineStore('add-to-basket', {
           method: 'POST',
           body: {
             basketId: basket?.productId,
-            basketqty: basket?.qty
+            basketqty: basket?.quantity
           }
         })
-        console.log(res.data);
-        
+       
         this.basketCart.push({
           discount: res.data.discount,
           id: res.data.id,
+          pId:res.data.product.id,
           price: res.data?.price,
           name: res.data.product?.name,
           picture: res.data.product?.picture,
@@ -31,7 +31,7 @@ export const addToBasket = defineStore('add-to-basket', {
           description: res.data.product?.description,
           score: res.data.product?.score,
           specialDiscount: res.data?.special_discount,
-          quantity:1
+          quantity:res.data.quantity
         })
       } catch (error) {
         return error.data

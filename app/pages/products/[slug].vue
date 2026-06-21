@@ -61,7 +61,8 @@
                                         <USelect v-model="options.selectedBranch" size="xl" :items="branch" class="w-full" />
                                     </UFormField>
                                     <UFormField orientation="horizontal" label="تعداد" class="lg:text-xl text-base">
-                                        <UInputNumber v-model="options.qty" size="xl" :min="1" />
+                                        <UInputNumber v-model="options.quantity" size="xl" :min="1" />
+                                        {{ options.quantity }}
                                     </UFormField>
                                 </div>
                                 <UFormField label="انتخاب گارانتی" required :hint="product?.data?.guanranty[0].name + '!'" class="space-y-4 lg:text-xl text-base" :ui="{hint:'text-rose-500 text-sm font-bold'}">
@@ -217,7 +218,7 @@ const options = reactive({
  price:product.value?.data.price || 0,
  discount:product.value?.data.discount || 0,
  selectedBranch: 'شعبه مطهری',
- qty: 1,
+ quantity: 0,
  selectedGuanranty:'',
 })
 
@@ -265,8 +266,8 @@ const tabsItem = [
 
 // ***************Add To Basket Code **********************
 const AddToBasket = async (id: number) => {
-    if (authUser.value !== null) {
-        const res = store.showProduct.find(item => Number(item?.id) === id)
+    if (authUser.value !== null) {        
+        const res = store.showProduct.find(item => Number(item.pId) === id)
         if (res !== undefined) {
         return false
         }else{

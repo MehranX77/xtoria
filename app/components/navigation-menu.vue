@@ -102,7 +102,7 @@
                       <p class="text-xl dark:text-slate-50 text-slate-800 text-end mt-3">{{
                         numberFormater(product?.price) }} تومان</p>
                       <div class="flex justify-between items-center w-full">
-                        <UInputNumber :default-value="product.quantity" disabled class="w-25" variant="subtle" />
+                        <UInputNumber :default-value="product.quantity" disabled readonly class="w-25" variant="subtle" />
                         <p v-if="product?.discount" class="text-sm dark:text-rose-400 text-rose-500 text-end mt-2">{{
                           numberFormater(product?.discount) }} تومان تخفیف</p>
                       </div>
