@@ -11,8 +11,8 @@
             </UBreadcrumb>
 
             <!-- بنر پیشنهاد شده -->
-                 <UBanner v-if="product?.data?.suggested" title="پیشنهاد شگفت انگیز"  color="error" class="rounded-md mt-4" :ui="{title:'font-bold'}"/>
-                <UBanner v-if="product?.data?.special_discount" title="تخفیف ویژه"   color="success" class="rounded-md mt-4" :ui="{title:'font-bold'}"/>
+                 <UBanner v-if="product?.data?.suggested" title="پیشنهاد شگفت انگیز"  color="error" class="rounded-md mt-4 z-0" :ui="{title:'font-bold'}"/>
+                <UBanner v-if="product?.data?.special_discount" title="تخفیف ویژه"   color="success" class="rounded-md mt-4 z-0" :ui="{title:'font-bold'}"/>
             <div class="flex lg:flex-nowrap flex-wrap gap-x-3">
 
                 <div class="flex lg:flex-col gap-y-2 mt-5 lg:order-first order-last">
@@ -65,7 +65,7 @@
                                         {{ options.quantity }}
                                     </UFormField>
                                 </div>
-                                <UFormField label="انتخاب گارانتی" required :hint="product?.data?.guanranty[0].name + '!'" class="space-y-4 lg:text-xl text-base" :ui="{hint:'text-rose-500 text-sm font-bold'}">
+                                <UFormField label="انتخاب گارانتی" required :hint="product?.data?.guanranty[0].days + ' روز گارانتی '" class="space-y-4 lg:text-xl text-base" :ui="{hint:'text-rose-500 text-sm font-bold'}">
                                     <URadioGroup v-for="(key,index) in product?.data?.guanranty" :key="index" v-model="options.selectedGuanranty" size="xl" dir="rtl" class="text-end w-fit " :items="[key.name]" color="neutral"/>
                                 </UFormField>
                                 <div class="flex gap-x-3">

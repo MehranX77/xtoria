@@ -124,7 +124,7 @@ watch(selectedAddress, async (newVal, oldVal) => {
         if (addressStatus?.status == 200) {
             toast.add({
                 title: 'ارسال موفق',
-                description: `آیتم شماره ${newVal} ارسال شد`
+                description: `آدرس به آیدی شماره ${newVal} بروزرسانی شد`
             })
         } else {
             toast.add({
@@ -176,6 +176,18 @@ const newAddress = async () => {
 
         body: createNewAddress
     })
+    if (res.value.status === 201) {
+        toast.add({
+            title: 'عملیات موفق',
+            description: 'آدرس با موفقیت ثبت شد'
+        })
+    } else {
+        toast.add({
+            title: 'خطایی رخ داد',
+            description: 'آدرس ثبت نشد، مجدداٌ ثبت کنید.',
+            color: 'error'
+        })
+    }
     console.log(res);
 }
 

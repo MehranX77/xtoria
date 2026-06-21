@@ -15,36 +15,23 @@
                             <span v-html="item?.product?.description" class="text-sm text-muted text-center" />
                             <UButton :to="{ name: 'products-slug', params: { slug: item?.slug }, query: { p_id: item?.id } }" dir="rtl" color="neutral" variant="soft" size="lg" class="rounded-lg place-content-center w-[86%] mx-auto mb-1"> {{numberFormater(item?.price) }} تومن</UButton>
                         </div>
-<!-- {{ homeData?.data?.newest }} -->
 
                     </UCarousel>
                 </div>
 
                 <div class="bg-slate-100 dark:bg-slate-800 rounded-lg shadow p-4">
                     <h3 class="text-xl text-rose-500">تخفیف های ویژه</h3>
-                    <UCarousel v-slot="{ item }" dir="ltr" class="mt-4" :items="homeData?.data?.special_discount" arrows loop autoplay dots :ui="{ controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2', dots: 'absolute md:-bottom-38 -bottom-60 md:flex hidden', dot: 'w-10 h-1.5' }" :prev-icon="prevIcon" :next-icon="nextIcon">
-                        <div class="discount-card w-full rounded-lg h-full bg-white dark:bg-slate-700 p-4">
-                            <UBadge v-if="item?.discount" size="md" color="error" variant="soft" class="text-sm">50% OFF </UBadge>
-                            <div class="flex justify-between gap-x-5">
-                                <div class="flex flex-col justify-between text-end gap-y-2">
-                                    <h2 class="lg:text-xl">{{ item?.product?.name }}</h2>
-                                    <span v-html="item?.product?.description"
-                                        class="text-base text-muted line-clamp-2" />
-                                    <div class="flex justify-start gap-x-5">
-                                        <UButton dir="rtl" class="lg:w-50 place-content-center lg:text-xl rounded-md"
-                                            color="error" variant="subtle">{{ numberFormater(item?.price) }}</UButton>
-                                        <span v-if="item?.discount"
-                                            class="self-center text-xl line-through text-muted">{{ item?.discount
-                                            }}</span>
-                                    </div>
-                                    <Countdown class="text-start font-bold text-xl text-rose-500"
-                                        :date="new Date('feb 14, 2026 16:50:30')" v-slot="{ hours, minutes, seconds }">
-                                        {{ hours }} : {{ minutes }} : {{ seconds }}
-                                    </Countdown>
-                                </div>
-                                <NuxtImg :src='`${baseURLAssets}${item?.product?.picture}`'
-                                    class="aspect-square xl:min-w-56 xl:max-w-56 xl:min-h-56 xl:max-h-56 lg:min-w-46 lg:max-w-46 lg:min-h-46 lg:max-h-46 md:w-65 md:h-65 w-45 h-45 mx-auto" />
-                            </div>
+                    <UCarousel v-slot="{ item }" dir="ltr" class="mt-4" :items="homeData?.data?.special_discount" arrows loop  dots :ui="{ controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2', dots: 'absolute md:-bottom-38 -bottom-60 md:flex hidden', dot: 'w-10 h-1.5' }" :prev-icon="prevIcon" :next-icon="nextIcon">
+                        <div class="bg-white dark:bg-slate-700 rounded-lg p-4 flex md:flex-row flex-col justify-between items-center">
+                           <NuxtImg :src='`${baseURLAssets}${item?.product?.picture}`' class="md:min-w-46 md:min-h-46 md:max-w-46 max-w-30 md:max-h-46 max-h-30 bg-cover rounded-lg" />
+                           <div dir="rtl" class="flex-col space-y-2 ">
+                            <UBadge v-if="item?.discount" size="md" color="error" variant="soft" class="text-sm ">50% OFF </UBadge>
+                            <h2 class="font-bold">{{ item?.product?.name }}</h2>
+                             <p class="font-bold line-clamp-2" v-html="item?.product?.description" />
+                             <span v-if="item?.discount" class="self-center text-xl line-through text-muted">{{ item?.discount }} تومان</span>
+                             <Countdown class="text-start font-bold text-xl text-rose-500" :date="new Date('feb 14, 2026 16:50:30')" v-slot="{ hours, minutes, seconds }">{{ hours }} : {{ minutes }} : {{ seconds }}</Countdown>
+                              <UButton :to="{ name: 'products-slug', params: { slug: item?.slug }, query: { p_id: item?.id } }" dir="rtl" class="place-content-center lg:text-xl rounded-md" color="error" variant="subtle">{{ numberFormater(item?.price) }} تومان</UButton>
+                           </div>                        
                         </div>
                     </UCarousel>
                 </div>

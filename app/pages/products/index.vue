@@ -66,7 +66,7 @@
                             <div class="flex flex-col gap-y-3">
                                 <ULink
                                     :to="{ name: 'products-slug', params: { slug: val?.slug }, query: { p_id: val?.id } }">
-                                    <NuxtImg :src="val?.product?.picture" width="170" height="170" class="mx-auto" />
+                                    <NuxtImg :src="val?.product?.picture" class="md:min-w-46 md:min-h-46 md:max-w-46 max-w-30 md:max-h-46 max-h-30 bg-cover rounded-lg mx-auto" />
                                 </ULink>
                                 <span v-html="val?.product?.description" class="text-muted text-sm line-clamp-2" />
                                 <div class="flex justify-between mt-5">
