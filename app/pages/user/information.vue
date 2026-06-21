@@ -81,6 +81,9 @@
 
 <script setup lang="ts">
 import { LazyInformationModal } from '#components';
+useHead({
+  title:'اطلاعات کاربری'
+})
     const { me } = useMyInfo()
     console.log(me.value);
     

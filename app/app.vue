@@ -10,6 +10,13 @@
     </UApp>
 </template>
 
+<script setup>
+useHead({
+  titleTemplate: (titleChunk) => {
+    return titleChunk ? titleChunk : 'xtore'
+  }
+})
+</script>
 
 <style>
 .page-enter-active,

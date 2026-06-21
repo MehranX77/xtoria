@@ -52,6 +52,11 @@ try {
   console.log(error);
 
 }
+
+useHead({
+  title:'پنل کاربری'
+})
+
 </script>
 
 <style scoped>

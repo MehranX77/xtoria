@@ -53,6 +53,9 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+  title:'سفارشات'
+})
 const headers = useRequestHeaders(['cookie'])
 try {
     const res = await $fetch('/api/order-list', {

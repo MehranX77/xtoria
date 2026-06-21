@@ -71,7 +71,8 @@ console.log(address.value);
 useHead({
     bodyAttrs: {
         'class': 'bg-slate-100 dark:bg-slate-900'
-    }
+    },
+    title:'تسویه حساب'
 })
 
 definePageMeta({

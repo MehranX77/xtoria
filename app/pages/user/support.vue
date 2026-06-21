@@ -75,6 +75,10 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+  title:'پشتیبانی'
+})
+
 const toast = useToast()
 
 const saveToClipboard = () => {

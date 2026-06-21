@@ -74,6 +74,11 @@
 
 <script setup lang="ts">
 import type { RadioGroupItem, DropdownMenuItem } from '@nuxt/ui';
+
+useHead({
+  title:'آدرس'
+})
+
 const token = useRequestHeaders(['cookie'])
 const toast = useToast()
 const currentAddress = ref()
