@@ -50,8 +50,7 @@
                                 <div class="flex gap-x-3">
                                     <UInputNumber class="" :default-value="product.quantity" disable-wheel-change disabled
                                         variant="subtle" />
-                                    <UButton size="xl" variant="ghost" color="error" class="text-xl"
-                                        icon="mynaui:trash" />
+                                    <UButton size="xl" variant="ghost" color="error" class="text-xl" icon="mynaui:trash" @click="removeFromBasketCart(product.id)"/>
                                 </div>
                             </div>
                             <NuxtImg class="lg:w-35 lg:h-35 md:w-20 md:h-20 w-15 h-15 lg:self-auto self-center rounded-lg"
@@ -64,7 +63,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { addToBasket } from '../../../stores/index'
 const { data: address } = await useFetch('/api/user-address')
 console.log(address.value);
@@ -117,6 +116,23 @@ const Tbonouse = computed(() => {
     })
 })
 
+
+// remove order from basket list
+const removeFromBasketCart = async (id:number) => {
+console.log(id);
+
+const res = await $fetch('/api/remove-basket', {
+    method:'POST',
+    headers: useRequestHeaders(['cookie']),
+    body:{
+        pId: id
+    }
+})
+
+console.log(res);
+
+
+}
 
 </script>
 
