@@ -66,6 +66,7 @@
 <script setup lang="ts">
 import { addToBasket } from '../../../stores/index'
 const { data: address } = await useFetch('/api/user-address')
+const toast = useToast()
 console.log(address.value);
 useHead({
     bodyAttrs: {
@@ -119,8 +120,6 @@ const Tbonouse = computed(() => {
 
 // remove order from basket list
 const removeFromBasketCart = async (id:number) => {
-console.log(id);
-
 const res = await $fetch('/api/remove-basket', {
     method:'POST',
     headers: useRequestHeaders(['cookie']),
@@ -129,7 +128,15 @@ const res = await $fetch('/api/remove-basket', {
     }
 })
 
-console.log(res);
+if(res.status == 204){
+    toast.add({
+       description: res?.message
+    })
+}else if(res.status !== 204){
+    throw showError({
+        message: res?.message
+    })
+}
 
 
 }

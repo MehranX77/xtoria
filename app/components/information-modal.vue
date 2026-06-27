@@ -5,7 +5,7 @@
     </template>
     <template #body>
       <div class="grid lg:grid-cols-2 grid-cols-1 gap-3">
-        <UInput v-model="userInfo.fullname" color="neutral" variant="subtle" size="xl" placeholder="نام و نام خانوادگی" />
+        <UInput v-model="userInfo.first_name" color="neutral" variant="subtle" size="xl" placeholder="نام و نام خانوادگی" />
         <UInput v-model="userInfo.nationalCode" color="neutral" variant="subtle" size="xl" placeholder="کدملی" />
         <UInput color="neutral" variant="subtle" size="xl" placeholder="شماره موبایل" readonly disabled />
         <UInput v-model="userInfo.email" color="neutral" variant="subtle" size="xl" placeholder="ایمیل" />
@@ -66,24 +66,24 @@ const isDateUnavailable = (date: DateValue) => {
 
 
 const userInfo = reactive({
-  fullname: null,
+  first_name: 'mehran',
   nationalCode: null,
-  email: null,
+  email: 'mail@gmail.com',
   birthDate: null,
-  postalCode: null
+  postalCode: null,
+  picture: null
 })
 
-
 const checkData = async () => {
-
-  
+const userFormData = new FormData()
+userFormData.append('user', JSON.stringify(userInfo))
+if (userInfo.picture){
+  userFormData.append('picture', userInfo.picture)
+}  
   try {
     const res = await $fetch('/api/user-information', {
       method:'POST',
-      body: userInfo,
-      headers:{
-        'Content-Type':'application/json'
-      }
+      body: userFormData,
     })
 
     console.log(res);

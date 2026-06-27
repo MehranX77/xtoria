@@ -1,30 +1,40 @@
-export default defineEventHandler(async(event) => {
+export default defineEventHandler(async (event) => {
     const { public: { baseURL } } = useRuntimeConfig()
     const token = getCookie(event, 'access-token')
     // const {fullname, nationalCode, postalCode, email, birthDate} = await readBody(event)
-    const {fullname, nationalCode, email, birthDate} = await readBody(event)
-    console.log(birthDate.day+' '+birthDate.year);
-    
-
+    const body = await readMultipartFormData(event)
     try {
-        const res = await $fetch(`${baseURL}/account/profile`,{
-            method:'PATCH',
-            headers:{
+        const formDataToSend = new FormData()
+        
+        let userObject = {}
+        // let pictureFile = null
+
+        for (const field of body) {
+            if (field.name === 'user') {
+                userObject = JSON.parse(field.data.toString('utf-8'))
+            } 
+            
+            // else if (field.name === 'picture' && field.filename) {
+            //     pictureFile = field
+            // }
+
+        }
+
+        formDataToSend.append('first_name', userObject.first_name || '')
+        formDataToSend.append('last_name', userObject.first_name || '')
+        
+        const res = await $fetch(`${baseURL}/account/profile`, {
+            method: 'PATCH',
+            headers: {
                 'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
             },
-            body:{
-                first_name: fullname,
-                last_name: fullname,
-                email,
-                birth_date:`${birthDate.year}`,
-                national_code:nationalCode
-            }
+            body: formDataToSend
         })
+        console.log(res);
 
         return res
     } catch (error) {
         return error.data
     }
-    
+
 })
