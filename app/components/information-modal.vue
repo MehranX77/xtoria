@@ -12,6 +12,7 @@
         <UInputDate v-model="userInfo.birthDate" :is-date-unavailable="isDateUnavailable" color="neutral"
           variant="subtle" size="xl" />
         <UInput v-model="userInfo.postalCode" color="neutral" variant="subtle" size="xl" placeholder="کدپستی" />
+        <UFileUpload v-model="userInfo.picture" label="عکس خود را اینجا اپلود کنید" accept="image/*"/>
       </div>
     </template>
     <template #footer>
@@ -24,7 +25,7 @@
 
 <script setup lang="ts">
 import type { DateValue } from '@internationalized/date'
-
+const { me } = useMyInfo()
 const emit = defineEmits<{ close: [boolean] }>()
 
 const currentYear = new Date()
@@ -95,6 +96,7 @@ const checkData = async () => {
       toast.add({
         description: res.message,
       })
+      me.value = res
     }
     else if (res.status == 400) {
       toast.add({

@@ -2,7 +2,7 @@
     <UDashboardSidebar
         :ui="{ footer: 'border-t border-default', root: 'border mt-2 rounded-lg max-h-dvh min-h-[90dvh]' }">
         <template #header>
-            <UUser name="mehran" description="09362762801" :avatar="{ src: 'https://i.pravatar.cc/150?u=john-doe' }"
+            <UUser :name="me.data?.first_name || 'بدون نام'" description="09362762801" :avatar="{ src: me.data?.picture }"
                 size="xl" />
         </template>
         <template #default>
@@ -20,6 +20,7 @@
 import type { NavigationMenuItem } from '@nuxt/ui';
 const toast = useToast()
 const { authUser } = useAuth()
+const { me } = useMyInfo()
 const items: NavigationMenuItem[][] = [[
     {
         label: 'خلاصه فعالیت ها',
