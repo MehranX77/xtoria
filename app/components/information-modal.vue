@@ -5,11 +5,12 @@
     </template>
     <template #body>
       <div class="grid lg:grid-cols-2 grid-cols-1 gap-3">
-        <UInput v-model="userInfo.first_name" color="neutral" variant="subtle" size="xl" placeholder="نام و نام خانوادگی" />
+        <UInput v-model="userInfo.first_name" color="neutral" variant="subtle" size="xl" placeholder="نام" />
         <UInput v-model="userInfo.nationalCode" color="neutral" variant="subtle" size="xl" placeholder="کدملی" />
-        <UInput color="neutral" variant="subtle" size="xl" placeholder="شماره موبایل" readonly disabled />
+        <UInput v-model="userInfo.last_name" color="neutral" variant="subtle" size="xl" placeholder="نام خانوادگی" />
         <UInput v-model="userInfo.email" color="neutral" variant="subtle" size="xl" placeholder="ایمیل" />
-        <UInputDate v-model="userInfo.birthDate" :is-date-unavailable="isDateUnavailable" color="neutral" variant="subtle" size="xl" />
+        <UInputDate v-model="userInfo.birthDate" :is-date-unavailable="isDateUnavailable" color="neutral"
+          variant="subtle" size="xl" />
         <UInput v-model="userInfo.postalCode" color="neutral" variant="subtle" size="xl" placeholder="کدپستی" />
       </div>
     </template>
@@ -28,6 +29,7 @@ const emit = defineEmits<{ close: [boolean] }>()
 
 const currentYear = new Date()
 
+const toast = useToast()
 // convert persian shamsi date digit to En shamsi date digit
 const toEnglishDigits = (str: string) => {
 
@@ -57,41 +59,56 @@ const toEnglishDigits = (str: string) => {
   return str.split('').map((ch) => map[ch] ?? ch).join('')
 }
 
-const shamsi_year: any = Intl.DateTimeFormat('fa-IR', {year:'numeric'}).format(currentYear)
+const shamsi_year: any = Intl.DateTimeFormat('fa-IR', { year: 'numeric' }).format(currentYear)
 
 
-const isDateUnavailable = (date: DateValue) => {  
-  return date.year <= 1300 || date.year > parseInt(toEnglishDigits(shamsi_year),10)
+const isDateUnavailable = (date: DateValue) => {
+  return date.year <= 1300 || date.year > parseInt(toEnglishDigits(shamsi_year), 10)
 }
 
 
 const userInfo = reactive({
-  first_name: 'mehran',
+  first_name: null,
+  last_name: null,
   nationalCode: null,
-  email: 'mail@gmail.com',
+  email: null,
   birthDate: null,
   postalCode: null,
   picture: null
 })
 
 const checkData = async () => {
-const userFormData = new FormData()
-userFormData.append('user', JSON.stringify(userInfo))
-if (userInfo.picture){
-  userFormData.append('picture', userInfo.picture)
-}  
+  const userFormData = new FormData()
+  userFormData.append('user', JSON.stringify(userInfo))
+
+  if (userInfo.picture) {
+    userFormData.append('picture', userInfo.picture)
+  }
   try {
     const res = await $fetch('/api/user-information', {
-      method:'POST',
+      method: 'POST',
       body: userFormData,
     })
 
     console.log(res);
-    
+    if (res.status == 200) {
+      toast.add({
+        description: res.message,
+      })
+    }
+    else if (res.status == 400) {
+      toast.add({
+        color: 'error',
+        title: res.message,
+        description: res.data?.errors[0]
+      })
+    }
+
   } catch (error) {
     console.log(error);
-    
+  }finally{
+    emit('close', true)
   }
-  
+
 }
 </script>
