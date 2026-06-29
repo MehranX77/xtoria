@@ -11,8 +11,8 @@
             </UBreadcrumb>
 
             <!-- بنر پیشنهاد شده -->
-                 <UBanner v-if="product?.data?.suggested" title="پیشنهاد شگفت انگیز"  color="error" class="rounded-md mt-4 z-0" :ui="{title:'font-bold'}"/>
-                <UBanner v-if="product?.data?.special_discount" title="تخفیف ویژه"   color="success" class="rounded-md mt-4 z-0" :ui="{title:'font-bold'}"/>
+                 <UBanner v-if="p?.data?.suggested" title="پیشنهاد شگفت انگیز"  color="error" class="rounded-md mt-4 z-0" :ui="{title:'font-bold'}"/>
+                <UBanner v-if="p?.data?.special_discount" title="تخفیف ویژه"   color="success" class="rounded-md mt-4 z-0" :ui="{title:'font-bold'}"/>
             <div class="flex lg:flex-nowrap flex-wrap gap-x-3">
 
                 <div class="flex lg:flex-col gap-y-2 mt-5 lg:order-first order-last">
@@ -26,7 +26,7 @@
                     <div class="gallery basis-110">
                         <NuxtImg class="lg:w-80 lg:h-80 lg:max-h-80 w-40 h-40 max-h-40 mx-auto lg:mx-0 object-fit rounded-lg" :src="galleryRef"/>
                         <div class="flex justify-center sub-img gap-x-5">
-                            <template v-for="(items, index) in product?.data?.product.images.slice(0,3)" :key="index">
+                            <template v-for="(items, index) in p?.data?.product.images.slice(0,3)" :key="index">
                                <NuxtImg class="w-20 h-20 max-h-20 hover:cursor-pointer transition-all object-fit rounded-lg border border-slate-300 dark:border-slate-700/90 hover:border-rose-700/90 p-2" :src="items.image" @click="changeImg(items)" />
                                 <!-- {{ items.image }} -->
                             </template>
@@ -37,21 +37,21 @@
                         <div class="flex justify-between">
                             <!-- مشخصات محصول -->
                             <div class="flex flex-col gap-y-3">
-                                <h3 v-html="[product?.data?.product?.name, product?.data?.product?.description]" class="text-2xl font-bold text-slate-900 dark:text-slate-200" />
+                                <h3 v-html="[p?.data?.product?.name, p?.data?.product?.description]" class="text-2xl font-bold text-slate-900 dark:text-slate-200" />
                                 <div class="flex gap-x-2">
                                     <h4 class="text-lg font-bold">مدل:</h4>
-                                    <span class="self-center text-muted">{{ product?.data?.product?.brand?.name || 'بدون نام' }} {{ product?.data?.product?.brand?.description || 'بدون توضیحات'}} </span>
+                                    <span class="self-center text-muted">{{ p?.data?.product?.brand?.name || 'بدون نام' }} {{ p?.data?.product?.brand?.description || 'بدون توضیحات'}} </span>
                                 </div>
                                 <div class="flex gap-x-2">
                                     <h4 class="text-lg font-bold">تولید کننده:</h4>
-                                    <span class="self-center text-sky-500">{{ product?.data?.product?.brand?.name || 'بدون نام' }}</span>
+                                    <span class="self-center text-sky-500">{{ p?.data?.product?.brand?.name || 'بدون نام' }}</span>
                                 </div>
                                 <ul class="space-y-2">
-                                    <li v-for="(options, index) in product?.data?.options" :key="index" class="lg:text-xl md:text-lg text-base"><UIcon class="align-middle me-1 text-2xl text-green-500" name="solar:check-circle-line-duotone" />{{ options?.value }}</li>
+                                    <li v-for="(options, index) in p?.data?.options" :key="index" class="lg:text-xl md:text-lg text-base"><UIcon class="align-middle me-1 text-2xl text-green-500" name="solar:check-circle-line-duotone" />{{ options?.value }}</li>
                                 </ul>
                                 <USeparator class="mt-2"/>
                                 <div class="flex flex-col gap-y-2 mt-2">
-                                    <div v-for="(property, index) in product?.data?.properties" :key="index" class="flex gap-x-2">
+                                    <div v-for="(property, index) in p?.data?.properties" :key="index" class="flex gap-x-2">
                                         <span class="text-muted text-sm">{{ property?.key }}: </span>
                                         <span class="text-neutral-700 dark:text-neutral-200 text-sm">{{ property?.value }}</span>
                                     </div>
@@ -65,19 +65,19 @@
                                         {{ options.quantity }}
                                     </UFormField>
                                 </div>
-                                <UFormField label="انتخاب گارانتی" required :hint="product?.data?.guanranty[0].days + ' روز گارانتی '" class="space-y-4 lg:text-xl text-base" :ui="{hint:'text-rose-500 text-sm font-bold'}">
-                                    <URadioGroup v-for="(key,index) in product?.data?.guanranty" :key="index" v-model="options.selectedGuanranty" size="xl" dir="rtl" class="text-end w-fit " :items="[key.name]" color="neutral"/>
+                                <UFormField label="انتخاب گارانتی" required :hint="p?.data?.guanranty[0].days + ' روز گارانتی '" class="space-y-4 lg:text-xl text-base" :ui="{hint:'text-rose-500 text-sm font-bold'}">
+                                    <URadioGroup v-for="(key,index) in p?.data?.guanranty" :key="index" v-model="options.selectedGuanranty" size="xl" dir="rtl" class="text-end w-fit " :items="[key.name]" color="neutral"/>
                                 </UFormField>
                                 <div class="flex gap-x-3">
-                                <UButton v-if="product?.data?.stock !== 0"  variant="subtle" size="xl" color="neutral" class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone" @click="AddToBasket(product.data.id)">{{ numberFormater(product?.data.price || 0) }} <span class="text-sm text-muted">تومان</span></UButton>
+                                <UButton v-if="p?.data?.stock !== 0"  variant="subtle" size="xl" color="neutral" class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone" @click="AddToBasket(p.data.id)">{{ numberFormater(p?.data.price || 0) }} <span class="text-sm text-muted">تومان</span></UButton>
                                 <UButton v-else disabled variant="subtle" size="xl" color="error" class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone">اتمام موجودی</UButton>
-                                <span v-if="product?.data?.discount !== 0" class="text-md text-muted self-center "> تخفیف: {{ numberFormater(product?.data?.discount || 0) }} تومان</span>
+                                <span v-if="p?.data?.discount !== 0" class="text-md text-muted self-center "> تخفیف: {{ numberFormater(p?.data?.discount || 0) }} تومان</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div v-if="product?.data?.product.score !==0" class="flex basis-3xs gap-x-1 flex-wrap h-fit mt-8">
-                        <UIcon v-for="(star, index) in product?.data?.product.score" :key="index" class="text-2xl text-orange-400" name="solar:star-bold" />
+                    <div v-if="p?.data?.product.score !==0" class="flex basis-3xs gap-x-1 flex-wrap h-fit mt-8">
+                        <UIcon v-for="(star, index) in p?.data?.product.score" :key="index" class="text-2xl text-orange-400" name="solar:star-bold" />
                         <span class="text-muted self-start mt-2">(از 27 نفر)</span>
                     </div>
                 </div>
@@ -107,18 +107,12 @@
 
             <div class="mt-8 w-full border dark:border-slate-800/70 border-slate-200 rounded-lg p-5">
                 <h1 class="text-xl dark:text-slate-300">کالاهای مشابه</h1>
-                <UCarousel v-slot="{ item }" dir="ltr" class="mt-10" :items="carouselItem" loop arrows
-                    :autoplay="{ delay: 2000 }"
+                <UCarousel v-slot="{ item }" dir="ltr" class="mt-10" :items="relatedProducts" loop arrows :autoplay="{ delay: 2000 }"
                     :ui="{ item: 'xl:basis-1/8 lg:basis-1/4 md:basis-1/3 lg:mx-3', controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2' }">
-                    <NuxtImg :src="item" width="234" height="234" class="rounded-lg object-contain" />
-                    <span dir="rtl" class="dark:text-slate-300 text-center line-clamp-2 mt-4">گوشی موبایل وکال مدل V1
-                        Core دو سیم
-                        کارت ظرفیت 64 گیگابایت و رم 4 گیگابایت</span>
-                    <div class="flex justify-end">
-                        <UBadge class="mt-3" color="neutral" variant="subtle">موجود در انبار</UBadge>
-                    </div>
-                    <div dir="rtl" class="flex justify-between mt-3 text-end">
-                        <span class="dark:text-slate-300 text-xl self-center">{{ numberFormater(20000) }}</span>
+                    <NuxtImg :src="`${baseURLAssets}${item.product.picture}`" width="234" height="234" class="rounded-lg object-contain" />
+                    <span dir="rtl" class="dark:text-slate-300 text-center line-clamp-2 mt-4">{{ item.product.name }}</span>
+                    <div dir="rtl" class="flex justify-center mt-3 text-end">
+                        <span class="dark:text-slate-300 text-xl self-center">{{ numberFormater(item.price) }}</span>
                         <span class="dark:text-slate-300 self-center">تومان</span>
                     </div>
                 </UCarousel>
@@ -145,7 +139,7 @@
 import type { BreadcrumbItem } from '@nuxt/ui';
 import {addToBasket} from '../../stores/index'
 const { authUser } = useAuth()
-const { public: { baseURL } } = useRuntimeConfig()
+const { public: { baseURL, baseURLAssets } } = useRuntimeConfig()
 const toast = useToast()
 const route = useRoute()
 const store = addToBasket()
@@ -161,8 +155,12 @@ interface products{
 }
 
 const { data: product } = await useFetch<products | undefined>(`${baseURL}/product/product/${route.params.slug}`)
-
 console.log(product.value);
+
+const p= ref<object | null>(null)
+const relatedProducts = ref(null)
+p.value = product.value.data
+relatedProducts.value = product.value.data.related
 
 // *************End Data Fetching**********************
 
@@ -200,7 +198,7 @@ const changeImg = (x: string) => {
 
 
 onMounted(() => {
-   galleryRef.value = product?.value?.data?.product?.images[0].image
+   galleryRef.value = p?.value?.data?.product?.images[0].image
 })
 
 // *************End Gallery*********************
@@ -210,13 +208,13 @@ onMounted(() => {
 const branch = ref(['شعبه مطهری'])
 
 const options = reactive({
- productId:product.value?.data.id,
- productSlug:product.value?.data.slug,
- productName:product.value?.data.product.name,
+ productId:p.value?.data.id,
+ productSlug:p.value?.data.slug,
+ productName:p.value?.data.product.name,
  productColor:'سفید',
- productImage:product?.value?.data?.product?.images[0].image,
- price:product.value?.data.price || 0,
- discount:product.value?.data.discount || 0,
+ productImage:p?.value?.data?.product?.images[0].image,
+ price:p.value?.data.price || 0,
+ discount:p.value?.data.discount || 0,
  selectedBranch: 'شعبه مطهری',
  quantity: 0,
  selectedGuanranty:'',
@@ -224,20 +222,7 @@ const options = reactive({
 
 // *****************End Options Wrapper***********
 
-// ***************Carousel And Tabs Items **************************
-
-const carouselItem = [
-    'mobile-1.webp',
-    'mobile-2.webp',
-    'mobile-1.webp',
-    'mobile-2.webp',
-    'mobile-1.webp',
-    'mobile-2.webp',
-    'mobile-1.webp',
-    'mobile-2.webp',
-    'mobile-1.webp',
-    'mobile-2.webp',
-]
+// ***************Tabs Items **************************
 
 const tabsItem = [
     {
@@ -291,9 +276,9 @@ const AddToBasket = async (id: number) => {
 const shareThisProduct = () => {
     if(import.meta.client) {
         window.navigator.share({
-            title: product.value?.data?.product.name,
+            title: p.value?.data?.product.name,
             url:route.fullPath,
-            text:product.value?.data.product.brand?.description || 'بدون توضیح'
+            text:p.value?.data.product.brand?.description || 'بدون توضیح'
         })
     }
 }
