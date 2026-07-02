@@ -46,7 +46,7 @@
                                     <h4 class="text-lg font-bold">تولید کننده:</h4>
                                     <span class="self-center text-sky-500">{{ p?.data?.product?.brand?.name || 'بدون نام' }}</span>
                                 </div>
-                                <ul class="space-y-2">
+                                <ul class="flex space-x-2">
                                     <li v-for="(options, index) in p?.data?.options" :key="index" class="lg:text-xl md:text-lg text-base"><UIcon class="align-middle me-1 text-2xl text-green-500" name="solar:check-circle-line-duotone" />{{ options?.value }}</li>
                                 </ul>
                                 <USeparator class="mt-2"/>
@@ -62,7 +62,6 @@
                                     </UFormField>
                                     <UFormField orientation="horizontal" label="تعداد" class="lg:text-xl text-base">
                                         <UInputNumber v-model="options.quantity" size="xl" :min="1" />
-                                        {{ options.quantity }}
                                     </UFormField>
                                 </div>
                                 <UFormField label="انتخاب گارانتی" required :hint="p?.data?.guanranty[0].days + ' روز گارانتی '" class="space-y-4 lg:text-xl text-base" :ui="{hint:'text-rose-500 text-sm font-bold'}">
@@ -117,18 +116,39 @@
                     </div>
                 </UCarousel>
             </div>
-            <UTabs dir="rtl" size="xl" color="neutral" class="mt-10" :items="tabsItem">
+            <UTabs variant="link" dir="rtl" size="xl" color="neutral" class="mt-10" :items="tabsItem">
                 <template #ProductOverview>
-                    <p>ProductOverview</p>
+                    <div class="flex flex-col mt-5 gap-y-4">
+                        <p class="text-xl font-bold">معرفی محصول</p>
+                        <p v-if="p.data.product.description" class="text-base" v-html="p.data.product?.description"/>
+                        <p v-else class="text-base">برای این محصول هنوز توضیحاتی منتشر نشده!</p>
+                        <USeparator />
+                        <p class="text-xl font-bold my-5">مشخصات محصول</p>
+                        <template v-if="p.data.properties">
+                        <div v-for="(property, index) in p.data?.properties" :key="index" class="flex justify-around gap-x-3 md:w-1/3 w-full">
+                                <span class="text-slate-500 dark:text-slate-300">{{ property.key }}</span>
+                                <USeparator />
+                                <span :class="{'text-red-500': property.value === 'ندارد'}" class="text-base">{{ property.value }}</span>
+                        </div>
+                        </template>
+                        <template v-else>برای این محصول مشخصاتی تعریف نشده!</template>
+                    </div>
                 </template>
                 <template #features>
-                    <p>features</p>
+                        <p class="text-xl font-bold my-5">خصوصیات محصول</p>
+                        <template v-if="p.data.options">
+                        <div v-for="(option, index) in p.data?.options" :key="index" class="md:w-1/3 w-full">
+                          <div class="flex gap-x-1 my-4">
+                                 <UIcon name="mdi:tick-circle" class="self-center text-green-400 text-xl"/>
+                                <span class="text-base">{{ option.value }}</span>
+                          </div>
+                          <USeparator />
+                        </div>
+                        </template>
+                        <template v-else>برای این محصول خصوصیاتی هنوز تعریف نشده!</template>
                 </template>
                 <template #comments>
                     <p>comments</p>
-                </template>
-                <template #faq>
-                    <p>faq</p>
                 </template>
             </UTabs>
         </UContainer>
@@ -155,12 +175,14 @@ interface products{
 }
 
 const { data: product } = await useFetch<products | undefined>(`${baseURL}/product/product/${route.params.slug}`)
-console.log(product.value);
 
 const p= ref<object | null>(null)
 const relatedProducts = ref(null)
 p.value = product.value.data
 relatedProducts.value = product.value.data.related
+
+console.log(' p: ', p.value);
+
 
 // *************End Data Fetching**********************
 
@@ -239,11 +261,6 @@ const tabsItem = [
         label: 'نظرات',
         icon: 'i-lucide-user',
         slot: 'comments'
-    },
-    {
-        label: 'پرسش و پاسخ',
-        icon: 'i-lucide-user',
-        slot: 'faq'
     },
 ]
 

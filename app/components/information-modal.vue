@@ -6,7 +6,7 @@
     <template #body>
       <div class="grid lg:grid-cols-2 grid-cols-1 gap-3">
         <UInput v-model="userInfo.first_name" color="neutral" variant="subtle" size="xl" placeholder="نام" />
-        <UInput v-model="userInfo.nationalCode" color="neutral" variant="subtle" size="xl" placeholder="کدملی" />
+        <UInput v-model="userInfo.nationalCode" color="neutral" variant="subtle" size="xl" placeholder="کدملی (اختیاری)" />
         <UInput v-model="userInfo.last_name" color="neutral" variant="subtle" size="xl" placeholder="نام خانوادگی" />
         <UInput v-model="userInfo.email" color="neutral" variant="subtle" size="xl" placeholder="ایمیل" />
         <UInputDate v-model="userInfo.birthDate" :is-date-unavailable="isDateUnavailable" color="neutral"
@@ -69,10 +69,10 @@ const isDateUnavailable = (date: DateValue) => {
 
 
 const userInfo = reactive({
-  first_name: null,
-  last_name: null,
+  first_name: me.value?.data?.first_name || null,
+  last_name: me.value?.data?.last_name || null,
   nationalCode: null,
-  email: null,
+  email:me.value?.data?.email || null,
   birthDate: null,
   postalCode: null,
   picture: null
