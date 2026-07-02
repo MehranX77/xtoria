@@ -120,11 +120,11 @@
                 <template #ProductOverview>
                     <div class="flex flex-col mt-5 gap-y-4">
                         <p class="text-xl font-bold">معرفی محصول</p>
-                        <p v-if="p.data.product.description" class="text-base" v-html="p.data.product?.description"/>
+                        <p v-if="p.data.product.description.length > 0" class="text-base" v-html="p.data.product?.description"/>
                         <p v-else class="text-base">برای این محصول هنوز توضیحاتی منتشر نشده!</p>
                         <USeparator />
                         <p class="text-xl font-bold my-5">مشخصات محصول</p>
-                        <template v-if="p.data.properties">
+                        <template v-if="p.data.properties.length > 0">
                         <div v-for="(property, index) in p.data?.properties" :key="index" class="flex justify-around gap-x-3 md:w-1/3 w-full">
                                 <span class="text-slate-500 dark:text-slate-300">{{ property.key }}</span>
                                 <USeparator />
@@ -136,7 +136,7 @@
                 </template>
                 <template #features>
                         <p class="text-xl font-bold my-5">خصوصیات محصول</p>
-                        <template v-if="p.data.options">
+                        <template v-if="p.data.options.length > 0">
                         <div v-for="(option, index) in p.data?.options" :key="index" class="md:w-1/3 w-full">
                           <div class="flex gap-x-1 my-4">
                                  <UIcon name="mdi:tick-circle" class="self-center text-green-400 text-xl"/>
