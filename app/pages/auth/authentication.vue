@@ -35,7 +35,8 @@ import Joi from 'joi'
 import type { FormSubmitEvent } from '@nuxt/ui'
 
 definePageMeta({
-    layout: 'custom'
+    layout: 'custom',
+    // middleware:'http-checker'
 })
 
 
