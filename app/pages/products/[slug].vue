@@ -292,11 +292,25 @@ const AddToBasket = async (id: number) => {
 
 const shareThisProduct = () => {
     if(import.meta.client) {
-        window.navigator.share({
+    if(window.navigator.share && window.navigator){
+        try {
+            window.navigator.share({
             title: p.value?.data?.product.name,
             url:route.fullPath,
             text:p.value?.data.product.brand?.description || 'بدون توضیح'
         })
+        } catch (error) {
+            throw showError({
+                name:'عملیات با خطا مواجه شد',
+                message:error?.message
+            })
+        }
+    }else{
+        throw showError({
+          name:'عملیات با خطا مواجه شد',
+           message:'عملیات با خطا مواجه شد لطفا مجدداً تلاش کنید'
+        })
+    }
     }
 }
 </script>
