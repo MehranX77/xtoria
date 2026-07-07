@@ -16,6 +16,9 @@ export default defineEventHandler(async (event) => {
             }
 
         })
+        
+        console.log('resssssssssssssss otp server: ', res.data?. user_info);
+        
 
         if (res.status === 200) {
             setCookie(event, 'access-token', res.data?.access, {
@@ -35,7 +38,9 @@ export default defineEventHandler(async (event) => {
             return {
                 message: res.message,
                 status: res.status,
+                userInfo:res.data?. user_info
             }
+
         } else if (res.status === 401 || res.status === 400) {
 
             if (token) {

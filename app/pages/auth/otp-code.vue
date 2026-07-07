@@ -33,6 +33,7 @@ const toast = useToast()
 const otpCode = ref()
 const { userPhone } = usePhone()
 const { authUser } = useAuth()
+const { me } = useMyInfo()
 const userId = useId()
 const confirmOtpCode = async () => {
 
@@ -48,9 +49,8 @@ const confirmOtpCode = async () => {
             'Content-Type': 'application/json'
         }
     })
-
-    console.log(data);
-    console.log(error);
+    
+    console.log('resssssssssssssss otp server: ', data.value);
     
 
     if (data.value?.status === 200 && data.value?.status !== undefined) {
@@ -60,7 +60,7 @@ const confirmOtpCode = async () => {
         })
 
         authUser.value = userId
-
+        me.value = data.value?.userInfo
         return navigateTo('/')
     }
 

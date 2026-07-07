@@ -24,10 +24,10 @@
                 <div class="flex md:flex-nowrap flex-wrap dark:bg-slate-800 bg-slate-100 w-full p-4 rounded-lg mt-5 gap-x-5">
 
                     <div class="gallery basis-110">
-                        <NuxtImg class="lg:w-80 lg:h-80 lg:max-h-80 w-40 h-40 max-h-40 mx-auto lg:mx-0 object-fit rounded-lg" :src="galleryRef"/>
+                        <NuxtImg class="lg:w-80 lg:h-80 lg:max-h-80 w-40 h-40 max-h-40 mx-auto lg:mx-0 object-cover rounded-lg" :src="galleryRef"/>
                         <div class="flex justify-center sub-img gap-x-5">
                             <template v-for="(items, index) in p?.data?.product.images.slice(0,3)" :key="index">
-                               <NuxtImg class="w-20 h-20 max-h-20 hover:cursor-pointer transition-all object-fit rounded-lg border border-slate-300 dark:border-slate-700/90 hover:border-rose-700/90 p-2" :src="items.image" @click="changeImg(items)" />
+                               <NuxtImg class="w-20 h-20 max-h-20 hover:cursor-pointer transition-all object-cover rounded-lg border border-slate-300 dark:border-slate-700/90 hover:border-rose-700/90 p-2" :src="items.image" @click="changeImg(items)" />
                                 <!-- {{ items.image }} -->
                             </template>
                         </div>
@@ -56,11 +56,16 @@
                                         <span class="text-neutral-700 dark:text-neutral-200 text-sm">{{ property?.value }}</span>
                                     </div>
                                 </div>
-                                <div class="flex lg:flex-nowrap flex-wrap lg:gap-x-6 gap-y-3 mt-4">
-                                    <UFormField orientation="horizontal" label="فروشنده" class="lg:text-xl text-base">
-                                        <USelect v-model="options.selectedBranch" size="xl" :items="branch" class="w-full" />
+                                <div class="flex lg:flex-nowrap flex-wrap lg:gap-x-12 gap-y-3 mt-4">
+                                    <UFormField orientation="vertical" label="انتخاب رنگ" class="lg:text-xl text-base">
+                                        <div class="flex gap-x-2">
+                                            <div v-for="color in p.data?.colors" :key="color.id" class="rounded-full w-8 h-8 hover:cursor-pointer self-center flex justify-center items-center" :style="{background:`${color.value}`}" @click="changeProductColor(color.value)">
+                                                <UIcon v-show="color.value === colorSelected" name='material-symbols-light:check' class="text-slate-100 text-2xl" />
+                                            </div>
+                                        </div>
                                     </UFormField>
-                                    <UFormField orientation="horizontal" label="تعداد" class="lg:text-xl text-base">
+
+                                    <UFormField orientation="vertical" label="تعداد" class="lg:text-xl text-base">
                                         <UInputNumber v-model="options.quantity" size="xl" :min="1" />
                                     </UFormField>
                                 </div>
@@ -148,7 +153,18 @@
                         <template v-else>برای این محصول خصوصیاتی هنوز تعریف نشده!</template>
                 </template>
                 <template #comments>
-                    <p>comments</p>
+                    <div class="flex flex-col mt-5 gap-y-4">
+                        <p class="text-xl font-bold">دیدگاه کاربران</p>
+                        <p class="text-base">{{ p.data.comments?.length || 0 }} دیدگاه</p>
+                        <USeparator />
+                          <div v-for="(comment, index) in p.data.comments" :key="index" class="flex flex-col gap-y-3 dark:bg-slate-700 bg-slate-100 rounded-lg p-4 md:w-2/4 w-full">
+                              <div class="flex gap-x-3">
+                                  <p class="font-bold text-base">{{ comment?.first_name || 'کاربر سایت'}} {{ comment?.last_name }}</p>
+                                  <UBadge variant="soft">خریدار</UBadge>
+                              </div>
+                              <p class="text-base">{{ comment?.comment }}</p>
+                          </div>
+                    </div>
                 </template>
             </UTabs>
         </UContainer>
@@ -180,8 +196,13 @@ const p= ref<object | null>(null)
 const relatedProducts = ref(null)
 p.value = product.value.data
 relatedProducts.value = product.value.data.related
+const colorSelected = ref('#000000')
 
-console.log(' p: ', p.value);
+const changeProductColor = (color:string = '#000000') => {
+  colorSelected.value = color   
+}
+
+console.log(' c: ', p.value);
 
 
 // *************End Data Fetching**********************
@@ -213,10 +234,6 @@ const changeImg = (x: string) => {
     galleryRef.value = x?.image
 }
 
-// const jj = product.value?.data?.product.images.slice(0,3)
-
-// console.log(jj);
-
 
 
 onMounted(() => {
@@ -227,8 +244,6 @@ onMounted(() => {
 
 // *****************options wrapper*************
 
-const branch = ref(['شعبه مطهری'])
-
 const options = reactive({
  productId:p.value?.data.id,
  productSlug:p.value?.data.slug,
@@ -237,9 +252,9 @@ const options = reactive({
  productImage:p?.value?.data?.product?.images[0].image,
  price:p.value?.data.price || 0,
  discount:p.value?.data.discount || 0,
- selectedBranch: 'شعبه مطهری',
  quantity: 0,
  selectedGuanranty:'',
+ guanrantyId: p.value?.data?.guanranty[0].id || 0
 })
 
 // *****************End Options Wrapper***********
@@ -270,10 +285,17 @@ const tabsItem = [
 const AddToBasket = async (id: number) => {
     if (authUser.value !== null) {        
         const res = store.showProduct.find(item => Number(item.pId) === id)
-        if (res !== undefined) {
-        return false
+        console.log('ewwww: ', typeof res);
+        
+        if (typeof res !== 'undefined' || res !== undefined) {
+            
+       toast.add({
+        description:'محصول به سبد خرید افزوده نشد',
+        color:'error'
+       })
+
         }else{
-          await store.addToBasket(options)
+          await store.addToBasket(options, colorSelected.value)
             toast.add({
                 description: 'کالا به سبد خرید اضافه شد'
             })
@@ -314,3 +336,4 @@ const shareThisProduct = () => {
     }
 }
 </script>
+

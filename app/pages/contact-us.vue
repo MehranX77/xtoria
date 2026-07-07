@@ -84,11 +84,11 @@
 <script setup lang="ts">
 const items = ref(['Backlog', 'Todo', 'In Progress', 'Done'])
 const { public: { baseURL } } = useRuntimeConfig()
-
+const toast= useToast()
 const zoom = ref(12)
 
 const contactForm = reactive({
-    subject: 'Backlog',
+    subject: 1,
     fullname: '',
     phone: '',
     email: '',
@@ -96,20 +96,44 @@ const contactForm = reactive({
 })
 
 interface contactResponse {
-    data: string
+    data: string 
+    status: number
 }
 
 const sendContactForm = async () => {
-    const data = await $fetch<contactResponse>(`${baseURL}/contact`, {
+try {
+        const res = await $fetch<contactResponse>(`${baseURL}/contact`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         },
-        body: contactForm
-    })
+        body: {
+            fullname: contactForm.fullname,
+            phone:contactForm.phone,
+            text:contactForm.text,
+            email:contactForm.email,
+            // subject: contactForm.subject
+        }
+    })   
 
-    console.log(data, 'contact data');
+    if(res.status === 201){
+     toast.add({
+        description:'درخواست شما ارسال شد همکاران ما به زودی با شما تماس میگیرند',
+        color:'success'
+     })
+    }else{      
+        toast.add({
+        description:'درخواست شما ارسال نشد',
+        color:'error'
+     })
+    }
+
+    console.log(res, 'contact data');
+} catch (error) {
+    console.log(error.data);
+    
+}
     
 
 }

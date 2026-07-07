@@ -9,13 +9,17 @@ export const addToBasket = defineStore('add-to-basket', {
     }
   },
   actions: {
-    async addToBasket(basket) {
+    async addToBasket(basket, cxt) {
       try {
+        console.log('color selected in pinia: ', cxt);
+        
         const res = await $fetch('/api/checkout-list', {
           method: 'POST',
           body: {
             basketId: basket?.productId,
-            basketqty: basket?.quantity
+            basketqty: basket?.quantity,
+            guanrantyId: basket?.guanrantyId,
+            productColor: cxt
           }
         })
        

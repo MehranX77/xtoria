@@ -2,7 +2,7 @@
     <UDashboardSidebar
         :ui="{ footer: 'border-t border-default', root: 'border mt-2 rounded-lg max-h-dvh min-h-[90dvh]' }">
         <template #header>
-            <UUser :name="me.data?.first_name || 'بدون نام'" description="09362762801" :avatar="{ src: me.data?.picture }"
+            <UUser :name="me?.first_name || 'بدون نام'" description="09362762801" :avatar="{ src: me?.picture }"
                 size="xl" />
         </template>
         <template #default>

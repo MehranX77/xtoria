@@ -69,10 +69,10 @@ const isDateUnavailable = (date: DateValue) => {
 
 
 const userInfo = reactive({
-  first_name: me.value?.data?.first_name || null,
-  last_name: me.value?.data?.last_name || null,
+  first_name: me.value?.first_name || null,
+  last_name: me.value?.last_name || null,
   nationalCode: null,
-  email:me.value?.data?.email || null,
+  email:me.value?.email || null,
   birthDate: null,
   postalCode: null,
   picture: null
@@ -91,12 +91,12 @@ const checkData = async () => {
       body: userFormData,
     })
 
-    console.log(res);
+    // console.log('res joooon: ', res.data);
     if (res.status == 200) {
       toast.add({
         description: res.message,
       })
-      me.value = res
+      me.value = res.data
     }
     else if (res.status == 400) {
       toast.add({
