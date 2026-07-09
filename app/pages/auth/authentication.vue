@@ -1,6 +1,6 @@
 <template>
     <div>
-        <UContainer class="flex flex-col justify-center items-center min-h-screen">
+        <UContainer class="flex flex-col justify-center items-center md:min-h-screen min-h-[97vh]">
             <UCard class="md:w-lg w-full">
                 <template #default>
                     <div class="flex justify-between">

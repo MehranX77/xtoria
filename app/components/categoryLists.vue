@@ -4,7 +4,7 @@
            <div v-for="(item) in categoryList" :key="item.id" class="col-span-1 ">
             <div class="rounded-full w-32 h-32 mx-auto">
                 <ULink :to="{ name: 'category-slug', params: { slug: item?.slug } }" class="flex flex-col items-center">
-                    <NuxtImg class="w-25 h-25 object-center object-cover" :src="`${baseURLAssets}${item?.picture}`" />
+                    <NuxtImg class="md:w-25 w-20 md:h-25 h-20 aspect-square" :src="`${baseURLAssets}${item?.picture}`" />
                     <span class="text-sm text-slate-800 dark:text-slate-50 text-center mt-8">{{
                         item?.name }}</span>
                 </ULink>

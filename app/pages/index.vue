@@ -10,7 +10,7 @@
                     <h3 class="text-xl dark:text-slate-300">جدیدترین کالاها</h3>
                     <UCarousel v-slot="{ item }" dir="ltr" class="mt-4" :items="homeData?.data?.newest" arrows loop autoplay :ui="{ item: 'xl:basis-1/3 md:basis-1/2', controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2' }" :prev-icon="prevIcon" :next-icon="nextIcon">
                         <div class="flex flex-col gap-y-2 bg-slate-50 dark:bg-slate-700 items-center rounded-lg">
-                            <NuxtImg :src="`${baseURLAssets}${item?.product?.picture}`" class="rounded-lg md:min-w-46 md:min-h-46 md:max-w-46 max-w-full md:max-h-46 min-h-56 max-h-56 object-cover md:mx-0 mx-auto" />
+                            <NuxtImg :src="`${baseURLAssets}${item?.product?.picture}`" class="rounded-lg md:min-w-46 md:min-h-46 md:max-w-46 max-w-full md:max-h-46 min-h-40 max-h-40 object-cover md:mx-0 mx-auto" />
                             <span class="text-sm font-bold text-center">{{ item?.product?.name }}</span>
                             <span v-html="item?.product?.description" class="text-sm text-muted text-center" />
                             <UButton :to="{ name: 'products-slug', params: { slug: item?.slug }, query: { p_id: item?.id } }" dir="rtl" color="neutral" variant="soft" size="lg" class="rounded-lg place-content-center w-[86%] mx-auto mb-1"> {{numberFormater(item?.price) }} تومن</UButton>
@@ -39,17 +39,14 @@
             </div>
             <div class="mt-5 bg-slate-50 dark:bg-slate-800 p-5 rounded-lg">
                 <div class="flex justify-between">
-                    <UButton to="/products" color="neutral" variant="ghost" size="xl"
-                        icon="solar:arrow-left-bold-duotone" class="self-center text-md hover:cursor-pointer">مشاهده همه
-                    </UButton>
+                    <UButton to="/products" color="neutral" variant="ghost" size="xl" icon="solar:arrow-left-bold-duotone" class="self-center text-md hover:cursor-pointer"><span class="md:flex hidden">مشاهده همه</span></UButton>
                     <h3 class="text-xl text-end self-center-safe">لیست محصولات</h3>
                 </div>
                     <MainProducts :main-product="homeData?.data.products" />
             </div>
             <div class="mt-5 bg-slate-50 dark:bg-slate-800 p-5 rounded-lg">
                 <div class="flex justify-between">
-                    <UButton disabled color="neutral" variant="ghost" size="xl" icon="solar:arrow-left-bold-duotone"
-                        class="self-center text-md hover:cursor-pointer">مشاهده همه</UButton>
+                    <UButton disabled color="neutral" variant="ghost" size="xl" icon="solar:arrow-left-bold-duotone" class="self-center text-md hover:cursor-pointer"><span class="md:flex hidden">مشاهده همه</span></UButton>
                     <h3 class="text-xl text-end self-center-safe">محصولات پرفروش</h3>
                 </div>
                     <LazyMostSold :most-sold="homeData?.data.most_sold" hydrate-on-visible />
