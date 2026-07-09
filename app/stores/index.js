@@ -9,10 +9,10 @@ export const addToBasket = defineStore('add-to-basket', {
     }
   },
   actions: {
-    async addToBasket(basket, cxt) {
+    async addToBasket( basket, cxt) {
       try {
-        console.log('color selected in pinia: ', cxt);
-        
+       console.log('pinia: ', basket, cxt);
+       
         const res = await $fetch('/api/checkout-list', {
           method: 'POST',
           body: {
@@ -22,6 +22,7 @@ export const addToBasket = defineStore('add-to-basket', {
             productColor: cxt
           }
         })
+       
        
         this.basketCart.push({
           discount: res.data.discount,
@@ -42,12 +43,14 @@ export const addToBasket = defineStore('add-to-basket', {
       }
     },
     basketListHandler(p) {
+      console.log('p: ', p);
+      
       if (p.length) {
         this.basketCart = []
         for (let item = 0; item <= p.length; item++) {
           this.basketCart.push({
             discount: p[item].discount,
-            id: p[item].id,
+            id: p[item].product.id,
             name: p[item].product.product.name,
             price: p[item].product.price,
             picture: p[item].product.product.picture,

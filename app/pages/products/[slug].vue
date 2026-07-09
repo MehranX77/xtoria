@@ -59,8 +59,8 @@
                                 <div class="flex lg:flex-nowrap flex-wrap lg:gap-x-12 gap-y-3 mt-4">
                                     <UFormField orientation="vertical" label="انتخاب رنگ" class="lg:text-xl text-base">
                                         <div class="flex gap-x-2">
-                                            <div v-for="color in p.data?.colors" :key="color.id" class="rounded-full w-8 h-8 hover:cursor-pointer self-center flex justify-center items-center" :style="{background:`${color.value}`}" @click="changeProductColor(color.value)">
-                                                <UIcon v-show="color.value === colorSelected" name='material-symbols-light:check' class="text-slate-100 text-2xl" />
+                                            <div v-for="color in p.data?.colors" :key="color.id" class="rounded-full w-8 h-8 hover:cursor-pointer self-center flex justify-center items-center" :style="{background:`${color.value}`}" @click="changeProductColor(color.id)">
+                                                <UIcon v-show="color.id === colorSelected" name='material-symbols-light:check' class="text-slate-100 text-2xl" />
                                             </div>
                                         </div>
                                     </UFormField>
@@ -158,12 +158,27 @@
                         <p class="text-base">{{ p.data.comments?.length || 0 }} دیدگاه</p>
                         <USeparator />
                           <div v-for="(comment, index) in p.data.comments" :key="index" class="flex flex-col gap-y-3 dark:bg-slate-700 bg-slate-100 rounded-lg p-4 md:w-2/4 w-full">
-                              <div class="flex gap-x-3">
-                                  <p class="font-bold text-base">{{ comment?.first_name || 'کاربر سایت'}} {{ comment?.last_name }}</p>
-                                  <UBadge variant="soft">خریدار</UBadge>
+                            <div class="flex justify-between flex-nowrap">
+                                  <div class="flex gap-x-3 self-baseline">
+                                  <p class="font-black text-base">{{ comment?.first_name || 'کاربر سایت'}} {{ comment?.last_name }}</p>
+                                  <UBadge v-if="comment.is_admin" variant="soft" color="warning">مدیر</UBadge>
+                                  <UBadge v-else variant="soft" >خریدار</UBadge>
                               </div>
+                              <div class="flex flex-col gap-y-1">
+                                <NuxtTime :datetime="comment.created_at" locale="fa-IR" class="text-sm font-light"/>
+                               <div class="flex">
+                                 <UIcon v-for="(i, index) in comment.rating" :key="index" name="material-symbols-light:star-rounded" class="text-amber-400" />
+                               </div>
+                              </div>
+                            </div>
                               <p class="text-base">{{ comment?.comment }}</p>
                           </div>
+                          <USeparator />
+
+                          <UForm class="flex flex-col gap-y-2" @submit.prevent="sendComment">
+                            <UTextarea placeholder="دیدگاه خود را اینجا بنویسید..." variant="subtle" color="neutral" :rows="6" class="md:w-2/4 w-full"/>
+                            <UButton color="neutral" variant="soft" size="xl" type="submit" class="self-baseline">ارسال دیدگاه</UButton>
+                          </UForm>
                     </div>
                 </template>
             </UTabs>
@@ -196,9 +211,9 @@ const p= ref<object | null>(null)
 const relatedProducts = ref(null)
 p.value = product.value.data
 relatedProducts.value = product.value.data.related
-const colorSelected = ref('#000000')
+const colorSelected = ref<number | null>(null)
 
-const changeProductColor = (color:string = '#000000') => {
+const changeProductColor = (color:number) => {  
   colorSelected.value = color   
 }
 
@@ -248,12 +263,12 @@ const options = reactive({
  productId:p.value?.data.id,
  productSlug:p.value?.data.slug,
  productName:p.value?.data.product.name,
- productColor:'سفید',
+//  productColor:'سفید',
  productImage:p?.value?.data?.product?.images[0].image,
  price:p.value?.data.price || 0,
  discount:p.value?.data.discount || 0,
  quantity: 0,
- selectedGuanranty:'',
+//  selectedGuanranty:'',
  guanrantyId: p.value?.data?.guanranty[0].id || 0
 })
 
@@ -283,24 +298,25 @@ const tabsItem = [
 
 // ***************Add To Basket Code **********************
 const AddToBasket = async (id: number) => {
-    if (authUser.value !== null) {        
-        const res = store.showProduct.find(item => Number(item.pId) === id)
-        console.log('ewwww: ', typeof res);
+    if (authUser.value !== null) {     
+        const res = store.showProduct.find(item => item.pId === id || item.id === id)
         
-        if (typeof res !== 'undefined' || res !== undefined) {
+        if (res !==undefined) {
             
        toast.add({
         description:'محصول به سبد خرید افزوده نشد',
         color:'error'
        })
+        }
 
-        }else{
+        else{
           await store.addToBasket(options, colorSelected.value)
             toast.add({
                 description: 'کالا به سبد خرید اضافه شد'
             })
         }
-    } else {
+    } 
+    else {
         return navigateTo('/auth/authentication', {
             redirectCode: 401,
         })
@@ -334,6 +350,13 @@ const shareThisProduct = () => {
         })
     }
     }
+}
+
+// ***************send comment **********************
+
+const sendComment = async () =>{
+console.log(true);
+
 }
 </script>
 
