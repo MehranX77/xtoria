@@ -175,9 +175,12 @@
                           </div>
                           <USeparator />
 
-                          <UForm class="flex flex-col gap-y-2" @submit.prevent="sendComment">
-                            <UTextarea placeholder="دیدگاه خود را اینجا بنویسید..." variant="subtle" color="neutral" :rows="6" class="md:w-2/4 w-full"/>
-                            <UButton color="neutral" variant="soft" size="xl" type="submit" class="self-baseline">ارسال دیدگاه</UButton>
+                          <UForm class="flex flex-col gap-y-2 max-w-2/4" @submit.prevent="sendComment">
+                            <UTextarea v-model="form.comment" placeholder="دیدگاه خود را اینجا بنویسید..." variant="subtle" color="neutral" :rows="8" />
+                            <div class="flex justify-between">
+                                <UButton color="neutral" variant="soft" size="xl" type="submit" class="self-baseline">ارسال دیدگاه</UButton>
+                                <UInputNumber v-model="form.rating" :max="5" :min="1"/>
+                            </div>
                           </UForm>
                     </div>
                 </template>
@@ -194,7 +197,6 @@ const { public: { baseURL, baseURLAssets } } = useRuntimeConfig()
 const toast = useToast()
 const route = useRoute()
 const store = addToBasket()
-
 // *************Data Fetching*************************
 
 interface products{
@@ -217,7 +219,7 @@ const changeProductColor = (color:number) => {
   colorSelected.value = color   
 }
 
-console.log(' c: ', p.value);
+console.log(' c: ', p.value.data.product.id);
 
 
 // *************End Data Fetching**********************
@@ -354,8 +356,45 @@ const shareThisProduct = () => {
 
 // ***************send comment **********************
 
+const form = reactive({
+    comment: null,
+    rating: 1,
+    varient: p.value.data.product.id
+})
+
 const sendComment = async () =>{
-console.log(true);
+    if(authUser.value !== null){
+      const token = useRequestHeaders(['cookie'])
+try {
+    const res = await $fetch('/api/send-comment', {
+        method:'POST',
+        headers:token,
+        body:form
+    })
+
+    if (res.status === 201){
+        toast.add({
+            description:'با موفقیت ارسال شد'
+        })
+    }else if(res.status === 400){
+             toast.add({
+                title:res.message,
+                description:res.data.errors[0]
+        })
+    }
+
+    console.log(res);
+    
+} catch (error) {
+    console.log(error);
+    
+}
+    }else{
+        toast.add({
+            description:'برای ارسال نظر ابتدا وارد حساب خود شوید'
+        })
+    }
+
 
 }
 </script>
