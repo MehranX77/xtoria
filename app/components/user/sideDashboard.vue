@@ -22,9 +22,15 @@ const toast = useToast()
 const { authUser } = useAuth()
 const { me } = useMyInfo()
 const items: NavigationMenuItem[][] = [[
+        {
+        label: 'صفحه اصلی',
+        icon: 'solar:home-angle-linear',
+        to: '/',
+        exact: true,
+    },
     {
         label: 'خلاصه فعالیت ها',
-        icon: 'solar:home-angle-linear',
+        icon: 'si:activity-duotone',
         to: '/user',
         exact: true,
     },
@@ -40,11 +46,6 @@ const items: NavigationMenuItem[][] = [[
         to: '/user/orders'
     },
     {
-        label: 'پیام های دریافتی',
-        icon: 'solar:bell-line-duotone',
-        to: '/user/notifications'
-    },
-    {
         label: 'آدرس های من',
         icon: 'solar:map-point-linear',
         to: '/user/address'
@@ -53,7 +54,9 @@ const items: NavigationMenuItem[][] = [[
     label: 'پشتیبانی',
     icon: 'material-symbols-light:support-agent-outline-sharp',
     to: '/user/support',
-    class: 'mb-2'
+    class: 'mb-2',
+    disabled:true,
+    badge:'به زودی',
 },
 {
     label: 'خروج از حساب کاربری',

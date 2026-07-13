@@ -10,8 +10,7 @@
         <UInput v-model="userInfo.last_name" color="neutral" variant="subtle" size="xl" placeholder="نام خانوادگی" />
         <UInput v-model="userInfo.email" color="neutral" variant="subtle" size="xl" placeholder="ایمیل" />
         <UInputDate v-model="userInfo.birthDate" :is-date-unavailable="isDateUnavailable" color="neutral"
-          variant="subtle" size="xl" />
-        <UInput v-model="userInfo.postalCode" color="neutral" variant="subtle" size="xl" placeholder="کدپستی" />
+          variant="subtle" size="xl" class="self-baseline"/>
         <UFileUpload v-model="userInfo.picture" label="عکس خود را اینجا اپلود کنید" accept="image/*"/>
       </div>
     </template>
@@ -74,7 +73,6 @@ const userInfo = reactive({
   nationalCode: null,
   email:me.value?.email || null,
   birthDate: null,
-  postalCode: null,
   picture: null
 })
 

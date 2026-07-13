@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
     const { basketId, basketqty, guanrantyId, productColor } = await readBody(event)
      console.log(basketId,basketqty,guanrantyId,productColor);     
     try {
-        const res = await $fetch(`${baseURL}/add-to-basket/${basketId}/${productColor}/${basketqty}/${guanrantyId || '1'}`,{
+        const res = await $fetch(`${baseURL}/add-to-basket/${basketId}/${productColor}/${basketqty}/${guanrantyId || 0}`,{
             method:'GET',
             headers:{
                 'Authorization': `Bearer ${token}`

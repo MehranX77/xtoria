@@ -22,61 +22,19 @@
         <div class="logo basis-7xl self-center">
           <NuxtImg height="30" width="150" class="mx-auto" src="logos.png" />
 
-          <div class="flex justify-center gap-x-6 mt-4 dir-rtl" dir="rtl" :class="{ 'hidden': res }">
-            <div class="relative group">
-
-              <UButton variant="link"
-                class="py-3 flex items-center  gap-2 text-gray-700 hover:text-red-500 transition-all ">
-                <UIcon name="quill:hamburger" class="self-center dark:text-neutral-300" />
-                <span class="text-sm font-bold dark:text-neutral-300">دسته‌بندی کالاها</span>
-              </UButton>
-
-              <div
-                class="absolute left-0 translate-x-[-64%] top-full mt-1 w-220  bg-white shadow-2xl rounded-lg border border-gray-200 flex opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
-
-                <ul class="w-1/4 bg-gray-50 dark:bg-slate-800 border-l border-gray-100 dark:border-slate-300/70 py-2">
-                  <li v-for="category in categories" :key="category.id"
-                    :class="['px-4 py-4 cursor-pointer flex items-center gap-2 transition-all text-sm', activeTab === category.id ? 'bg-white text-red-600 font-bold border-r-4 border-red-600' : 'text-gray-600 hover:bg-gray-100']"
-                    @mouseenter="activeTab = category.id">
-                    {{ category.title }}
-                  </li>
+          <div class="mt-5 text-center" :class="{'hidden' : res}">
+            <ul class="flex justify-center gap-x-4">
+              <template v-for="category in pCategories.data.results" :key="category.id">
+                <li v-if="category.header === null" @mouseenter="changeData(category.id)"><UIcon v-if="category.header === null " name="iconamoon:arrow-down-2-fill" class="align-middle me-1"/><ULink class="font-black">{{ category.name }}</ULink></li>
+              </template>
+            </ul>
+            <div :class="{'hidden': currentTab ===0}" class="rounded-lg md:w-2/5 mt-5 w-full absolute left-[50%] translate-x-[-50%] h-auto bg-slate-100 dark:bg-slate-700 p-4 shadow-sm " @mouseleave="clearCurrentTab">
+                <ul class="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2">
+                  <li v-for="item in activeTab" :key="item.id" class="text-slate-700 dark:text-slate-300 text-lg hover:cursor-pointer p-2 rounded-lg hover:bg-slate-200/65 transition-all">{{ item.name }}<span class="text-xs text-rose-400 line-clamp-1" v-html="item.description"/></li>
                 </ul>
-
-                <div class="w-3/4 p-6 grid grid-cols-3 gap-8 content-start bg-white dark:bg-slate-800">
-                  <div v-for="sub in activeCategory?.subGroups" :key="sub.title">
-                    <h3 class="text-gray-900 font-bold border-r-2 border-red-500 pr-2 mb-4 text-sm flex items-center">
-                      {{ sub.title }}
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path d="M9 5l7 7-7 7" />
-                      </svg>
-                    </h3>
-                    <ul class="space-y-3">
-                      <li v-for="item in sub.items" :key="item">
-                        <a href="#" class="text-gray-500 hover:text-red-500 text-xs transition-colors">
-                          {{ item }}
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-            <!-- ادامه navbar حالت دسکتاپ -->
-            <div class="flex gap-x-1 text-gray-700 dark:text-neutral-300">
-              <UIcon name="solar:gamepad-broken" class="self-center" />
-              <ULink class="text-sm font-bold text-gray-700 dark:text-neutral-300 hover:text-red-500">کنسول بازی</ULink>
-            </div>
-            <div class="flex gap-x-1 text-gray-700 dark:text-neutral-300">
-              <UIcon name="solar:airbuds-charge-broken" class="self-center" />
-              <ULink class="text-sm font-bold text-gray-700 dark:text-neutral-300 hover:text-red-500">هندزفری</ULink>
-            </div>
-            <div class="flex gap-x-1 text-gray-700 dark:text-neutral-300">
-              <UIcon name="solar:monitor-broken" class="self-center" />
-              <ULink class="text-sm font-bold text-gray-700 dark:text-neutral-300 hover:text-red-500">مانیتور</ULink>
             </div>
           </div>
+
         </div>
           <!-- منوی سبد خرید کاربر -->
         <div dir="ltr" class="flex self-center gap-x-3">
@@ -159,13 +117,14 @@
 </template>
 
 <script setup lang="ts">
+import { inputMenu } from '#build/ui'
 import { LazyMobileSlideover } from '#components'
 import { addToBasket } from '../stores/index'
 const { authUser } = useAuth()
 const overlay = useOverlay()
 const slideover = overlay.create(LazyMobileSlideover)
 const store = addToBasket()
-const {public:{baseURLAssets}} = useRuntimeConfig()
+const {public:{baseURL}} = useRuntimeConfig()
 
 async function open() {
   const instance = slideover.open()
@@ -173,46 +132,32 @@ async function open() {
 }
 
 
-const { res } = useScroll()
+const {data:pCategories, error:pError} = await useFetch(`${baseURL}/product/categories `)
 
-const categories = [
-  {
-    id: 1,
-    title: 'موبایل',
-    subGroups: [
-      { title: 'برندهای مختلف', items: ['گوشی سامسونگ', 'گوشی شیائومی', 'گوشی اپل', 'گوشی نوکیا'] },
-      { title: 'گوشی بر اساس قیمت', items: ['گوشی ارزان', 'تا ۵ میلیون', 'تا ۱۰ میلیون', 'بالای ۲۰ میلیون'] },
-      { title: 'لوازم جانبی', items: ['شارژر', 'پاوربانک', 'قاب گوشی', 'هندزفری'] }
-    ]
-  },
-  {
-    id: 2,
-    title: 'لپ‌تاپ',
-    subGroups: [
-      { title: 'برندها', items: ['ایسوس (ASUS)', 'لنوو (Lenovo)', 'اپل (MacBook)'] },
-      { title: 'کاربری', items: ['گیمینگ', 'اداری', 'دانشجویی'] },
-      { title: 'کاربری2', items: ['گیمینگ', 'اداری', 'دانشجویی'] }
-    ]
-  },
-  {
-    id: 3,
-    title: 'کالای دیجیتال',
-    subGroups: [
-      { title: 'دوربین', items: ['دوربین عکاسی', 'لنز', 'تجهیزات جانبی'] },
-      { title: 'صوتی', items: ['اسپیکر', 'هدفون بلوتوثی'] },
-      { title: 'کاربری', items: ['گیمینگ', 'اداری', 'دانشجویی'] }
-    ]
-  }
-]
+console.log(pCategories.value.data.results);
+console.log(pError);
 
-// وضعیت تب فعال (پیش‌فرض اولین آیتم)
-const activeTab = ref(1)
+const currentTab = ref(0)
+const changeData = (id: number) => {
+  currentTab.value= id
+  
+}
 
-// پیدا کردن دیتای مربوط به تب فعال
-const activeCategory = computed(() => {
-  return categories.find(c => c.id === activeTab.value) || categories[0]
+const clearCurrentTab = () => {
+  currentTab.value = 0
+}
+
+
+const activeTab = computed(() => {
+ return pCategories.value.data.results.filter(ct => ct.header === currentTab.value)
 })
 
+onMounted(() => {
+  console.log(activeTab.value);
+})
+
+
+const { res } = useScroll()
 
 // نمایش تعداد محصولات افزوده شده به سبد خرید
 const products = computed(() => {

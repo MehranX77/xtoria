@@ -25,9 +25,9 @@
 
                     <div class="gallery basis-110">
                         <NuxtImg class="lg:w-80 lg:h-80 lg:max-h-80 w-40 h-40 max-h-40 mx-auto lg:mx-0 object-cover rounded-lg" :src="galleryRef"/>
-                        <div class="flex justify-center sub-img gap-x-5">
+                        <div class="flex justify-center sub-img gap-x-5 mt-4">
                             <template v-for="(items, index) in p?.data?.product.images.slice(0,3)" :key="index">
-                               <NuxtImg class="w-20 h-20 max-h-20 hover:cursor-pointer transition-all object-cover rounded-lg border border-slate-300 dark:border-slate-700/90 hover:border-rose-700/90 p-2" :src="items.image" @click="changeImg(items)" />
+                               <NuxtImg class="w-20 h-20 max-h-20 hover:cursor-pointer transition-all object-cover rounded-lg border border-slate-300 dark:border-slate-700/90 hover:border-slate-400/90 p-2" :src="items.image" @click="changeImg(items)" />
                                 <!-- {{ items.image }} -->
                             </template>
                         </div>
@@ -130,10 +130,9 @@
                         <USeparator />
                         <p class="text-xl font-bold my-5">مشخصات محصول</p>
                         <template v-if="p.data.properties.length > 0">
-                        <div v-for="(property, index) in p.data?.properties" :key="index" class="flex justify-around gap-x-3 md:w-1/3 w-full">
-                                <span class="text-slate-500 dark:text-slate-300">{{ property.key }}</span>
-                                <USeparator />
-                                <span :class="{'text-red-500': property.value === 'ندارد'}" class="text-base">{{ property.value }}</span>
+                        <div v-for="(property, index) in p.data?.properties" :key="index"  class="flex md:gap-x-0 gap-x-5">
+                                <span class="text-slate-500 dark:text-slate-300 text-nowrap flex-1">{{ property.key }}</span>
+                                <span :class="{'text-red-500': property.value === 'ندارد'}" class="text-base flex-1/2 text-start text-wrap border-b border-b-slate-200/60 pb-2">{{ property.value }}</span>
                         </div>
                         </template>
                         <template v-else>برای این محصول مشخصاتی تعریف نشده!</template>
