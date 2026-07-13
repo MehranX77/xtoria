@@ -26,8 +26,8 @@
                     <div class="gallery basis-110">
                         <NuxtImg class="lg:w-80 lg:h-80 lg:max-h-80 w-40 h-40 max-h-40 mx-auto lg:mx-0 object-cover rounded-lg" :src="galleryRef"/>
                         <div class="flex justify-center sub-img gap-x-5 mt-4">
-                            <template v-for="(items, index) in p?.data?.product.images.slice(0,3)" :key="index">
-                               <NuxtImg class="w-20 h-20 max-h-20 hover:cursor-pointer transition-all object-cover rounded-lg border border-slate-300 dark:border-slate-700/90 hover:border-slate-400/90 p-2" :src="items.image" @click="changeImg(items)" />
+                            <template v-for="(items, index) in p?.data?.product?.images.slice(0,3)" :key="index">
+                               <NuxtImg class="w-20 h-20 max-h-20 hover:cursor-pointer transition-all object-cover rounded-lg border border-slate-300 dark:border-slate-700/90 hover:border-slate-400/90 p-2" :src="items?.image" @click="changeImg(items)" />
                                 <!-- {{ items.image }} -->
                             </template>
                         </div>
@@ -59,8 +59,8 @@
                                 <div class="flex lg:flex-nowrap flex-wrap lg:gap-x-12 gap-y-3 mt-4">
                                     <UFormField orientation="vertical" label="انتخاب رنگ" class="lg:text-xl text-base">
                                         <div class="flex gap-x-2">
-                                            <div v-for="color in p.data?.colors" :key="color.id" class="rounded-full w-8 h-8 hover:cursor-pointer self-center flex justify-center items-center" :style="{background:`${color.value}`}" @click="changeProductColor(color.id)">
-                                                <UIcon v-show="color.id === colorSelected" name='material-symbols-light:check' class="text-slate-100 text-2xl" />
+                                            <div v-for="color in p.data?.colors" :key="color?.id" class="rounded-full w-8 h-8 hover:cursor-pointer self-center flex justify-center items-center" :style="{background:`${color.value}`}" @click="changeProductColor(color?.id)">
+                                                <UIcon v-show="color?.id === colorSelected" name='material-symbols-light:check' class="text-slate-100 text-2xl" />
                                             </div>
                                         </div>
                                     </UFormField>
@@ -69,11 +69,11 @@
                                         <UInputNumber v-model="options.quantity" size="xl" :min="1" />
                                     </UFormField>
                                 </div>
-                                <UFormField label="انتخاب گارانتی" required :hint="p?.data?.guanranty[0].days + ' روز گارانتی '" class="space-y-4 lg:text-xl text-base" :ui="{hint:'text-rose-500 text-sm font-bold'}">
+                                <UFormField label="انتخاب گارانتی" required :hint="p?.data?.guanranty[0]?.days + ' روز گارانتی '" class="space-y-4 lg:text-xl text-base" :ui="{hint:'text-rose-500 text-sm font-bold'}">
                                     <URadioGroup v-for="(key,index) in p?.data?.guanranty" :key="index" v-model="options.selectedGuanranty" size="xl" dir="rtl" class="text-end w-fit " :items="[key.name]" color="neutral"/>
                                 </UFormField>
                                 <div class="flex gap-x-3">
-                                <UButton v-if="p?.data?.stock !== 0"  variant="subtle" size="xl" color="neutral" class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone" @click="AddToBasket(p.data.id)">{{ numberFormater(p?.data.price || 0) }} <span class="text-sm text-muted">تومان</span></UButton>
+                                <UButton v-if="p?.data?.stock !== 0"  variant="subtle" size="xl" color="neutral" class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone" @click="AddToBasket(p.data?.id)">{{ numberFormater(p?.data.price || 0) }} <span class="text-sm text-muted">تومان</span></UButton>
                                 <UButton v-else disabled variant="subtle" size="xl" color="error" class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone">اتمام موجودی</UButton>
                                 <span v-if="p?.data?.discount !== 0" class="text-md text-muted self-center "> تخفیف: {{ numberFormater(p?.data?.discount || 0) }} تومان</span>
                                 </div>
@@ -218,7 +218,7 @@ const changeProductColor = (color:number) => {
   colorSelected.value = color   
 }
 
-console.log(' c: ', p.value.data.product.id);
+console.log(' c: ', p.value.data.product?.id);
 
 
 // *************End Data Fetching**********************
@@ -253,7 +253,7 @@ const changeImg = (x: string) => {
 
 
 onMounted(() => {
-   galleryRef.value = p?.value?.data?.product?.images[0].image
+   galleryRef.value = p?.value?.data?.product?.images[0]?.image
 })
 
 // *************End Gallery*********************
@@ -265,12 +265,12 @@ const options = reactive({
  productSlug:p.value?.data.slug,
  productName:p.value?.data.product.name,
 //  productColor:'سفید',
- productImage:p?.value?.data?.product?.images[0].image,
+ productImage:p?.value?.data?.product?.images[0]?.image,
  price:p.value?.data.price || 0,
  discount:p.value?.data.discount || 0,
  quantity: 0,
 //  selectedGuanranty:'',
- guanrantyId: p.value?.data?.guanranty[0].id || 0
+ guanrantyId: p.value?.data?.guanranty[0]?.id || 0
 })
 
 // *****************End Options Wrapper***********
@@ -358,7 +358,7 @@ const shareThisProduct = () => {
 const form = reactive({
     comment: null,
     rating: 1,
-    varient: p.value.data.product.id
+    varient: p.value.data.product?.id
 })
 
 const sendComment = async () =>{

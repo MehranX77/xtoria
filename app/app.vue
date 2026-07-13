@@ -1,13 +1,13 @@
 <template>
-    <NuxtLoadingIndicator color="red"/>
-    <UApp>
-      <NuxtRouteAnnouncer />
-      <NuxtLayout>
-          <UMain>
-          <NuxtPage />
-        </UMain>
-        </NuxtLayout>
-    </UApp>
+  <NuxtLoadingIndicator color="red" />
+  <UApp>
+    <NuxtRouteAnnouncer />
+    <NuxtLayout>
+      <UMain>
+        <NuxtPage />
+      </UMain>
+    </NuxtLayout>
+  </UApp>
 </template>
 
 <script setup>
@@ -16,6 +16,13 @@ useHead({
     return titleChunk ? titleChunk : 'xtore'
   }
 })
+
+useHeadSafe({
+  meta: [
+    { name: 'enamad', content: '66880816' }
+  ]
+})
+
 </script>
 
 <style>
@@ -23,10 +30,10 @@ useHead({
 .page-leave-active {
   transition: all 0.4s;
 }
+
 .page-enter-from,
 .page-leave-to {
   opacity: 0;
   filter: blur(1rem);
 }
 </style>
-

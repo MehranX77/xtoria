@@ -25,12 +25,12 @@
           <div class="mt-5 text-center" :class="{'hidden' : res}">
             <ul class="flex justify-center gap-x-4">
               <template v-for="category in pCategories.data.results" :key="category.id">
-                <li v-if="category.header === null" @mouseenter="changeData(category.id)"><UIcon v-if="category.header === null " name="iconamoon:arrow-down-2-fill" class="align-middle me-1"/><ULink class="font-black">{{ category.name }}</ULink></li>
+                <li v-if="category.header === null" @mouseenter="changeData(category.id, category.has_sub)"><UIcon v-if="category.has_sub" name="iconamoon:arrow-down-2-fill" class="align-middle me-1"/><ULink class="font-black">{{ category.name }}</ULink></li>
               </template>
             </ul>
             <div :class="{'hidden': currentTab ===0}" class="rounded-lg md:w-2/5 mt-5 w-full absolute left-[50%] translate-x-[-50%] h-auto bg-slate-100 dark:bg-slate-700 p-4 shadow-sm " @mouseleave="clearCurrentTab">
                 <ul class="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2">
-                  <li v-for="item in activeTab" :key="item.id" class="text-slate-700 dark:text-slate-300 text-lg hover:cursor-pointer p-2 rounded-lg hover:bg-slate-200/65 transition-all">{{ item.name }}<span class="text-xs text-rose-400 line-clamp-1" v-html="item.description"/></li>
+                  <li v-for="item in activeTab" :key="item.id" class="text-slate-700 dark:text-slate-300 text-lg hover:cursor-pointer p-2 rounded-lg hover:bg-slate-200/65 transition-all"><ULink>{{item.name}}</Ulink><span class="text-xs text-rose-400 line-clamp-1" v-html="item.description"/></li>
                 </ul>
             </div>
           </div>
@@ -117,7 +117,6 @@
 </template>
 
 <script setup lang="ts">
-import { inputMenu } from '#build/ui'
 import { LazyMobileSlideover } from '#components'
 import { addToBasket } from '../stores/index'
 const { authUser } = useAuth()
@@ -134,12 +133,15 @@ async function open() {
 
 const {data:pCategories, error:pError} = await useFetch(`${baseURL}/product/categories `)
 
-console.log(pCategories.value.data.results);
+console.log('pcategory: ', pCategories.value.data.results);
 console.log(pError);
 
 const currentTab = ref(0)
-const changeData = (id: number) => {
+const changeData = (id: number, hasSub: boolean) => {
+if(hasSub){
   currentTab.value= id
+}
+return
   
 }
 
