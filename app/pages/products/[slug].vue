@@ -24,7 +24,9 @@
                 <div class="flex md:flex-nowrap flex-wrap dark:bg-slate-800 bg-slate-100 w-full p-4 rounded-lg mt-5 gap-x-5">
 
                     <div class="gallery basis-110">
-                        <NuxtImg class="lg:w-80 lg:h-80 lg:max-h-80 w-40 h-40 max-h-40 mx-auto lg:mx-0 object-cover rounded-lg" :src="galleryRef"/>
+        
+                            <NuxtImg class="lg:w-80 lg:h-80 lg:max-h-80 w-40 h-40 max-h-40 mx-auto lg:mx-0 object-cover rounded-lg" :src="galleryRef"/>
+      
                         <div class="flex justify-center sub-img gap-x-5 mt-4">
                             <template v-for="(items, index) in p?.data?.product?.images.slice(0,3)" :key="index">
                                <NuxtImg class="w-20 h-20 max-h-20 hover:cursor-pointer transition-all object-cover rounded-lg border border-slate-300 dark:border-slate-700/90 hover:border-slate-400/90 p-2" :src="items?.image" @click="changeImg(items)" />
@@ -59,7 +61,7 @@
                                 <div class="flex lg:flex-nowrap flex-wrap lg:gap-x-12 gap-y-3 mt-4">
                                     <UFormField orientation="vertical" label="انتخاب رنگ" class="lg:text-xl text-base">
                                         <div class="flex gap-x-2">
-                                            <div v-for="color in p.data?.colors" :key="color?.id" class="rounded-full w-8 h-8 hover:cursor-pointer self-center flex justify-center items-center" :style="{background:`${color.value}`}" @click="changeProductColor(color?.id)">
+                                            <div v-for="color in p.data?.colors" :key="color?.id" class="rounded-full w-8 h-8 hover:cursor-pointer self-center flex justify-center items-center" :style="{background:`${color.value}`}" @click="changeProductColor(color?.id, color?.price)">
                                                 <UIcon v-show="color?.id === colorSelected" name='material-symbols-light:check' class="text-slate-100 text-2xl" />
                                             </div>
                                         </div>
@@ -196,6 +198,7 @@ const { public: { baseURL, baseURLAssets } } = useRuntimeConfig()
 const toast = useToast()
 const route = useRoute()
 const store = addToBasket()
+const colorPrice = ref(0)
 // *************Data Fetching*************************
 
 interface products{
@@ -214,11 +217,13 @@ p.value = product.value.data
 relatedProducts.value = product.value.data.related
 const colorSelected = ref<number | null>(null)
 
-const changeProductColor = (color:number) => {  
+const changeProductColor = (color:number, price: number) => {  
   colorSelected.value = color   
+  colorPrice.value = price
+ 
 }
 
-console.log(' c: ', p.value.data.product?.id);
+console.log(' c: ', p.value.data);
 
 
 // *************End Data Fetching**********************
@@ -268,7 +273,7 @@ const options = reactive({
  productImage:p?.value?.data?.product?.images[0]?.image,
  price:p.value?.data.price || 0,
  discount:p.value?.data.discount || 0,
- quantity: 0,
+ quantity: 1,
 //  selectedGuanranty:'',
  guanrantyId: p.value?.data?.guanranty[0]?.id || 0
 })
@@ -311,7 +316,7 @@ const AddToBasket = async (id: number) => {
         }
 
         else{
-          await store.addToBasket(options, colorSelected.value)
+          await store.addToBasket(options, colorSelected.value, colorPrice.value)
             toast.add({
                 description: 'کالا به سبد خرید اضافه شد'
             })

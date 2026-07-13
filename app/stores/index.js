@@ -9,9 +9,9 @@ export const addToBasket = defineStore('add-to-basket', {
     }
   },
   actions: {
-    async addToBasket( basket, cxt) {
+    async addToBasket( basket, cxt, cp) {
       try {
-       console.log('pinia: ', basket, cxt);
+       console.log('pinia: ', basket, cxt, cp);
        
         const res = await $fetch('/api/checkout-list', {
           method: 'POST',
@@ -28,7 +28,7 @@ export const addToBasket = defineStore('add-to-basket', {
           discount: res.data.discount,
           id: res.data.id,
           pId:res.data.product.id,
-          price: res.data?.price,
+          price: res.data?.price + cp,
           name: res.data.product?.name,
           picture: res.data.product?.picture,
           brand: res.data.brand?.name,
@@ -52,7 +52,7 @@ export const addToBasket = defineStore('add-to-basket', {
             discount: p[item].discount,
             id: p[item].product.id,
             name: p[item].product.product.name,
-            price: p[item].product.price,
+            price: p[item].product.price ,
             picture: p[item].product.product.picture,
             brand: p[item].product.product.brand,
             description: p[item].product.product.description,
