@@ -51,6 +51,7 @@ export const addToBasket = defineStore('add-to-basket', {
           this.basketCart.push({
             discount: p[item].discount,
             id: p[item].product.id,
+            primaryId:p[item].id,
             name: p[item].product.product.name,
             price: p[item].product.price ,
             picture: p[item].product.product.picture,

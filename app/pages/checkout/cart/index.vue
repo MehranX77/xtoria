@@ -67,7 +67,6 @@
 import { addToBasket } from '../../../stores/index'
 const { data: address } = await useFetch('/api/user-address')
 const toast = useToast()
-console.log(address.value);
 useHead({
     bodyAttrs: {
         'class': 'bg-slate-100 dark:bg-slate-900'
@@ -85,6 +84,9 @@ const store = addToBasket()
 const products = computed(() => {
   return store.showProduct || null
 })
+
+console.log('fuck: ', products.value);
+
 
 const totalPrice = computed(() => {
   return store.basketCart?.map((item) => {    
@@ -128,11 +130,16 @@ const res = await $fetch('/api/remove-basket', {
     }
 })
 
-if(res.status == 204){
+console.log(res);
+
+
+if(res.status == 200){
     toast.add({
-       description: res?.message
+       description: 'سبد خرید پاک شد'
     })
-}else if(res.status !== 204){
+
+    return navigateTo('/')
+}else if(res.status !== 200){
     throw showError({
         message: res?.message
     })

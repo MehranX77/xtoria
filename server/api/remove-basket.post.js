@@ -9,8 +9,7 @@ export default defineEventHandler(async (event) => {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
-        })
-
+        });
         return res
     } catch (error) {
         return error.data
