@@ -75,7 +75,7 @@
                                     <URadioGroup v-for="(key,index) in p?.data?.guanranty" :key="index" v-model="options.selectedGuanranty" size="xl" dir="rtl" class="text-end w-fit " :items="[key.name]" color="neutral"/>
                                 </UFormField>
                                 <div class="flex gap-x-3">
-                                <UButton v-if="p?.data?.stock !== 0"  variant="subtle" size="xl" color="neutral" class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone" @click="AddToBasket(p.data?.id)">{{ numberFormater(p?.data.price || 0) }} <span class="text-sm text-muted">تومان</span></UButton>
+                                <UButton v-if="p?.data?.stock !== 0"  variant="subtle" size="xl" color="neutral" class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone" @click="AddToBasket(p.data?.id)">{{ numberFormater(totalPriceAfterUpdate || 0) }} <span class="text-sm text-muted">تومان</span></UButton>
                                 <UButton v-else disabled variant="subtle" size="xl" color="error" class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone">اتمام موجودی</UButton>
                                 <span v-if="p?.data?.discount !== 0" class="text-md text-muted self-center "> تخفیف: {{ numberFormater(p?.data?.discount || 0) }} تومان</span>
                                 </div>
@@ -216,12 +216,7 @@ const relatedProducts = ref(null)
 p.value = product.value.data
 relatedProducts.value = product.value.data.related
 const colorSelected = ref<number | null>(null)
-
-const changeProductColor = (color:number, price: number) => {  
-  colorSelected.value = color   
-  colorPrice.value = price
- 
-}
+const totalPriceAfterUpdate = ref(p.value.data.price)
 
 console.log(' c: ', p.value.data);
 
@@ -236,7 +231,7 @@ const items: BreadcrumbItem[] = [
         to: '/'
     },
     {
-        label: 'products',
+        label: 'محصولات',
         to: '/products'
     },
     {
@@ -279,6 +274,37 @@ const options = reactive({
 })
 
 // *****************End Options Wrapper***********
+
+const changeProductColor =async (color:number, price: number) => {  
+  colorSelected.value = color   
+  colorPrice.value = price  
+  try {
+    const res = await $fetch('/api/update-price', {
+        method:'POST',
+        body:{
+            totalPrice : colorPrice.value,
+            colorId: colorSelected.value,
+            guaranteeId: p.value?.data?.guanranty[0]?.id || 0,
+             productId:p.value?.data.id,
+             optionName: ['color', 'guarantee']
+
+        }
+    })
+    if(res.status === 200){
+        totalPriceAfterUpdate.value = res.data?.price 
+    }else{
+        toast.add({
+            description:'خطا در محاسبه قیمت'
+        })
+    }
+    
+  } catch (error: any) {
+    console.log(error.message);
+    
+  }
+ 
+}
+
 
 // ***************Tabs Items **************************
 
