@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
      console.log(optionName);
      
     try {
-        const res = $fetch(`${baseURL}/product/update-price/${productId}/${optionName[0]+'-'+optionName[1]}?color_id=${colorId}&guarantee_id=${guaranteeId}`, {
+        const res = $fetch(`${baseURL}/product/update-price/${productId}/${optionName[0] || 0 +'-'+optionName[1] || 0}?color_id=${colorId}&guarantee_id=${guaranteeId}`, {
             headers:{
                 'Authorization' : `Bearer ${token}`
             }
