@@ -9,7 +9,7 @@
                 <h1 class="font-bold text-lg">{{ blog.category_title }}</h1>
                 <div class="flex justify-between">
                     <p class="self-center" v-html="blog.short_desc"/>
-                    <ULink class="text-2xl self-center hover:cursor-pointer"><UIcon name="mdi-light:arrow-left" class="align-middle"/></ULink>
+                    <ULink class="text-2xl self-center hover:cursor-pointer" :to="{name:'blog-slug', params:{slug: blog.slug}}"><UIcon name="mdi-light:arrow-left" class="align-middle"/></ULink>
                 </div>
             </div>
         </template>

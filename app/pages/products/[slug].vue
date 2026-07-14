@@ -67,11 +67,11 @@
                                         </div>
                                     </UFormField>
 
-                                    <UFormField orientation="vertical" label="تعداد" class="lg:text-xl text-base">
-                                        <UInputNumber v-model="options.quantity" size="xl" :min="1" />
+                                    <UFormField orientation="vertical" label="تعداد" class="lg:text-xl text-base" :help="'موجودی کالا: ' + p.data?.stock">
+                                        <UInputNumber v-model="options.quantity" size="xl" :min="1" :max="p.data?.stock || 1"/>
                                     </UFormField>
                                 </div>
-                                <UFormField label="انتخاب گارانتی" required :hint="p?.data?.guanranty[0]?.days + ' روز گارانتی '" class="space-y-4 lg:text-xl text-base" :ui="{hint:'text-rose-500 text-sm font-bold'}">
+                                <UFormField label="انتخاب گارانتی" required class="space-y-4 lg:text-xl text-base" :ui="{hint:'text-rose-500 text-sm font-bold'}">
                                     <URadioGroup v-for="(key,index) in p?.data?.guanranty" :key="index" v-model="options.selectedGuanranty" size="xl" dir="rtl" class="text-end w-fit " :items="[key.name]" color="neutral"/>
                                 </UFormField>
                                 <div class="flex gap-x-3">

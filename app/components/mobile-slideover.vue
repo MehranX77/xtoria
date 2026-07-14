@@ -1,7 +1,8 @@
 <template>
     <USlideover :close="{ onClick: () => emit('close', false) }" :overlay="true" class="w-[80%]">
         <template #body>
-            <Placeholder class="h-full" />
+            <UNavigationMenu dir="rtl" orientation="vertical" :items="items"
+                class="data-[orientation=vertical]:w-full" />
         </template>
 
         <template #footer>
@@ -14,5 +15,58 @@
 
 
 <script setup lang="ts">
+import type { NavigationMenuItem } from '@nuxt/ui';
+
 const emit = defineEmits<{ close: [boolean] }>()
+
+interface CategoryItem {
+    id: string | number;
+    name: string;
+    header: string | number | null;
+    has_sub: boolean;
+}
+
+const { public: { baseURL } } = useRuntimeConfig()
+
+const items = ref<NavigationMenuItem[][]>([])
+
+
+const childrenList = ref<CategoryItem[]>([])
+
+
+const { data: pCategories, error: pError } = await useFetch<{ data: { results: CategoryItem[] } }>(
+    `${baseURL}/product/categories`
+)
+
+
+const categoriesList = pCategories.value?.data?.results || []
+
+
+for (const item of categoriesList) {
+    childrenList.value.push(item)
+}
+
+
+const resId = childrenList.value.find(item => item.header !== null)
+
+if (resId) {
+    console.log('resId:', resId.header);
+}
+
+
+for (const item of categoriesList) {
+    if (item.header === null) {
+        items.value.push([
+            {
+                label: item.name,
+                children: item.has_sub ? [
+                    {
+                        label: (resId && item.id === resId.header) ? resId.name : ''
+                    }
+                ] : undefined
+            }
+        ])
+    }
+
+}
 </script>

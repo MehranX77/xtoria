@@ -82,8 +82,9 @@
 
             <!-- banners -->
             <div class="grid md:grid-cols-2 grid-cols-1 mt-10 gap-x-3">
-                <NuxtImg class="rounded-lg self-center max-w-full w-full md:max-h-52 bg-cover" v-for="banner in banner1"
-                    :key="banner.id" :src="`${baseURLAssets}${banner?.media}`" />
+                <ULink  v-for="banner in banner1" :key="banner.id" target="_blank" :to="banner?.target_link">
+                    <NuxtImg class="rounded-lg self-center max-w-full w-full md:max-h-52 object-cover" :src="`${baseURLAssets}${banner?.media}`" />
+                </ULink>
             </div>
 
             <div class="my-8">
@@ -101,10 +102,10 @@
                 </NuxtErrorBoundary>
 
             </div>
-            <div
-                class="md:grid md:grid-cols-2 hidden gap-x-4 mt-30 border dark:border-slate-700/70 border-slate-200 lg:p-5 p-3">
-                <NuxtImg v-for="banner in banner2" :key="banner.id" :src="`${baseURLAssets}${banner?.media}`"
-                    class="lg:w-full rounded-lg border-r dark:border-slate-700/70 border-slate-200 lg:h-87.5 w-55 h-40 mx-auto bg-cover" />
+            <div class="md:grid md:grid-cols-2 hidden gap-x-4 mt-30 border dark:border-slate-700/70 border-slate-200 lg:p-5 p-3">
+                <ULink v-for="banner in banner2" :key="banner.id" :to="banner?.target_link" target="_blank">
+                    <NuxtImg :src="`${baseURLAssets}${banner?.media}`" class="lg:w-full object-cover rounded-lg border-r dark:border-slate-700/70 border-slate-200 lg:h-87.5 w-55 h-40 mx-auto bg-cover" />
+                </ULink>
             </div>
 
             <div class="bg-slate-100 dark:bg-slate-800 rounded-lg shadow p-4 h-fit md:mt-8 mt-14">
