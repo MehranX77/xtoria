@@ -90,7 +90,7 @@
 
                     <!-- pagination -->
 
-                    <UPagination v-model:page="page" :total="5" :sibling-count="5" color="neutral" active-color="neutral"  active-variant="solid" class="mt-5 flex justify-center" dir="ltr" />
+                    <UPagination v-model:page="page" :items-per-page="5" :total="totalPageSize" :sibling-count="3" color="neutral" active-color="neutral"  active-variant="solid" class="mt-5 flex justify-center" dir="ltr" />
                 </div>
             </div>
         </UContainer>
@@ -130,13 +130,24 @@ const checkboxValue = ref<string[]>([])
 
 const categoryCheckbox = ref<string[]>(['هدفون', 'هدست', 'میکروفن'])
 
+const page = ref<number>()
+
+const { data: productList} = await useFetch(`${baseURL}/product/products/`, {
+    query:{
+        page: page
+    },
+    key: `products-page-${page.value}`,
+
+    watch: [page]
+})
 
 
-const { data: productList } = await useFetch(`${baseURL}/product/products/`)
+const totalPageSize = computed(() => {
+    return Number(productList.value?.data?.count || 0)
+})
 
-console.log(productList.value);
 
-const page = ref<number>(1)
+
 // نمایش لیست محصولات دارای تخفیف
 const isDescount = ref<boolean>()
 
