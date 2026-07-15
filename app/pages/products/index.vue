@@ -90,8 +90,7 @@
 
                     <!-- pagination -->
 
-                    <UPagination v-model:page="page" :total="100" color="neutral" active-color="neutral"
-                        active-variant="solid" class="mt-5 flex justify-center" dir="ltr" />
+                    <UPagination v-model:page="page" :total="5" :sibling-count="5" color="neutral" active-color="neutral"  active-variant="solid" class="mt-5 flex justify-center" dir="ltr" />
                 </div>
             </div>
         </UContainer>
@@ -131,65 +130,13 @@ const checkboxValue = ref<string[]>([])
 
 const categoryCheckbox = ref<string[]>(['هدفون', 'هدست', 'میکروفن'])
 
-const page = ref<number>(5)
 
-// const productList = ref([
-//     {
-//         img: 'monitor.png',
-//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-//         hasDiscount: false
-//     },
-//     {
-//         img: 'monitor.png',
-//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-//         hasDiscount: true
-//     },
-//     {
-//         img: 'monitor.png',
-//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-//         hasDiscount: false
-//     },
-//     {
-//         img: 'dualshock.png',
-//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-//         hasDiscount: false
-//     },
-//     {
-//         img: 'dualshock.png',
-//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-//         hasDiscount: true
-//     },
-//     {
-//         img: 'dualshock.png',
-//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-//         hasDiscount: false
-//     },
-//     {
-//         img: 'mouse.png',
-//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-//         hasDiscount: false
-//     },
-//     {
-//         img: 'mouse.png',
-//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-//         hasDiscount: true
-//     },
-//     {
-//         img: 'mouse.png',
-//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-//         hasDiscount: false
-//     },
-//     {
-//         img: 'mouse.png',
-//         description: 'ساعت مچی عقربه‌ای اتوماتیک مردانه فورسنینگ مدل IRONMAN',
-//         hasDiscount: true
-//     },
-// ])
 
 const { data: productList } = await useFetch(`${baseURL}/product/products/`)
 
-// console.log(productList.value);
+console.log(productList.value);
 
+const page = ref<number>(1)
 // نمایش لیست محصولات دارای تخفیف
 const isDescount = ref<boolean>()
 

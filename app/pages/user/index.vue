@@ -4,25 +4,25 @@
     <div class="w-full border border-slate-300/70 dark:border-slate-800 rounded-lg p-6 mt-2">
         <p class="order self-baseline-safe text-neutral-900 dark:text-neutral-100 relative mb-16">سفارش های من</p>
       <div class="flex justify-around ">
-        <div class="flex gap-x-2">
+        <div class="flex flex-wrap md:justify-normal justify-center gap-x-2">
           <NuxtImg width="70" height="70" src="status-delivered.svg" />
-          <div class="flex flex-col self-center gap-y-2">
+          <div class="flex flex-col md:items-start items-center self-center gap-y-2">
             <p class="text-neutral-800 dark:text-neutral-100">{{ data?.data?.delivered || 0 }}</p>
             <span class="text-xs text-muted">تحویل شده</span>
           </div>
         </div>
-        <USeparator orientation="vertical" color="neutral" class="h-19" />
-        <div class="flex gap-x-2">
+        <USeparator orientation="vertical" color="neutral" class="h-19 md:flex hidden" />
+        <div class="flex flex-wrap md:justify-normal justify-center gap-x-2">
           <NuxtImg width="70" height="70" src="status-processing.svg" />
-          <div class="flex flex-col self-center gap-y-2">
+          <div class="flex flex-col md:items-start items-center self-center gap-y-2">
             <p class="text-neutral-800 dark:text-neutral-100">{{ data?.data?.current_order || 0 }}</p>
             <span class="text-xs text-muted">جاری</span>
           </div>
         </div>
-        <USeparator orientation="vertical" color="neutral" class="h-19" />
-        <div class="flex gap-x-2">
+        <USeparator orientation="vertical" color="neutral" class="h-19 md:flex hidden" />
+        <div class="flex flex-wrap md:justify-normal justify-center gap-x-2">
           <NuxtImg width="70" height="70" src="status-returned.svg" />
-          <div class="flex flex-col self-center gap-y-2">
+          <div class="flex flex-col md:items-start items-center self-center gap-y-2">
             <p class="text-neutral-800 dark:text-neutral-100">{{ data?.data?.refered || 0 }}</p>
             <span class="text-xs text-muted">مرجوع شده</span>
           </div>

@@ -96,7 +96,7 @@
     <div
       class="mobile flex justify-around md:hidden fixed dark:bg-slate-700/80 bg-gray-200/50 backdrop-blur-3xl w-full bottom-0 z-50 py-3">
       <div class="flex flex-col text-2xl">
-        <UIcon name="system-uicons:menu-hamburger" class="self-center" />
+        <UIcon name="mdi:about-variant" class="self-center" @click="() => navigateTo('/about-us')"/>
         <span class="text-sm font-medium self-center">درباره ما</span>
       </div>
       <div class="flex flex-col text-2xl" @click="() => navigateTo('/')">
