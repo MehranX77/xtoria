@@ -176,11 +176,13 @@
                           </div>
                           <USeparator />
 
-                          <UForm class="flex flex-col gap-y-2 max-w-2/4" @submit.prevent="sendComment">
+                          <UForm class="flex flex-col gap-y-2 lg:max-w-2/4 w-full" @submit.prevent="sendComment">
                             <UTextarea v-model="form.comment" placeholder="دیدگاه خود را اینجا بنویسید..." variant="subtle" color="neutral" :rows="8" />
-                            <div class="flex justify-between">
-                                <UButton color="neutral" variant="soft" size="xl" type="submit" class="self-baseline">ارسال دیدگاه</UButton>
-                                <UInputNumber v-model="form.rating" :max="5" :min="1"/>
+                            <div class="md:flex md:flex-row md:justify-between flex-col md:space-y-0 space-y-5 ">
+                                <UFormField label="امتیاز محصول">
+                                    <UInputNumber v-model="form.rating" :max="5" :min="1" class="md:w-fit w-full"/>
+                                </UFormField>
+                                <UButton color="neutral" variant="soft" size="xl" type="submit" class="self-baseline md:w-fit w-full md:place-content-start place-content-center-safe">ارسال دیدگاه</UButton>
                             </div>
                           </UForm>
                     </div>
