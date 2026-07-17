@@ -4,7 +4,7 @@
         <NuxtImg class="md:min-w-46 md:min-h-46 md:max-w-46 md:max-h-46 max-w-full min-h-40 max-h-40 object-cover mx-auto rounded-lg" :src="`${baseURLAssets}${item?.product?.picture}`" />
         <span class="text-sm font-bold text-center">{{ item.product?.name }}</span>
         <span v-html="item.product?.description" class="text-sm text-muted text-center" />
-        <UButton :to="{ name: 'products-slug', params:{slug: item.slug}, query:{brand: item.slug}}" color="error" dir="rtl" size="lg" class="rounded-full place-content-center w-[86%] mx-auto mb-1">{{ numberFormater(item?.price) 
+        <UButton :to="{ name: 'products-slug', params:{slug: item.slug}, query:{brand: item.slug}}" color="error" variant="soft" dir="rtl" size="lg" class="place-content-center w-[86%] mx-auto mb-1">{{ numberFormater(item?.price) 
             }} تومن </UButton>     
     </div>
     </div>

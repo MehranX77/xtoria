@@ -117,9 +117,9 @@
                     :ui="{ item: 'xl:basis-1/8 lg:basis-1/4 md:basis-1/3 basis-1/2 lg:mx-3 ', controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2' }">
                     <NuxtImg :src="`${baseURLAssets}${item.product.picture}`" width="234" height="234" class="rounded-lg object-contain" />
                     <span dir="rtl" class="dark:text-slate-300 text-center line-clamp-2 mt-4">{{ item.product.name }}</span>
-                    <div dir="rtl" class="flex justify-center mt-3 text-end">
-                        <span class="dark:text-slate-300 text-xl self-center">{{ numberFormater(item.price) }}</span>
-                        <span class="dark:text-slate-300 self-center">تومان</span>
+                    <div dir="rtl" class="flex justify-center gap-x-2 mt-3 text-end">
+                        <span class="text-red-500 text-xl self-center">{{ numberFormater(item.price) }}</span>
+                        <span class="text-red-500 self-center">تومان</span>
                     </div>
                 </UCarousel>
             </div>

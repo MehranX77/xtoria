@@ -13,14 +13,14 @@
                         autoplay
                         :ui="{ item: 'xl:basis-1/3 md:basis-1/2', controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2' }"
                         :prev-icon="prevIcon" :next-icon="nextIcon">
-                        <div class="flex flex-col gap-y-2 bg-slate-50 dark:bg-slate-700 items-center rounded-lg">
+                        <div class="flex flex-col gap-y-2 bg-auto items-center rounded-lg">
                             <NuxtImg :src="`${baseURLAssets}${item?.product?.picture}`"
                                 class="rounded-lg md:min-w-46 md:min-h-46 md:max-w-46 max-w-full md:max-h-46 min-h-40 max-h-40 object-cover md:mx-0 mx-auto" />
                             <span class="text-sm font-bold text-center">{{ item?.product?.name }}</span>
                             <span v-html="item?.product?.description" class="text-sm text-muted text-center" />
                             <UButton
                                 :to="{ name: 'products-slug', params: { slug: item?.slug }, query: { p_id: item?.id } }"
-                                dir="rtl" color="neutral" variant="soft" size="lg"
+                                dir="rtl" color="error" variant="solid" size="lg"
                                 class="rounded-lg place-content-center w-[86%] mx-auto mb-1">
                                 {{ numberFormater(item?.price) }} تومن</UButton>
                         </div>
@@ -32,10 +32,10 @@
                     <h3 class="text-xl text-rose-500">تخفیف های ویژه</h3>
                     <UCarousel v-slot="{ item }" dir="ltr" class="mt-4" :items="homeData?.data?.special_discount" arrows
                         loop dots
-                        :ui="{ controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2', dots: 'absolute md:-bottom-38 -bottom-60 md:flex hidden', dot: 'w-10 h-1.5' }"
-                        :prev-icon="prevIcon" :next-icon="nextIcon">
+                        :ui="{ controls: 'absolute -top-5 left-10 ', dots: 'absolute md:-bottom-38 -bottom-60 md:flex hidden', dot: 'w-10 h-1.5' }"
+                        :prev-icon="prevIcon" :next-icon="nextIcon" :prev="{color:'neutral', variant:'solid'}" :next="{color:'neutral', variant:'solid'}">
                         <div
-                            class="bg-white dark:bg-slate-700 rounded-lg p-4 flex md:flex-row flex-col justify-between items-center">
+                            class="bg-auto rounded-lg p-4 flex md:flex-row flex-col justify-between items-center">
                             <NuxtImg :src='`${baseURLAssets}${item?.product?.picture}`'
                                 class="md:min-w-46 md:min-h-46 md:max-w-46 max-w-full md:max-h-46 min-h-56 max-h-56 object-cover rounded-lg" />
                             <div dir="rtl" class="flex-col space-y-2 ">
@@ -114,7 +114,7 @@
                     loop autoplay
                     :ui="{ item: 'xl:basis-1/7 lg:basis-1/4 md:basis-1/3', controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2' }"
                     :prev-icon="prevIcon" :next-icon="nextIcon">
-                    <div class="flex flex-col items-center gap-y-2 bg-slate-50 dark:bg-slate-700">
+                    <div class="flex flex-col items-center gap-y-2 bg-auto">
                         <NuxtImg :src="`${baseURLAssets}${item?.product?.picture}`"
                             class="rounded-lg md:min-w-46 md:min-h-46 md:max-w-46 max-w-full md:max-h-46 min-h-40 max-h-40 bg-cover  md:mx-0 mx-auto" />
                         <span class="text-sm font-bold text-center">{{ item?.product?.name }}</span>
@@ -146,7 +146,6 @@
 
 <script setup lang="ts">
 import { LazyCategoryLists, UButton } from '#components';
-import { Suspense } from 'vue';
 // import {addToBasket} from '../stores/index'
 const { public: { baseURL } } = useRuntimeConfig()
 const { public: { baseURLAssets } } = useRuntimeConfig()
