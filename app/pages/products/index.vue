@@ -20,33 +20,30 @@
                         </template>
                         <div class="flex justify-between mb-5">
                             <span class="text-sm text-slate-700 dark:text-slate-100">فقط کالاهای موجود</span>
-                            <USwitch value="kala" dir="ltr" size="sm" color="success" class="self-center" />
+                            <USwitch v-model="isActive" v-model:selected-filter = "selectedFilter" dir="ltr" size="sm" color="success" class="self-center" @change="mojood('کالاهای موجود')"/>
                         </div>
                         <div class="flex justify-between mb-5">
                             <span class="text-sm text-slate-700 dark:text-slate-100">تخفیف ها</span>
-                            <USwitch v-model="isDescount" dir="ltr" size="sm" color="success"
-                                class="self-center" />
+                            <USwitch v-model="isDescount" v-model:selected-filter = "selectedFilter" dir="ltr" size="sm" color="success"  class="self-center" @change="cheet('تخفیف')"/>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-sm text-slate-700 dark:text-slate-100">محبوب ترین ها</span>
-                            <USwitch dir="ltr" size="sm" color="success" class="self-center" />
+                            <USwitch v-model="isFamous" v-model:selected-filter = "selectedFilter" dir="ltr" size="sm" color="success" class="self-center" @change="famous('محبوب ترین')"/>
                         </div>
                         <USeparator class="my-5" />
                         <UAccordion class="" :items="items" :ui="{ root: 'divide-none' }">
-                            <template #price>
+                            <!-- <template #price>
                                 <div class="py-3 px-1">
                                     <USlider v-model="priceArray" dir="ltr" :min="1000" :max="5000000" tooltip />
                                 </div>
                                 <span class="text-muted text-xs"> محدوده قیمت از : {{ numberFormater(priceArray[0]!)
                                 }}تومان تا {{
                                         numberFormater(priceArray[1]!) }} تومان </span>
-                            </template>
+                            </template> -->
                             <template #category>
                                 <div class="py-3 px-1">
-                                    <UInput variant="soft" size="xl" placeholder="جستجو دسته‌بندی" icon="tabler:search"
-                                        class="w-full" />
-                                    <UCheckboxGroup v-model="checkboxValue" color="neutral" :items="categoryCheckbox"
-                                        dir="rtl" class="mt-3" :ui="{ item: 'mb-3' }" />
+                                    <UInput v-model="search" variant="soft" size="xl" placeholder="جستجو دسته‌بندی" icon="tabler:search" class="w-full" />
+                                    <UCheckboxGroup v-model="checkboxValue" color="neutral" :items="categoryCheckbox"  dir="rtl" class="mt-3" :ui="{ item: 'mb-3' }" />
                                 </div>
                             </template>
                         </UAccordion>
@@ -57,6 +54,9 @@
                         <div class="flex gap-x-2">
                             <UIcon name="streamline-ultimate:filter-sort-lines-descending" class="self-center" />
                             <span class="text-base"> ترتیب: </span>
+                        </div>
+                        <div class="flex gap-x-1">
+                            <UBadge v-for="(item, index) in selectedFilter" :key="index" variant="soft" color="secondary">{{ item }}</UBadge>
                         </div>
                     </div>
 
@@ -114,31 +114,65 @@ const productBreadcrumb: BreadcrumbItem[] = [
 ]
 
 const items = [
-    {
-        label: 'فیلتر بر اساس قیمت',
-        slot: 'price' as const
-    },
+    // {
+    //     label: 'فیلتر بر اساس قیمت',
+    //     slot: 'price' as const
+    // },
     {
         label: 'دسته بندی ها',
         slot: 'category' as const
-    },
+    }
 ] satisfies AccordionItem[]
 
-const priceArray = ref<number[]>([1000000, 15000000])
+// const priceArray = ref<number[]>([1000000, 15000000])
 
 const checkboxValue = ref<string[]>([])
 
 const categoryCheckbox = ref<string[]>(['هدفون', 'هدست', 'میکروفن'])
 
 const page = ref<number>()
+const search = ref<string>('')
+const isFamous = ref<boolean>()
+const selectedFilter = ref<string[] | boolean[]>([])
+const isActive = ref<boolean>()
 
+const cheet = (e) => {
+    if(isDescount.value){
+        selectedFilter.value.push(e)
+    }else{
+        selectedFilter.value.pop()
+    }
+    console.log(e);
+    
+}
+
+const mojood = (e) => {
+    if(isActive.value){
+        selectedFilter.value.push(e)
+    }else{
+        selectedFilter.value.pop()
+    }
+    console.log(e);
+    
+}
+
+const famous = (e) => {
+        if(isFamous.value){
+        selectedFilter.value.push(e)
+    }else{
+        selectedFilter.value.pop()
+    }
+    console.log(e);
+}
 const { data: productList} = await useFetch(`${baseURL}/product/products/`, {
     query:{
-        page: page
+        page: page,
+        q: search,
+        isFamous: isFamous
     },
     key: `products-page-${page.value}`,
 
-    watch: [page]
+    watch: [page, search, isFamous]
 })
 
 

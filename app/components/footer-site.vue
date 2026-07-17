@@ -29,6 +29,7 @@
         target="_blank"
         aria-label="GitHub"
       />
+      <a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=6883910&Code=h4IlHBl1k6F40G47OAYQ9MtsCJPW6BdW'><img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=6883910&Code=h4IlHBl1k6F40G47OAYQ9MtsCJPW6BdW' alt='' style='cursor:pointer' code='h4IlHBl1k6F40G47OAYQ9MtsCJPW6BdW'></a>
     </template>
 </UFooter>
 </template>
