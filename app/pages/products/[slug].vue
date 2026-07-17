@@ -114,7 +114,7 @@
             <div class="mt-8 w-full border dark:border-slate-800/70 border-slate-200 rounded-lg p-5">
                 <h1 class="text-xl dark:text-slate-300">کالاهای مشابه</h1>
                 <UCarousel v-slot="{ item }" dir="ltr" class="mt-10" :items="relatedProducts" loop arrows :autoplay="{ delay: 2000 }"
-                    :ui="{ item: 'xl:basis-1/8 lg:basis-1/4 md:basis-1/3 lg:mx-3', controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2' }">
+                    :ui="{ item: 'xl:basis-1/8 lg:basis-1/4 md:basis-1/3 basis-1/2 lg:mx-3 ', controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2' }">
                     <NuxtImg :src="`${baseURLAssets}${item.product.picture}`" width="234" height="234" class="rounded-lg object-contain" />
                     <span dir="rtl" class="dark:text-slate-300 text-center line-clamp-2 mt-4">{{ item.product.name }}</span>
                     <div dir="rtl" class="flex justify-center mt-3 text-end">
@@ -134,7 +134,7 @@
                         <template v-if="p.data.properties.length > 0">
                         <div v-for="(property, index) in p.data?.properties" :key="index"  class="flex md:gap-x-0 gap-x-5">
                                 <span class="text-slate-500 dark:text-slate-300 text-nowrap flex-1">{{ property.key }}</span>
-                                <span :class="{'text-red-500': property.value === 'ندارد'}" class="text-base flex-1/2 text-start text-wrap border-b border-b-slate-200/60 pb-2">{{ property.value }}</span>
+                                <span :class="{'text-red-500': property.value === 'ندارد'}" class="text-base flex-1/2 text-start text-wrap border-b border-b-slate-200/60 dark:border-b-slate-600/60 pb-2">{{ property.value }}</span>
                         </div>
                         </template>
                         <template v-else>برای این محصول مشخصاتی تعریف نشده!</template>
