@@ -142,7 +142,6 @@ const cheet = (e) => {
     }else{
         selectedFilter.value.pop()
     }
-    console.log(e);
     
 }
 
@@ -152,7 +151,6 @@ const mojood = (e) => {
     }else{
         selectedFilter.value.pop()
     }
-    console.log(e);
     
 }
 
@@ -162,7 +160,6 @@ const famous = (e) => {
     }else{
         selectedFilter.value.pop()
     }
-    console.log(e);
 }
 const { data: productList} = await useFetch(`${baseURL}/product/products/`, {
     query:{

@@ -6,39 +6,32 @@
             <UCard v-for="product in res?.data?.results" :key="product.id">
                 <template #header>
                    <div class="flex justify-between">
-                    <p class="font-bold dark:text-slate-200 text-slate-700 text-md">سفارش 1257#</p>
-                    <UBadge color="secondary">در حال پردازش</UBadge>
+                    <p class="font-bold dark:text-slate-200 text-slate-700 text-md">کدپیگیری: {{ product.tracking_code || 0 }}</p>
+                    <div class="flex gap-x-1">
+                    <UBadge color="secondary">{{ product.status }}</UBadge>
+                     <UBadge v-if="product.is_paid" color="secondary">پرداخت شده</UBadge>
+                    <UBadge v-else color="error">پرداخت نشده</UBadge>
+                    </div>
                    </div>
                 </template>
                 <template #default>
-                    <div class="flex justify-between">
+                    <div v-for="p in product.basket" :key="p.id" class="flex justify-between my-2">
                         <div class="flex gap-x-4">
-                           <NuxtImg class="w-20 max-w-20 h-20 max-h-20" src="case.png"/>
-                           <span class="dark:text-slate-200 text-slate-600 text-md font-bold self-center">کیس گیمینگ</span>
+                           <NuxtImg class="w-20 max-w-20 h-20 max-h-20 rounded-lg" :src="`${baseURLAssets}${p.product.product.picture}`"/>
+                           <span class="dark:text-slate-200 text-slate-600 text-md font-bold self-center max-w-min">{{ p.product.product.name }}</span>
                         </div>
 
-                        <span class="dark:text-slate-200 text-slate-600 text-md font-bold self-center">قیمت: 200/000 تومان</span>
-                        <span class="dark:text-slate-200 text-slate-600 text-md font-bold self-center">تعداد: 1</span>
-                        <span class="dark:text-slate-200 text-slate-600 text-md font-bold self-center">تخفیف: 5%</span>
-                        <span class="dark:text-slate-200 text-slate-600 text-md font-bold self-center">قیمت نهایی: 200/000 تومان</span>
+                        <span class="dark:text-slate-200 text-slate-600 text-md font-bold self-center ">قیمت: {{ numberFormater(p.price) }} تومان</span>
+                        <span class="dark:text-slate-200 text-slate-600 text-md font-bold self-center ">تعداد: {{ p.quantity }}</span>
+                        <span class="dark:text-slate-200 text-slate-600 text-md font-bold self-center ">تخفیف:{{ p.discount }}</span>
+                        <span class="dark:text-slate-200 text-slate-600 text-md font-bold self-center ">قیمت نهایی: {{ p.price * p.quantity }}</span>
                     </div>
-                    <USeparator />
-                       <div class="flex justify-between mt-3">
-                        <div class="flex gap-x-4">
-                           <NuxtImg class="w-20 max-w-20 h-20 max-h-20" src="mouse.png"/>
-                           <span class="dark:text-slate-200 text-slate-600 text-md font-bold self-center">کیس گیمینگ</span>
-                        </div>
-
-                        <span class="dark:text-slate-200 text-slate-600 text-md font-bold self-center">قیمت: 200/000 تومان</span>
-                        <span class="dark:text-slate-200 text-slate-600 text-md font-bold self-center">تعداد: 1</span>
-                        <span class="dark:text-slate-200 text-slate-600 text-md font-bold self-center">تخفیف: 5%</span>
-                        <span class="dark:text-slate-200 text-slate-600 text-md font-bold self-center">قیمت نهایی: 200/000 تومان</span>
-                    </div>
+                    <USeparator class="my-2" />
                 </template>
                 <template #footer>
                     <div class="flex justify-between">
-                        <UButton color="neutral" variant="subtle" size="lg">پیگیری سفارش</UButton>
-                        <p class="dark:text-slate-200 text-slate-600 text-md font-bold self-center">مجموع قیمت: 400/000 تومان</p>
+                        <p class="dark:text-slate-200 text-slate-600 text-md text-base self-center">مجموع قیمت</p>
+                        <p class="dark:text-slate-200 text-slate-600 text-md font-bold self-center">{{ numberFormater(product.final_price) }} تومان</p>
                     </div>
                 </template>
             </UCard>
@@ -56,8 +49,9 @@
 useHead({
   title:'سفارشات'
 })
+const {public:{baseURLAssets}} = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie'])
-try {
+
     const res = await $fetch('/api/order-list', {
         method:'GET',
         headers
@@ -65,10 +59,6 @@ try {
 
     console.log(res);
     
-} catch (error) {
-    console.log(error);
-    
-}
 
 
 

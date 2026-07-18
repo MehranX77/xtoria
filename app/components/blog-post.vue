@@ -2,7 +2,7 @@
 <div class="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
     <UCard v-for="(blog, index) in blogs.data.results" :key="index" dir="rtl">
         <template #header>
-            <NuxtImg :src="blog.picture"/>
+            <NuxtImg :src="`${baseURLAssets}${blog.picture}`" class="md:min-w-full md:min-h-46 md:max-w-46 max-w-full md:max-h-46 object-cover min-h-40 max-h-40"/>
         </template>
         <template #default>
             <div class="flex flex-col gap-y-3">
@@ -18,6 +18,6 @@
 </template>
 
 <script setup>
- const {public:{baseURL}} = useRuntimeConfig()
+ const {public:{baseURL, baseURLAssets}} = useRuntimeConfig()
   const {data: blogs, error} = await useFetch(`${baseURL}/article`)
 </script>
