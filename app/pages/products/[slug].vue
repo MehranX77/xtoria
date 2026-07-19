@@ -13,6 +13,7 @@
             <!-- بنر پیشنهاد شده -->
                  <UBanner v-if="p?.data?.suggested" title="پیشنهاد شگفت انگیز"  color="error" class="rounded-md mt-4 z-0" :ui="{title:'font-bold'}"/>
                 <UBanner v-if="p?.data?.special_discount" title="تخفیف ویژه"   color="success" class="rounded-md mt-4 z-0" :ui="{title:'font-bold'}"/>
+                
             <div class="flex lg:flex-nowrap flex-wrap gap-x-3">
 
                 <div class="flex lg:flex-col gap-y-2 mt-5 lg:order-first order-last">
@@ -25,19 +26,17 @@
 
                     <div class="gallery basis-110">
         
-                            <NuxtImg class="lg:w-80 lg:h-80 lg:max-h-80 w-40 h-40 max-h-40 mx-auto lg:mx-0 object-cover rounded-lg" :src="galleryRef"/>
+                            <NuxtImg class="lg:w-80 lg:h-80 lg:max-h-80 w-40 h-40 max-h-40 mx-auto lg:mx-0 object-cover rounded-lg" :src="`${baseURLAssets}${galleryRef}`"/>
       
                         <div class="flex justify-center sub-img gap-x-5 mt-4">
                             <template v-for="(items, index) in p?.data?.product?.images.slice(0,3)" :key="index">
-                               <NuxtImg class="w-20 h-20 max-h-20 hover:cursor-pointer transition-all object-cover rounded-lg border border-slate-300 dark:border-slate-700/90 hover:border-slate-400/90 p-2" :src="items?.image" @click="changeImg(items)" />
-                                <!-- {{ items.image }} -->
+                               <NuxtImg class="w-20 h-20 max-h-20 hover:cursor-pointer transition-all object-cover rounded-lg border border-slate-300 dark:border-slate-700/90 hover:border-slate-400/90 p-2" :src="`${baseURLAssets}${items?.image}`" @click="changeImg(items)" />
                             </template>
                         </div>
                     </div>
 
                     <div class="basis-full mt-8">
                         <div class="flex justify-between">
-                            <!-- مشخصات محصول -->
                             <div class="flex flex-col gap-y-3">
                                 <h3 v-html="[p?.data?.product?.name, p?.data?.product?.description]" class="text-2xl font-bold text-slate-900 dark:text-slate-200" />
                                 <div class="flex gap-x-2">
@@ -88,6 +87,7 @@
                     </div>
                 </div>
             </div>
+
             <USeparator color="neutral" class="mt-10" />
             <div class="flex lg:flex-nowrap flex-wrap lg:justify-around lg:gap-y-0 gap-y-3 mt-5">
                 <div class="flex gap-x-2">
@@ -115,7 +115,9 @@
                 <h1 class="text-xl dark:text-slate-300">کالاهای مشابه</h1>
                 <UCarousel v-slot="{ item }" dir="ltr" class="mt-10" :items="relatedProducts" loop arrows :autoplay="{ delay: 2000 }"
                     :ui="{ item: 'xl:basis-1/8 lg:basis-1/4 md:basis-1/3 basis-1/2 lg:mx-3 ', controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2' }">
-                    <NuxtImg :src="`${baseURLAssets}${item.product.picture}`" width="234" height="234" class="rounded-lg object-contain" />
+                    <ULink :to="{name:'products-slug' , query: {p_id: item.id}, params:{slug: item.slug}}">
+                        <NuxtImg :src="`${baseURLAssets}${item.product.picture}`" width="234" height="234" class="rounded-lg object-contain" />
+                    </ULink>
                     <span dir="rtl" class="dark:text-slate-300 text-center line-clamp-2 mt-4">{{ item.product.name }}</span>
                     <div dir="rtl" class="flex justify-center gap-x-2 mt-3 text-end">
                         <span class="text-red-500 text-xl self-center">{{ numberFormater(item.price) }}</span>

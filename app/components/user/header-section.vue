@@ -11,7 +11,7 @@
             </div>
           </template>
         </USlideover>
-        <p dir="ltr" class="font-medium text-md text-rose-500 self-center md:block hidden">سلام {{  me?.data?.first_name || 'کاربر' }} عزیز
+        <p dir="ltr" class="font-medium text-md text-rose-500 self-center md:block hidden">سلام {{  me?.first_name || 'کاربر' }} عزیز
           <UIcon class="align-middle text-rose-500" name="streamline-plump:multiple-stars-solid" />
         </p>
         <USeparator orientation="vertical" color="error" class="md:block hidden" />
@@ -27,6 +27,8 @@
 
 <script setup lang="ts">
 const { me } = useMyInfo()
+
+console.log(me.value);
 
 
 </script>

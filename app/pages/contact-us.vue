@@ -26,8 +26,7 @@
                                 :ui="{ base: 'py-4' }" color="secondary" />
                         </UFormField>
                         <UFormField label="موضوع" required>
-                            <USelect v-model="contactForm.subject" :items="items" class="w-full" size="xl"
-                                :ui="{ base: 'py-4' }" color="secondary" />
+                            <USelect v-model="contactForm.subject" :items="items" value-key="id" class="w-full" size="xl"  :ui="{ base: 'py-4' }" color="secondary" placeholder="انتخاب موضوع"/>
                         </UFormField>
                     </UPageGrid>
                     <UFormField label="متن پیام" required class="mt-5">
@@ -82,13 +81,13 @@
 </template>
 
 <script setup lang="ts">
-const items = ref(['Backlog', 'Todo', 'In Progress', 'Done'])
+import type {SelectItem} from '@nuxt/ui'
 const { public: { baseURL } } = useRuntimeConfig()
 const toast= useToast()
 const zoom = ref(12)
 
 const contactForm = reactive({
-    subject: 1,
+    subject: null,
     fullname: '',
     phone: '',
     email: '',
@@ -113,9 +112,12 @@ try {
             phone:contactForm.phone,
             text:contactForm.text,
             email:contactForm.email,
-            // subject: contactForm.subject
-        }
+            subject: contactForm.subject
+        },
+
     })   
+
+   
 
     if(res.status === 201){
      toast.add({
@@ -142,10 +144,39 @@ try {
 
 const { data: info } = await useFetch(`${baseURL}/contact-info`)
 
+
 //forooshgah position on map
 const position = info.value?.data?.location || '7.256545,8.452596'
 const lat = position.split(',')[0];
 const long = position.split(',')[1];
+
+
+interface contactInfoSubject {
+data:{
+    results: {
+    id: number,
+    title: string,
+    value: string | number
+   }[]
+}
+}
+
+const items = ref<SelectItem[]>([])
+
+// contact subject
+const {data: subject} = await useFetch<contactInfoSubject | undefined>(`${baseURL}/contact-subjects`)
+
+for (const i of  subject.value.data.results){
+   items.value.push({
+    label: i.title,
+    value:i.title,
+    id: i.id
+   })
+}
+
+
+
+
 
 
 </script>
