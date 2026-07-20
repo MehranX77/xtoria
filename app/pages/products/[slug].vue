@@ -2,7 +2,7 @@
     <div class="md:mt-44 mt-10">
         <UContainer>
 
-            <UBreadcrumb :items="items" :ui="{link:'text-rose-500'}">
+            <UBreadcrumb :items="items" :ui="{ link: 'text-rose-500' }">
                 <template #separator>
                     <span class="mx-2 text-muted">
                         <UIcon class="align-middle" name="solar:alt-arrow-left-linear" />
@@ -11,141 +11,123 @@
             </UBreadcrumb>
 
             <!-- بنر پیشنهاد شده -->
-                 <UBanner v-if="p?.data?.suggested" title="پیشنهاد شگفت انگیز"  color="error" class="rounded-md mt-4 z-0" :ui="{title:'font-bold'}"/>
-                <UBanner v-if="p?.data?.special_discount" title="تخفیف ویژه"   color="success" class="rounded-md mt-4 z-0" :ui="{title:'font-bold'}"/>
+            <UBanner v-if="p?.data?.suggested" title="پیشنهاد شگفت انگیز" color="error" class="rounded-md mt-4 z-0"
+                :ui="{ title: 'font-bold' }" />
+            <UBanner v-if="p?.data?.special_discount" title="تخفیف ویژه" color="success" class="rounded-md mt-4 z-0"
+                :ui="{ title: 'font-bold' }" />
 
 
-                <div class="flex gap-x-2">
-                    <div class="flex flex-col gap-y-3">
+            <div class="flex gap-x-2">
+                <div class="flex flex-col gap-y-3">
                     <UCard variant="outline" class="flex-1/12 mt-3">
                         <!-- انتخاب رنگ محصول -->
-                       <UFormField orientation="vertical" label="انتخاب رنگ" class="lg:text-xl text-base">
-                         <div class="flex gap-x-2 mt-2">
-                           <div v-for="color in p.data?.colors" :key="color?.id" class="rounded-full w-8 h-8 hover:cursor-pointer self-center flex justify-center items-center" :style="{background:`${color.value}`}" @click="changeProductColor(color?.id, color?.price)">
-                             <UIcon v-show="color?.id === colorSelected" name='material-symbols-light:check' class="text-slate-100 text-2xl" />
+                        <UFormField orientation="vertical" label="انتخاب رنگ" class="lg:text-xl text-base">
+                            <div class="flex gap-x-2 mt-2">
+                                <div v-for="color in p.data?.colors" :key="color?.id"
+                                    class="rounded-full w-8 h-8 hover:cursor-pointer self-center flex justify-center items-center"
+                                    :style="{ background: `${color.value}` }"
+                                    @click="changeProductColor(color?.id, color?.price)">
+                                    <UIcon v-show="color?.id === colorSelected" name='material-symbols-light:check'
+                                        class="text-slate-100 text-2xl" />
+                                </div>
                             </div>
-                        </div>
                         </UFormField>
                         <!-- انتخاب تعداد محصول -->
-                        <UFormField orientation="vertical" label="تعداد" class="lg:text-xl text-base mt-5" :help="'موجودی کالا: ' + p.data?.stock + ' عدد در انبار '" >
-                          <UInputNumber v-model="options.quantity" size="xl" :min="1" :max="p.data?.stock || 1" class="md:w-2/3 w-full"/>
-                        </UFormField>       
-                        
+                        <UFormField orientation="vertical" label="تعداد" class="lg:text-xl text-base mt-5"
+                            :help="'موجودی کالا: ' + p.data?.stock + ' عدد در انبار '">
+                            <UInputNumber v-model="options.quantity" size="xl" :min="1" :max="p.data?.stock || 1"
+                                class="md:w-2/3 w-full" />
+                        </UFormField>
+
                         <!-- انتخاب گارانتی -->
-                         <UFormField label="انتخاب گارانتی" required class="space-y-4 lg:text-xl text-base mt-5" :ui="{hint:'text-rose-500 text-sm font-bold'}">
-                          <URadioGroup v-for="(key,index) in p?.data?.guanranty" :key="index" v-model="options.selectedGuanranty" size="xl" dir="rtl" class="text-end w-fit " :items="[key.name]" color="neutral"/>
-                          </UFormField>   
-                          <USeparator class="my-3"/>
-                          <div class="flex gap-x-2">
-                            <h1 class="text-black text-3xl">{{ numberFormater(totalPriceAfterUpdate - p?.data?.discount) || 0 }}</h1>
-                            <span v-if="p?.data?.discount !== 0" class="text-md text-muted self-center "> تخفیف: {{ numberFormater(p?.data?.discount || 0) }} تومان</span>
-                          </div>
-                    <div class="flex gap-x-3">
-                           <UButton v-if="p?.data?.stock !== 0"  variant="subtle" size="xl" color="neutral" class="w-full md:py-4 my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone" @click="AddToBasket(p.data?.id)">افزودن به سبد خرید</UButton>
-                           <UButton v-else disabled variant="subtle" size="xl" color="error" class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone">اتمام موجودی</UButton>
-                    </div>
+                        <UFormField label="انتخاب گارانتی" required class="space-y-4 lg:text-xl text-base mt-5"
+                            :ui="{ hint: 'text-rose-500 text-sm font-bold' }">
+                            <URadioGroup v-for="(key, index) in p?.data?.guanranty" :key="index"
+                                v-model="options.selectedGuanranty" size="xl" dir="rtl" class="text-end w-fit "
+                                :items="[key.name]" color="neutral" />
+                        </UFormField>
+                        <USeparator class="my-3" />
+                        <div class="flex gap-x-2">
+                            <h1 class="text-black text-3xl">{{ numberFormater(totalPriceAfterUpdate - p?.data?.discount)
+                                || 0 }}
+                            </h1>
+                            <span v-if="p?.data?.discount !== 0" class="text-md text-muted self-center "> تخفیف: {{
+                                numberFormater(p?.data?.discount || 0) }} تومان</span>
+                        </div>
+                        <div class="flex gap-x-3">
+                            <UButton v-if="p?.data?.stock !== 0" variant="subtle" size="xl" color="neutral"
+                                class="w-full md:py-4 my-3 place-content-center" trailing
+                                icon="solar:cart-large-2-line-duotone" @click="AddToBasket(p.data?.id)">افزودن به سبد
+                                خرید</UButton>
+                            <UButton v-else disabled variant="subtle" size="xl" color="error"
+                                class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing
+                                icon="solar:cart-large-2-line-duotone">اتمام موجودی</UButton>
+                        </div>
                     </UCard>
                     <UCard variant="outline">
                         <template #default>
-                         <div class="flex justify-between gap-x-2 lg:order-first order-last">
-                         <h1 class="self-center">اشتراک گذاری</h1>
-                          <div class="flex gap-x-1">
-                        <UButton @click="shareThisProduct" size="xl" variant="ghost" color="neutral" class="self-start text-2xl rounded-lg" icon="solar:share-line-duotone" />
-                        <UButton size="xl" variant="ghost" color="neutral" class="self-start text-2xl rounded-lg" icon="mage:telegram" />
-                        <UButton size="xl" variant="ghost" color="neutral" class="self-start text-2xl rounded-lg" icon="mage:instagram-square" />
-                          </div>
-                        </div>                            
+                            <div class="flex justify-between gap-x-2 lg:order-first order-last">
+                                <h1 class="self-center">اشتراک گذاری</h1>
+                                <div class="flex gap-x-1">
+                                    <UButton @click="shareThisProduct" size="xl" variant="ghost" color="neutral"
+                                        class="self-start text-2xl rounded-lg" icon="solar:share-line-duotone" />
+                                    <UButton size="xl" variant="ghost" color="neutral"
+                                        class="self-start text-2xl rounded-lg" icon="mage:telegram" />
+                                    <UButton size="xl" variant="ghost" color="neutral"
+                                        class="self-start text-2xl rounded-lg" icon="mage:instagram-square" />
+                                </div>
+                            </div>
                         </template>
                     </UCard>
-                    </div>
-                    <UCard variant="soft" class="flex-1/12 mt-3">
-                     <div class="gallery basis-110">
-                      <NuxtImg class="lg:w-80 lg:h-80 lg:max-h-80 w-40 h-40 max-h-40 mx-auto lg:mx-0 object-cover mix-blend-multiply rounded-lg" :src="`${baseURLAssets}${galleryRef}`"/>
-                     <div class="flex justify-center sub-img gap-x-5 mt-4">
-                     <template v-for="(items, index) in p?.data?.product?.images.slice(0,3)" :key="index">
-                       <NuxtImg class="w-20 h-20 max-h-20 hover:cursor-pointer transition-all object-cover rounded-lg border border-slate-300 dark:border-slate-700/90 hover:border-slate-400/90 p-2" :src="`${baseURLAssets}${items?.image}`" @click="changeImg(items)" />
-                     </template>
-                     </div>
-                    </div>
-                     <div v-if="p?.data?.product.score !==0" class="flex basis-3xs gap-x-1 flex-wrap justify-center h-fit mt-10">
-                        <UIcon v-for="(star, index) in p?.data?.product.score" :key="index" class="text-2xl text-orange-400" name="solar:star-bold" />
-                    </div>
-                    <p v-else class="text-center mt-10 mb-0">امتیازی برای این محصول ثبت نشده</p>
-                    </UCard>
-                    <UCard variant="outline" class="flex-3 mt-3">
-  
-                    </UCard>
                 </div>
-                
-            <div class="flex lg:flex-nowrap flex-wrap gap-x-3">
-                <div class="flex lg:flex-col gap-y-2 mt-5 lg:order-first order-last">
-                    <UButton @click="shareThisProduct" size="xl" variant="ghost" color="neutral" class="self-start text-2xl rounded-lg" icon="solar:share-line-duotone" />
-                    <UButton size="xl" variant="ghost" color="neutral" class="self-start text-2xl rounded-lg" icon="mage:telegram" />
-                    <UButton size="xl" variant="ghost" color="neutral" class="self-start text-2xl rounded-lg" icon="mage:instagram-square" />
-                </div>
-
-                <div class="flex md:flex-nowrap flex-wrap dark:bg-slate-800 bg-slate-100 w-full p-4 rounded-lg mt-5 gap-x-5">
+                <UCard variant="soft" class="flex-1/12 mt-3">
                     <div class="gallery basis-110">
-                            <NuxtImg class="lg:w-80 lg:h-80 lg:max-h-80 w-40 h-40 max-h-40 mx-auto lg:mx-0 object-cover rounded-lg" :src="`${baseURLAssets}${galleryRef}`"/>
+                        <NuxtImg
+                            class="lg:w-80 lg:h-80 lg:max-h-80 w-40 h-40 max-h-40 mx-auto lg:mx-0 object-cover mix-blend-multiply rounded-lg"
+                            :src="`${baseURLAssets}${galleryRef}`" />
                         <div class="flex justify-center sub-img gap-x-5 mt-4">
-                            <template v-for="(items, index) in p?.data?.product?.images.slice(0,3)" :key="index">
-                               <NuxtImg class="w-20 h-20 max-h-20 hover:cursor-pointer transition-all object-cover rounded-lg border border-slate-300 dark:border-slate-700/90 hover:border-slate-400/90 p-2" :src="`${baseURLAssets}${items?.image}`" @click="changeImg(items)" />
+                            <template v-for="(items, index) in p?.data?.product?.images.slice(0, 3)" :key="index">
+                                <NuxtImg
+                                    class="w-20 h-20 max-h-20 hover:cursor-pointer transition-all object-cover rounded-lg border border-slate-300 dark:border-slate-700/90 hover:border-slate-400/90 p-2"
+                                    :src="`${baseURLAssets}${items?.image}`" @click="changeImg(items)" />
                             </template>
                         </div>
                     </div>
+                    <div v-if="p?.data?.product.score !== 0"
+                        class="flex basis-3xs gap-x-1 flex-wrap justify-center h-fit mt-10">
+                        <UIcon v-for="(star, index) in p?.data?.product.score" :key="index"
+                            class="text-2xl text-orange-400" name="solar:star-bold" />
+                    </div>
+                    <p v-else class="text-center mt-10 mb-0">امتیازی برای این محصول ثبت نشده</p>
+                </UCard>
+                <UCard variant="outline" class="flex-3 mt-3">
+                    <div class="flex flex-col gap-y-3">
+                        <h1 class="text-2xl" v-html="p?.data?.product?.name" />
+                        <h3 class="font-black line-clamp-1" v-html="p?.data?.product?.description" />
+                        <USeparator class="my-5" />
+                    </div>
+                    <div class="flex flex-col gap-y-3">
+                        <h3 class="font-black text-xl">مشخصات کلیدی</h3>
 
-                    <div class="basis-full mt-8">
-                        <div class="flex justify-between">
-                            <div class="flex flex-col gap-y-3">
-                                <h3 v-html="[p?.data?.product?.name, p?.data?.product?.description]" class="text-2xl font-bold text-slate-900 dark:text-slate-200" />
-                                <div class="flex gap-x-2">
-                                    <h4 class="text-lg font-bold">مدل:</h4>
-                                    <span class="self-center text-muted">{{ p?.data?.product?.brand?.name || 'بدون نام' }} {{ p?.data?.product?.brand?.description || 'بدون توضیحات'}} </span>
-                                </div>
-                                <div class="flex gap-x-2">
-                                    <h4 class="text-lg font-bold">تولید کننده:</h4>
-                                    <span class="self-center text-sky-500">{{ p?.data?.product?.brand?.name || 'بدون نام' }}</span>
-                                </div>
-                                <ul class="flex space-x-2">
-                                    <li v-for="(options, index) in p?.data?.options" :key="index" class="lg:text-xl md:text-lg text-base"><UIcon class="align-middle me-1 text-2xl text-green-500" name="solar:check-circle-line-duotone" />{{ options?.value }}</li>
-                                </ul>
-                                <USeparator class="mt-2"/>
-                                <div class="flex flex-col gap-y-2 mt-2">
-                                    <div v-for="(property, index) in p?.data?.properties" :key="index" class="flex gap-x-2">
-                                        <span class="text-muted text-sm">{{ property?.key }}: </span>
-                                        <span class="text-neutral-700 dark:text-neutral-200 text-sm">{{ property?.value }}</span>
-                                    </div>
-                                </div>
-                                <div class="flex lg:flex-nowrap flex-wrap lg:gap-x-12 gap-y-3 mt-4">
-                                    <UFormField orientation="vertical" label="انتخاب رنگ" class="lg:text-xl text-base">
-                                        <div class="flex gap-x-2">
-                                            <div v-for="color in p.data?.colors" :key="color?.id" class="rounded-full w-8 h-8 hover:cursor-pointer self-center flex justify-center items-center" :style="{background:`${color.value}`}" @click="changeProductColor(color?.id, color?.price)">
-                                                <UIcon v-show="color?.id === colorSelected" name='material-symbols-light:check' class="text-slate-100 text-2xl" />
-                                            </div>
-                                        </div>
-                                    </UFormField>
-
-                                    <UFormField orientation="vertical" label="تعداد" class="lg:text-xl text-base" :help="'موجودی کالا: ' + p.data?.stock">
-                                        <UInputNumber v-model="options.quantity" size="xl" :min="1" :max="p.data?.stock || 1"/>
-                                    </UFormField>
-                                </div>
-                                <UFormField label="انتخاب گارانتی" required class="space-y-4 lg:text-xl text-base" :ui="{hint:'text-rose-500 text-sm font-bold'}">
-                                    <URadioGroup v-for="(key,index) in p?.data?.guanranty" :key="index" v-model="options.selectedGuanranty" size="xl" dir="rtl" class="text-end w-fit " :items="[key.name]" color="neutral"/>
-                                </UFormField>
-                                <div class="flex gap-x-3">
-                                <UButton v-if="p?.data?.stock !== 0"  variant="subtle" size="xl" color="neutral" class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone" @click="AddToBasket(p.data?.id)">{{ numberFormater(totalPriceAfterUpdate || 0) }} <span class="text-sm text-muted">تومان</span></UButton>
-                                <UButton v-else disabled variant="subtle" size="xl" color="error" class="lg:w-[40%] w-full text-xl my-3 place-content-center" trailing icon="solar:cart-large-2-line-duotone">اتمام موجودی</UButton>
-                                <span v-if="p?.data?.discount !== 0" class="text-md text-muted self-center "> تخفیف: {{ numberFormater(p?.data?.discount || 0) }} تومان</span>
-                                </div>
+                        <div v-for="(property, index) in p?.data?.properties.slice(0, 4)" :key="index"
+                            class="flex justify-between">
+                            <div class="flex gap-x-2 text-xl mt-2 flex-7">
+                                <UIcon class="self-center" name="fluent-mdl2:verified-brand" />
+                                <span class="text-muted text-sm">{{ property?.key }}:</span>
                             </div>
+                            <span class="text-base self-center flex-1/2">{{ property?.value }}</span>
                         </div>
                     </div>
-                    <div v-if="p?.data?.product.score !==0" class="flex basis-3xs gap-x-1 flex-wrap h-fit mt-8">
-                        <UIcon v-for="(star, index) in p?.data?.product.score" :key="index" class="text-2xl text-orange-400" name="solar:star-bold" />
-                        <span class="text-muted self-start mt-2">(از 27 نفر)</span>
+                    <USeparator class="my-5" />
+                    <div class="flex flex-col gap-y-2">
+                        <h3 class="font-black text-xl">مدل محصول</h3>
+                        <span class="text-sm">{{ p?.data?.product?.brand?.description || 'بدون توضیحات' }}</span>
+                        <h3 class="font-black text-xl mt-4">نام تولید کننده</h3>
+                        <span class="text-sm text-sky-600">{{ p?.data?.product?.brand?.name || 'بدون نام' }}</span>
                     </div>
-                </div>
+                </UCard>
             </div>
+
 
             <USeparator color="neutral" class="mt-10" />
             <div class="flex lg:flex-nowrap flex-wrap lg:justify-around lg:gap-y-0 gap-y-3 mt-5">
@@ -172,12 +154,15 @@
 
             <div class="mt-8 w-full border dark:border-slate-800/70 border-slate-200 rounded-lg p-5">
                 <h1 class="text-xl dark:text-slate-300">کالاهای مشابه</h1>
-                <UCarousel v-slot="{ item }" dir="ltr" class="mt-10" :items="relatedProducts" loop arrows :autoplay="{ delay: 2000 }"
+                <UCarousel v-slot="{ item }" dir="ltr" class="mt-10" :items="relatedProducts" loop arrows
+                    :autoplay="{ delay: 2000 }"
                     :ui="{ item: 'xl:basis-1/8 lg:basis-1/4 md:basis-1/3 basis-1/2 lg:mx-3 ', controls: 'absolute md:inset-x-16 inset-x-0 bottom-1/2' }">
-                    <ULink :to="{name:'products-slug' , query: {p_id: item.id}, params:{slug: item.slug}}">
-                        <NuxtImg :src="`${baseURLAssets}${item.product.picture}`" width="234" height="234" class="rounded-lg object-contain" />
+                    <ULink :to="{ name: 'products-slug', query: { p_id: item.id }, params: { slug: item.slug } }">
+                        <NuxtImg :src="`${baseURLAssets}${item.product.picture}`" width="234" height="234"
+                            class="rounded-lg object-contain" />
                     </ULink>
-                    <span dir="rtl" class="dark:text-slate-300 text-center line-clamp-2 mt-4">{{ item.product.name }}</span>
+                    <span dir="rtl" class="dark:text-slate-300 text-center line-clamp-2 mt-4">{{ item.product.name
+                        }}</span>
                     <div dir="rtl" class="flex justify-center gap-x-2 mt-3 text-end">
                         <span class="text-red-500 text-xl self-center">{{ numberFormater(item.price) }}</span>
                         <span class="text-red-500 self-center">تومان</span>
@@ -188,64 +173,76 @@
                 <template #ProductOverview>
                     <div class="flex flex-col mt-5 gap-y-4">
                         <p class="text-xl font-bold">معرفی محصول</p>
-                        <p v-if="p.data.product.description.length > 0" class="text-base" v-html="p.data.product?.description"/>
+                        <p v-if="p.data.product.description.length > 0" class="text-base"
+                            v-html="p.data.product?.description" />
                         <p v-else class="text-base">برای این محصول هنوز توضیحاتی منتشر نشده!</p>
                         <USeparator />
                         <p class="text-xl font-bold my-5">مشخصات محصول</p>
                         <template v-if="p.data.properties.length > 0">
-                        <div v-for="(property, index) in p.data?.properties" :key="index"  class="flex md:gap-x-0 gap-x-5">
-                                <span class="text-slate-500 dark:text-slate-300 text-nowrap flex-1">{{ property.key }}</span>
-                                <span :class="{'text-red-500': property.value === 'ندارد'}" class="text-base flex-1/2 text-start text-wrap border-b border-b-slate-200/60 dark:border-b-slate-600/60 pb-2">{{ property.value }}</span>
-                        </div>
+                            <div v-for="(property, index) in p.data?.properties" :key="index"
+                                class="flex md:gap-x-0 gap-x-5">
+                                <span class="text-slate-500 dark:text-slate-300 text-nowrap flex-1">{{ property.key
+                                    }}</span>
+                                <span :class="{ 'text-red-500': property.value === 'ندارد' }"
+                                    class="text-base flex-1/2 text-start text-wrap border-b border-b-slate-200/60 dark:border-b-slate-600/60 pb-2">{{
+                                    property.value }}</span>
+                            </div>
                         </template>
                         <template v-else>برای این محصول مشخصاتی تعریف نشده!</template>
                     </div>
                 </template>
                 <template #features>
-                        <p class="text-xl font-bold my-5">خصوصیات محصول</p>
-                        <template v-if="p.data.options.length > 0">
+                    <p class="text-xl font-bold my-5">خصوصیات محصول</p>
+                    <template v-if="p.data.options.length > 0">
                         <div v-for="(option, index) in p.data?.options" :key="index" class="md:w-1/3 w-full">
-                          <div class="flex gap-x-1 my-4">
-                                 <UIcon name="mdi:tick-circle" class="self-center text-green-400 text-xl"/>
+                            <div class="flex gap-x-1 my-4">
+                                <UIcon name="mdi:tick-circle" class="self-center text-green-400 text-xl" />
                                 <span class="text-base">{{ option.value }}</span>
-                          </div>
-                          <USeparator />
+                            </div>
+                            <USeparator />
                         </div>
-                        </template>
-                        <template v-else>برای این محصول خصوصیاتی هنوز تعریف نشده!</template>
+                    </template>
+                    <template v-else>برای این محصول خصوصیاتی هنوز تعریف نشده!</template>
                 </template>
                 <template #comments>
                     <div class="flex flex-col mt-5 gap-y-4">
                         <p class="text-xl font-bold">دیدگاه کاربران</p>
                         <p class="text-base">{{ p.data.comments?.length || 0 }} دیدگاه</p>
                         <USeparator />
-                          <div v-for="(comment, index) in p.data.comments" :key="index" class="flex flex-col gap-y-3 dark:bg-slate-700 bg-slate-100 rounded-lg p-4 md:w-2/4 w-full">
+                        <div v-for="(comment, index) in p.data.comments" :key="index"
+                            class="flex flex-col gap-y-3 dark:bg-slate-700 bg-slate-100 rounded-lg p-4 md:w-2/4 w-full">
                             <div class="flex justify-between flex-nowrap">
-                                  <div class="flex gap-x-3 self-baseline">
-                                  <p class="font-black text-base">{{ comment?.first_name || 'کاربر سایت'}} {{ comment?.last_name }}</p>
-                                  <UBadge v-if="comment.is_admin" variant="soft" color="warning">مدیر</UBadge>
-                                  <UBadge v-else variant="soft" >خریدار</UBadge>
-                              </div>
-                              <div class="flex flex-col gap-y-1">
-                                <NuxtTime :datetime="comment.created_at" locale="fa-IR" class="text-sm font-light"/>
-                               <div class="flex">
-                                 <UIcon v-for="(i, index) in comment.rating" :key="index" name="material-symbols-light:star-rounded" class="text-amber-400" />
-                               </div>
-                              </div>
+                                <div class="flex gap-x-3 self-baseline">
+                                    <p class="font-black text-base">{{ comment?.first_name || 'کاربر سایت' }} {{
+                                        comment?.last_name }}</p>
+                                    <UBadge v-if="comment.is_admin" variant="soft" color="warning">مدیر</UBadge>
+                                    <UBadge v-else variant="soft">خریدار</UBadge>
+                                </div>
+                                <div class="flex flex-col gap-y-1">
+                                    <NuxtTime :datetime="comment.created_at" locale="fa-IR"
+                                        class="text-sm font-light" />
+                                    <div class="flex">
+                                        <UIcon v-for="(i, index) in comment.rating" :key="index"
+                                            name="material-symbols-light:star-rounded" class="text-amber-400" />
+                                    </div>
+                                </div>
                             </div>
-                              <p class="text-base">{{ comment?.comment }}</p>
-                          </div>
-                          <USeparator />
+                            <p class="text-base">{{ comment?.comment }}</p>
+                        </div>
+                        <USeparator />
 
-                          <UForm class="flex flex-col gap-y-2 lg:max-w-2/4 w-full" @submit.prevent="sendComment">
-                            <UTextarea v-model="form.comment" placeholder="دیدگاه خود را اینجا بنویسید..." variant="subtle" color="neutral" :rows="8" />
+                        <UForm class="flex flex-col gap-y-2 lg:max-w-2/4 w-full" @submit.prevent="sendComment">
+                            <UTextarea v-model="form.comment" placeholder="دیدگاه خود را اینجا بنویسید..."
+                                variant="subtle" color="neutral" :rows="8" />
                             <div class="md:flex md:flex-row md:justify-between flex-col md:space-y-0 space-y-5 ">
                                 <UFormField label="امتیاز محصول">
-                                    <UInputNumber v-model="form.rating" :max="5" :min="1" class="md:w-fit w-full"/>
+                                    <UInputNumber v-model="form.rating" :max="5" :min="1" class="md:w-fit w-full" />
                                 </UFormField>
-                                <UButton color="neutral" variant="soft" size="xl" type="submit" class="self-baseline md:w-fit w-full md:place-content-start place-content-center-safe">ارسال دیدگاه</UButton>
+                                <UButton color="neutral" variant="soft" size="xl" type="submit"
+                                    class="self-baseline md:w-fit w-full md:place-content-start place-content-center-safe">
+                                    ارسال دیدگاه</UButton>
                             </div>
-                          </UForm>
+                        </UForm>
                     </div>
                 </template>
             </UTabs>
@@ -255,7 +252,7 @@
 
 <script setup lang="ts">
 import type { BreadcrumbItem } from '@nuxt/ui';
-import {addToBasket} from '../../stores/index'
+import { addToBasket } from '../../stores/index'
 const { authUser } = useAuth()
 const { public: { baseURL, baseURLAssets } } = useRuntimeConfig()
 const toast = useToast()
@@ -264,17 +261,17 @@ const store = addToBasket()
 const colorPrice = ref(0)
 // *************Data Fetching*************************
 
-interface products{
-   data:{
-    product:{
-        images: []
+interface products {
+    data: {
+        product: {
+            images: []
+        }
     }
-   }
 }
 
 const { data: product } = await useFetch<products | undefined>(`${baseURL}/product/product/${route.params.slug}`)
 
-const p= ref<object | null>(null)
+const p = ref<object | null>(null)
 const relatedProducts = ref(null)
 p.value = product.value.data
 relatedProducts.value = product.value.data.related
@@ -316,7 +313,7 @@ const changeImg = (x: string) => {
 
 
 onMounted(() => {
-   galleryRef.value = p?.value?.data?.product?.images[0]?.image
+    galleryRef.value = p?.value?.data?.product?.images[0]?.image
 })
 
 // *************End Gallery*********************
@@ -324,48 +321,48 @@ onMounted(() => {
 // *****************options wrapper*************
 
 const options = reactive({
- productId:p.value?.data.id,
- productSlug:p.value?.data.slug,
- productName:p.value?.data.product.name,
-//  productColor:'سفید',
- productImage:p?.value?.data?.product?.images[0]?.image,
- price:p.value?.data.price || 0,
- discount:p.value?.data.discount || 0,
- quantity: 1,
-//  selectedGuanranty:'',
- guanrantyId: p.value?.data?.guanranty[0]?.id || 0
+    productId: p.value?.data.id,
+    productSlug: p.value?.data.slug,
+    productName: p.value?.data.product.name,
+    //  productColor:'سفید',
+    productImage: p?.value?.data?.product?.images[0]?.image,
+    price: p.value?.data.price || 0,
+    discount: p.value?.data.discount || 0,
+    quantity: 1,
+    //  selectedGuanranty:'',
+    guanrantyId: p.value?.data?.guanranty[0]?.id || 0
 })
 
 // *****************End Options Wrapper***********
 
-const changeProductColor =async (color:number, price: number) => {  
-  colorSelected.value = color   
-  colorPrice.value = price  
-  try {
-    const res = await $fetch('/api/update-price', {
-        method:'POST',
-        body:{
-            totalPrice : colorPrice.value,
-            colorId: colorSelected.value,
-            guaranteeId: p.value?.data?.guanranty[0]?.id || 0,
-             productId:p.value?.data.id,
-             optionName: ['color', 'guarantee']
+const changeProductColor = async (color: number, price: number) => {
+    colorSelected.value = color
+    colorPrice.value = price
+    try {
+        const res = await $fetch('/api/update-price', {
+            method: 'POST',
+            body: {
+                totalPrice: colorPrice.value,
+                colorId: colorSelected.value,
+                guaranteeId: p.value?.data?.guanranty[0]?.id || 0,
+                productId: p.value?.data.id,
+                optionName: ['color', 'guarantee']
 
-        }
-    })
-    if(res.status === 200){
-        totalPriceAfterUpdate.value = res.data?.price 
-    }else{
-        toast.add({
-            description:'خطا در محاسبه قیمت'
+            }
         })
+        if (res.status === 200) {
+            totalPriceAfterUpdate.value = res.data?.price
+        } else {
+            toast.add({
+                description: 'خطا در محاسبه قیمت'
+            })
+        }
+
+    } catch (error: any) {
+        console.log(error.message);
+
     }
-    
-  } catch (error: any) {
-    console.log(error.message);
-    
-  }
- 
+
 }
 
 
@@ -393,24 +390,24 @@ const tabsItem = [
 
 // ***************Add To Basket Code **********************
 const AddToBasket = async (id: number) => {
-    if (authUser.value !== null) {     
+    if (authUser.value !== null) {
         const res = store.showProduct.find(item => item.pId === id || item.id === id)
-        
-        if (res !==undefined) {
-            
-       toast.add({
-        description:'محصول به سبد خرید افزوده نشد',
-        color:'error'
-       })
+
+        if (res !== undefined) {
+
+            toast.add({
+                description: 'محصول به سبد خرید افزوده نشد',
+                color: 'error'
+            })
         }
 
-        else{
-          await store.addToBasket(options, colorSelected.value, colorPrice.value)
+        else {
+            await store.addToBasket(options, colorSelected.value, colorPrice.value)
             toast.add({
                 description: 'کالا به سبد خرید اضافه شد'
             })
         }
-    } 
+    }
     else {
         return navigateTo('/auth/authentication', {
             redirectCode: 401,
@@ -424,26 +421,26 @@ const AddToBasket = async (id: number) => {
 // ***************share urls products **********************
 
 const shareThisProduct = () => {
-    if(import.meta.client) {
-    if(window.navigator.share && window.navigator){
-        try {
-            window.navigator.share({
-            title: p.value?.data?.product.name,
-            url:route.fullPath,
-            text:p.value?.data.product.brand?.description || 'بدون توضیح'
-        })
-        } catch (error) {
+    if (import.meta.client) {
+        if (window.navigator.share && window.navigator) {
+            try {
+                window.navigator.share({
+                    title: p.value?.data?.product.name,
+                    url: route.fullPath,
+                    text: p.value?.data.product.brand?.description || 'بدون توضیح'
+                })
+            } catch (error) {
+                throw showError({
+                    name: 'عملیات با خطا مواجه شد',
+                    message: error?.message
+                })
+            }
+        } else {
             throw showError({
-                name:'عملیات با خطا مواجه شد',
-                message:error?.message
+                name: 'عملیات با خطا مواجه شد',
+                message: 'عملیات با خطا مواجه شد لطفا مجدداً تلاش کنید'
             })
         }
-    }else{
-        throw showError({
-          name:'عملیات با خطا مواجه شد',
-           message:'عملیات با خطا مواجه شد لطفا مجدداً تلاش کنید'
-        })
-    }
     }
 }
 
@@ -455,36 +452,36 @@ const form = reactive({
     varient: p.value.data.product?.id
 })
 
-const sendComment = async () =>{
-    if(authUser.value !== null){
-      const token = useRequestHeaders(['cookie'])
-try {
-    const res = await $fetch('/api/send-comment', {
-        method:'POST',
-        headers:token,
-        body:form
-    })
+const sendComment = async () => {
+    if (authUser.value !== null) {
+        const token = useRequestHeaders(['cookie'])
+        try {
+            const res = await $fetch('/api/send-comment', {
+                method: 'POST',
+                headers: token,
+                body: form
+            })
 
-    if (res.status === 201){
-        toast.add({
-            description:'با موفقیت ارسال شد'
-        })
-    }else if(res.status === 400){
-             toast.add({
-                title:res.message,
-                description:res.data.errors[0]
-        })
-    }
+            if (res.status === 201) {
+                toast.add({
+                    description: 'با موفقیت ارسال شد'
+                })
+            } else if (res.status === 400) {
+                toast.add({
+                    title: res.message,
+                    description: res.data.errors[0]
+                })
+            }
 
-    console.log(res);
-    
-} catch (error) {
-    console.log(error);
-    
-}
-    }else{
+            console.log(res);
+
+        } catch (error) {
+            console.log(error);
+
+        }
+    } else {
         toast.add({
-            description:'برای ارسال نظر ابتدا وارد حساب خود شوید'
+            description: 'برای ارسال نظر ابتدا وارد حساب خود شوید'
         })
     }
 
@@ -493,7 +490,7 @@ try {
 </script>
 
 <style scoped>
-h1{
+h1 {
     font-family: var(--heading-extra-bold);
 }
 </style>
