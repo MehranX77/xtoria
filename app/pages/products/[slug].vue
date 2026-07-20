@@ -17,7 +17,7 @@
                 :ui="{ title: 'font-bold' }" />
 
 
-            <div class="flex gap-x-2">
+            <div class="flex md:flex-row flex-col flex-wrap gap-x-2">
                 <div class="flex flex-col gap-y-3">
                     <UCard variant="outline" class="flex-1/12 mt-3">
                         <!-- انتخاب رنگ محصول -->
@@ -48,10 +48,8 @@
                         </UFormField>
                         <USeparator class="my-3" />
                         <div class="flex gap-x-2">
-                            <h1 class="text-black text-3xl">{{ numberFormater(totalPriceAfterUpdate - p?.data?.discount)
-                                || 0 }}
-                            </h1>
-                            <span v-if="p?.data?.discount !== 0" class="text-md text-muted self-center "> تخفیف: {{
+                            <h1 class="text-black dark:text-slate-300 text-3xl">{{ numberFormater(totalPriceAfterUpdate - p?.data?.discount) || 0 }}</h1>
+                            <span v-if="p?.data?.discount !== 0" class="text-md text-muted dark:text-slate-400 self-center "> تخفیف: {{
                                 numberFormater(p?.data?.discount || 0) }} تومان</span>
                         </div>
                         <div class="flex gap-x-3">
