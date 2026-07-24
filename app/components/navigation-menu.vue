@@ -4,13 +4,11 @@
       <div class="flex justify-between w-full">
         <ClientOnly>
           <template #default>
-            <div v-if="authUser !== '' && authUser !== null"
-              class="lg:basis-3xs basis-lg max-w-fit border dark:border-slate-600 border-slate-200 px-5 py-3 rounded-xl flex self-center gap-x-2">
+            <div v-if="authUser !== '' && authUser !== null"  class="lg:basis-3xs basis-lg max-w-fit border dark:border-slate-600 border-slate-200 px-5 py-3 rounded-xl flex self-center gap-x-2">
               <UIcon class="text-xl hover:cursor-pointer self-center" name="solar:user-id-broken" />
               <ULink to="/user">پروفایل</ULink>
             </div>
-            <div v-else
-              class="lg:basis-3xs basis-lg max-w-fit border dark:border-slate-600 border-slate-200 px-5 py-3 rounded-xl flex self-center gap-x-2">
+            <div v-else class="lg:basis-3xs basis-lg max-w-fit border dark:border-slate-600 border-slate-200 px-5 py-3 rounded-xl flex self-center gap-x-2">
               <UIcon class="text-xl hover:cursor-pointer self-center" name="solar:user-broken" />
               <ULink to="/auth/authentication">حساب کاربری</ULink>
             </div>
@@ -25,7 +23,7 @@
           <div class="mt-5 text-center" :class="{'hidden' : res}">
             <ul class="flex justify-center gap-x-4">
               <template v-for="category in pCategories.data.results" :key="category.id">
-                <li v-if="category.header === null" @mouseenter="changeData(category.id, category.has_sub)"><UIcon v-if="category.has_sub" name="iconamoon:arrow-down-2-fill" class="align-middle me-1"/><ULink class="font-black">{{ category.name }}</ULink></li>
+                <li v-if="category.header === null" @mouseenter="changeData(category.id, category.has_sub)"><UIcon v-if="category.has_sub" name="iconamoon:arrow-down-2-fill" class="align-middle me-1"/><ULink :to="{name:'category-slug', params:{slug:category.slug}}" class="font-black">{{ category.name }}</ULink></li>
               </template>
             </ul>
             <div :class="{'hidden': currentTab ===0}" class="rounded-lg md:w-2/5 mt-5 w-full absolute left-[50%] translate-x-[-50%] h-auto bg-slate-100 dark:bg-slate-700 p-4 shadow-sm " @mouseleave="clearCurrentTab">

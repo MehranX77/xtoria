@@ -30,7 +30,7 @@
 
                 <div class="bg-slate-100 dark:bg-slate-800 rounded-lg shadow p-4">
                     <h3 class="text-xl text-rose-500">تخفیف های ویژه</h3>
-                    <UCarousel v-slot="{ item }" dir="ltr" class="mt-4" :items="homeData?.data?.special_discount" arrows
+                    <UCarousel v-slot="{ item }" :dir="computeWidth" class="mt-4" :items="homeData?.data?.special_discount" arrows
                         loop dots
                         :ui="{ controls: 'absolute -top-5 left-10 ', dots: 'absolute md:-bottom-38 -bottom-60 md:flex hidden', dot: 'w-10 h-1.5' }"
                         :prev-icon="prevIcon" :next-icon="nextIcon" :prev="{color:'neutral', variant:'solid'}" :next="{color:'neutral', variant:'solid'}">
@@ -146,10 +146,21 @@
 
 <script setup lang="ts">
 import { LazyCategoryLists, UButton } from '#components';
-// import {addToBasket} from '../stores/index'
 const { public: { baseURL } } = useRuntimeConfig()
 const { public: { baseURLAssets } } = useRuntimeConfig()
-// const store = addToBasket()
+const {inner_width} = computeInnerWidth()
+
+const computeWidth = computed(() => {
+    if(inner_width.value <= 420){
+        return 'rtl'
+    } else if(inner_width.value >= 720){
+        return 'ltr'
+    }
+    return 'rtl'
+})
+
+console.log('compute: ', computeWidth.value);
+
 
 const props = defineProps<{
     prevIcon?: 'i-lucide-chevron-right',

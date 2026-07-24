@@ -1,8 +1,7 @@
 <template>
     <USlideover :close="{ onClick: () => emit('close', false) }" :overlay="true" class="w-[80%]">
         <template #body>
-            <UNavigationMenu dir="rtl" orientation="vertical" :items="items"
-                class="data-[orientation=vertical]:w-full" />
+            <UNavigationMenu dir="rtl" orientation="vertical" :items="items" class="data-[orientation=vertical]:w-full" />
         </template>
 
         <template #footer>
@@ -24,6 +23,7 @@ interface CategoryItem {
     name: string;
     header: string | number | null;
     has_sub: boolean;
+    slug: string
 }
 
 const { public: { baseURL } } = useRuntimeConfig()
@@ -55,13 +55,17 @@ if (resId) {
 
 
 for (const item of categoriesList) {
+    console.log(item);
+    
     if (item.header === null) {
         items.value.push([
             {
                 label: item.name,
+                to: {name:'category-slug', params:{slug: item.slug}},
                 children: item.has_sub ? [
                     {
-                        label: (resId && item.id === resId.header) ? resId.name : ''
+                        label: (resId && item.id === resId.header) ? resId.name : '',
+                        to: {name:'category-slug', params:{slug: item.slug}}
                     }
                 ] : undefined
             }
